@@ -3,7 +3,7 @@
    "cost": 1, "hp": 30, "climb": 0.6, "grip": 6, "wall_dps": 2, "king_damage": 8,
    "trait": "약하고 많다. 다른 모든 적의 배경이 된다", "counter": "무엇이든. 추락에 가장 약하다"},
   {"id": "shield", "name": "방패병", "faction": "카르둔 군", "chapter": 1, "route": "절벽면", "size": "중",
-   "cost": 2, "hp": 45, "climb": 0.5, "grip": 12, "wall_dps": 3, "king_damage": 8,
+   "cost": 2, "hp": 45, "climb": 0.5, "grip": 12, "wall_dps": 3, "king_damage": 8, "ranged_taken": 0.3,
    "trait": "방패를 머리 위로 든다. 위에서 오는 원거리 피해 70% 감소", "counter": "근접, 지대, 밀어내기. 방패는 추락을 막지 못한다"},
   {"id": "crossbow", "name": "석궁수", "faction": "카르둔 군", "chapter": 1, "route": "바위턱", "size": "소",
    "cost": 2, "hp": 25, "climb": 0.6, "grip": 6, "wall_dps": 0, "king_damage": 10,

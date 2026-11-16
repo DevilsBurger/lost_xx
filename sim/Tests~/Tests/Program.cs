@@ -38,31 +38,78 @@ static class Program
     }
 
     /// <summary>
-    /// 테스트용 왕. 본 게임의 코드가 아니다. 상태를 읽고 입력만 만든다. 받아치기와 대시는 쓰지 않는다.
-    /// 가장 급한 적의 레인으로 걸어가 강공격을 모아 친다.
+    /// 테스트용 왕. 본 게임의 코드가 아니다. 상태를 읽고 입력만 만든다. 대시는 쓰지 않는다.
+    /// 가장 급한 적의 레인으로 걸어가 강공격을 모아 친다. 기술을 장착했으면 쓴다:
+    /// 검기는 바위턱의 석궁수에게, 내려찍기는 닿는 적이 둘 이상이거나 사다리가 있을 때.
+    /// BotParry가 켜져 있으면 석궁의 화살을 빠짐없이 받아친다(사람은 그러지 못한다).
     /// </summary>
+    static bool BotParry;
+
     static InputFrame Bot(World w)
     {
         KingDef k = w.Defs.King;
+        King king = w.King;
         var es = w.Siege.Enemies;
         var f = new InputFrame { AimY = -1f };
-        int best = -1;
-        float score = -1f;
+        int best = -1, archer = -1, near = 0;
+        float score = -1f, soon = 0f;
+        bool ladderNear = false;
         for (int i = 0; i < es.Count; i++)
         {
             float s = -1f;
-            if (es[i].State == EnemyState.OnWall) s = 100f;
-            else if (es[i].State == EnemyState.Mounting) s = 50f;
-            else if (es[i].State == EnemyState.Climbing) s = es[i].Height;
+            EnemyState st = es[i].State;
+            if (st == EnemyState.OnWall) s = 100f;
+            else if (st == EnemyState.Ladder) s = 70f;
+            else if (st == EnemyState.Raising) s = 60f;
+            else if (st == EnemyState.Mounting) s = 50f;
+            else if (st == EnemyState.Climbing) s = es[i].Height;
+            else if (st == EnemyState.Perched && w.Defs.Enemies[es[i].Def].KingDamage > 0f)
+            {
+                if (archer < 0 || es[i].Timer > es[archer].Timer) archer = i;
+                soon = Math.Max(soon, es[i].Timer);
+            }
             if (s > score) { score = s; best = i; }
+            bool band = st == EnemyState.OnWall || st == EnemyState.Mounting || st == EnemyState.Raising || st == EnemyState.Ladder
+                        || (st == EnemyState.Climbing && es[i].Height >= k.CliffHeight - k.ReachBelow);
+            if (band && Math.Abs(k.LaneX(es[i].Lane) - king.X) <= 3.5f)
+            {
+                near++;
+                if (st == EnemyState.Ladder || st == EnemyState.Raising) ladderNear = true;
+            }
         }
+        if (BotParry && soon >= k.RangedInterval - 0.1f && king.ParryCd <= 0f && king.Busy <= 0f && king.GuardSlot < 0 && king.SlamSlot < 0)
+        {
+            f.Held = Buttons.Guard;
+            return f;
+        }
+        bool tap = w.Tick % 2 == 0;                 // 누른 순간이 생기도록 한 틱 걸러 누른다
+        if (w.Build != null && king.Busy <= 0f && king.GuardSlot < 0 && king.SlamSlot < 0)
+            for (int s = 0; s < w.Build.Equip.Length; s++)
+            {
+                if (w.Build.Equip[s] < 0 || king.SkillCd[s] > 0f) continue;
+                SkillDef sk = w.Build.Tree.Nodes[w.Build.Equip[s]].Skill;
+                Buttons button = s == 0 ? Buttons.Skill1 : s == 1 ? Buttons.Skill2 : Buttons.Skill3;
+                if (sk.Delivery == Delivery.Line && archer >= 0)
+                {
+                    f.AimX = k.LaneX(es[archer].Lane) - king.X;
+                    f.AimY = -(k.CliffHeight - es[archer].Height) - king.Y;
+                    if (Math.Sqrt(f.AimX * f.AimX + f.AimY * f.AimY) <= sk.Range && tap) f.Held = button;
+                    if (f.Held != Buttons.None) return f;
+                    f.AimX = 0f; f.AimY = -1f;
+                }
+                else if (sk.Delivery == Delivery.Slam && (near >= 2 || ladderNear) && tap)
+                {
+                    f.Held = button;
+                    return f;
+                }
+            }
         if (best < 0) return f;
-        float dx = k.LaneX(es[best].Lane) - w.King.X;
-        float dy = 1.5f - w.King.Y;
+        float dx = k.LaneX(es[best].Lane) - king.X;
+        float dy = 1.5f - king.Y;
         if (Math.Abs(dx) > 0.3f) f.MoveX = Math.Sign(dx);
         if (Math.Abs(dy) > 0.2f) f.MoveY = Math.Sign(dy);
         bool reachable = es[best].State != EnemyState.Climbing || es[best].Height >= k.CliffHeight - k.ReachBelow;
-        bool ready = w.King.Charge >= k.ChargeTime && Math.Abs(dx) <= 1.5f && reachable;
+        bool ready = king.Charge >= k.ChargeTime && Math.Abs(dx) <= 1.5f && reachable;
         if (!ready) f.Held = Buttons.Attack;        // 모은다. 다 모았고 닿으면 뗀다
         return f;
     }
@@ -1013,6 +1060,7 @@ static class Program
             new KeyValuePair<string, string[]>("채굴 위력 먼저", new[] { "S1", "back", "back", "legs", "legs", "P2", "F2", "I2", "heart" }),
             new KeyValuePair<string, string[]>("등 먼저", new[] { "back", "back", "S1", "legs", "legs", "P2", "F2", "I2", "heart" }),
             new KeyValuePair<string, string[]>("다리 먼저", new[] { "legs", "legs", "S1", "back", "back", "P2", "F2", "I2", "heart" }),
+            new KeyValuePair<string, string[]>("검기와 내려찍기 먼저", new[] { "F1", "P1", "S1", "back", "back", "legs", "P2", "heart", "heart" }),
         };
         float away;
         int flawless;
@@ -1056,6 +1104,32 @@ static class Program
             Check(got < 200, "성광석으로 살 수 있는 것 전부(200)는 살 수 없다");
         }
 
+        Console.WriteLine("  기술이 바꾸는 것 (성벽을 떠나지 않는 왕, 시설 없음)");
+        var loadouts = new List<KeyValuePair<string, string[]>>
+        {
+            new KeyValuePair<string, string[]>("기본기만", new string[0]),
+            new KeyValuePair<string, string[]>("검기", new[] { "F1" }),
+            new KeyValuePair<string, string[]>("내려찍기", new[] { "P1" }),
+            new KeyValuePair<string, string[]>("검기 + 내려찍기", new[] { "F1", "P1" }),
+            new KeyValuePair<string, string[]>("검기 + 내려찍기, 화살을 다 받아침", new[] { "F1", "P1" }),
+        };
+        foreach (var lo in loadouts)
+        {
+            BotParry = lo.Key.Contains("받아침");
+            float worst;
+            World w = Chapter(defs, ch, 11, 0f, out flawless, out worst, v =>
+            {
+                v.OpenShop(tree, castle);
+                v.Economy.Star = 100;
+                foreach (string id in lo.Value) v.Build.Awaken(v, id);
+            });
+            BotParry = false;
+            Console.WriteLine("    " + lo.Key + ": " + (w.Cycle.Phase == Phase.Victory ? "승리" : "함락(" + (w.Cycle.Wave + 1) + ")") + ", 성벽 -" + (k.WallHp - w.Siege.WallHp).ToString("0")
+                              + ", 왕이 받은 피해 " + w.King.DamageTaken.ToString("0") + ", 쓰러짐 " + w.King.Downs + ", 맞은 화살 포함 쏜 화살 " + w.Siege.Bolts
+                              + ", 물러난 석궁수 " + w.Cycle.Retreated + ", 사다리 " + w.Siege.LaddersUp + "개 걸림, 휘두름 " + w.King.Swings + " · 기술 " + w.King.Casts
+                              + ", 한 장 " + (w.Tick / 1800.0).ToString("0.0") + "분");
+        }
+
         Console.WriteLine("  시설이 늦는 값을 얼마나 덜어 주는가 (습격마다 늦게 돌아오는 왕, 수리 없음)");
         var kits = new List<KeyValuePair<string, string[]>>
         {
@@ -1079,6 +1153,201 @@ static class Program
                 sb.Append("  " + (late > 1000f ? "돌아오지 않음 " : late.ToString("0") + "초 ") + (w.Cycle.Phase == Phase.Victory ? "-" + (k.WallHp - w.Siege.WallHp).ToString("0") : "함락(" + (w.Cycle.Wave + 1) + ")"));
             }
             Console.WriteLine(sb.ToString());
+        }
+    }
+
+    static void SkillTests(Defs defs, CapeDef cape, ChapterDef ch, TreeDef tree, CastleDef castle)
+    {
+        KingDef k = defs.King;
+        var down = new InputFrame { AimY = -1f };
+        Func<string[], World> with = ids =>
+        {
+            var w = ShopWorld(defs, cape, tree, castle, 100, 0);
+            foreach (string id in ids) w.Build.Awaken(w, id);
+            w.King.X = k.LaneX(2);
+            w.King.Y = 2f;
+            return w;
+        };
+
+        Section("기술: 장착");
+        {
+            var w = with(new[] { "F1", "I1", "P1" });
+            Check(w.Build.Equip.Length == 2 && w.Build.Equip[0] == tree.Index("F1") && w.Build.Equip[1] == tree.Index("I1"), "깨우면 빈 칸에 들어간다. 칸은 둘, 기술은 셋");
+            Check(w.Build.EquipSkill(w, 0, "P1") == Buy.Ok && w.Build.Equip[0] == tree.Index("P1"), "칸의 기술을 바꾼다");
+            Check(w.Build.EquipSkill(w, 0, "I1") == Buy.Ok && w.Build.Equip[0] == tree.Index("I1") && w.Build.Equip[1] == tree.Index("P1"), "다른 칸에 있던 기술을 옮기면 자리를 바꾼다");
+            Check(w.Build.EquipSkill(w, 1, "F2") == Buy.Missing, "기술이 아닌 노드는 장착할 수 없다");
+            Check(w.Build.Unawaken(w, "P1") == Buy.Ok && w.Build.Equip[1] == -1, "되돌린 기술은 칸에서 빠진다");
+        }
+
+        Section("기술: 검기");
+        {
+            var w = with(new[] { "F1" });
+            Put(w, "crossbow", 2, EnemyState.Perched, k.LedgeHeight);
+            Put(w, "climber", 4, EnemyState.Climbing, 10f);
+            Put(w, "climber", 3, EnemyState.Climbing, 0.5f);
+            w.Step(new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.King.Casts == 1, "바위턱의 석궁수에 닿는다(피해 30)");
+            Check(w.Siege.Enemies[1].Hp == 30f, "옆 레인의 적은 맞지 않는다");
+            Check(Math.Abs(w.King.SkillCd[0] - 6f) < 0.01f, "재사용 6초");
+            Steps(w, 30 * 6, down);
+            w.King.X = k.LaneX(3);
+            w.Siege.Enemies.RemoveAt(2);
+            Put(w, "climber", 3, EnemyState.Climbing, 0.4f);
+            w.Step(new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(w.King.Casts == 2 && w.Siege.Enemies[2].Hp == 30f, "사거리 18m 밖(벼랑 바닥)은 닿지 않는다");
+            w.King.X = k.LaneX(2);
+            Steps(w, 30, down);
+            Put(w, "crossbow", 2, EnemyState.Perched, k.LedgeHeight);
+            w.Step(new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(w.King.Casts == 2, "재사용 대기 중에는 나가지 않는다");
+
+            w = with(new[] { "F1" });
+            foreach (float h in new[] { 16f, 13f, 10f, 7f }) Put(w, "shield", 2, EnemyState.Climbing, h);
+            w.Step(new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(w.Siege.Enemies[0].Hp == 36f && w.Siege.Enemies[2].Hp == 36f && w.Siege.Enemies[3].Hp == 45f, "가까운 셋까지 꿰뚫는다. 방패병은 위에서 오는 피해의 30%만 받는다");
+            Check(w.Siege.Enemies[0].Grip == 10f, "밀어냄 2");
+
+            w = with(new[] { "F1" });
+            Put(w, "crossbow", 5, EnemyState.Perched, k.LedgeHeight);
+            w.Step(new InputFrame { AimX = k.LaneX(5) - w.King.X, AimY = -6f - w.King.Y, Held = Buttons.Skill1 });
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead, "비스듬히 조준하면 먼 레인의 석궁수도 맞는다");
+        }
+
+        Section("기술: 내려찍기");
+        {
+            var w = with(new[] { "P1" });
+            Put(w, "shield", 2, EnemyState.Climbing, 17f);
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Put(w, "climber", 4, EnemyState.Climbing, 17f);
+            w.Step(new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Steps(w, 13, down);
+            Check(w.Siege.Enemies[0].Hp == 45f && w.King.DamageTaken == 0f, "뛰어오른 0.5초 동안에는 아직 치지 않는다");
+            Steps(w, 3, down);
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Siege.Enemies[1].State == EnemyState.Dead, "방패병도 한 번에 떨어진다(밀어냄 14). 성벽 위의 적도 날아간다");
+            Check(w.Siege.Enemies[2].Hp == 30f, "반경 4m 밖은 닿지 않는다");
+            Check(w.Siege.FallKills == 2, "둘 다 추락사");
+        }
+
+        Section("기술: 왕의 방패");
+        {
+            var w = with(new[] { "I1" });
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 10, down);
+            Steps(w, 30, new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(Math.Abs(w.King.DamageTaken - 1.6f) < 0.01f, "자세를 잡고 있으면 앞에서 온 피해를 80% 줄인다(8 → 1.6)");
+            Check(w.King.Swings == 0, "자세를 잡은 동안에는 치지 못한다");
+            Steps(w, 40, new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(w.King.GuardSlot == -1 && w.King.SkillCd[0] > 3f, "2초가 지나면 자세가 풀리고 재사용 대기가 시작된다");
+
+            w = with(new[] { "I1" });
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 10, new InputFrame { AimY = 1f });
+            Steps(w, 30, new InputFrame { AimY = 1f, Held = Buttons.Skill1 });
+            Check(w.King.DamageTaken == 8f, "등 뒤에서 온 것은 막지 못한다");
+
+            w = with(new[] { "I1" });
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Put(w, "shield", 3, EnemyState.Climbing, 17f);
+            Steps(w, 30, down);
+            Steps(w, 10, new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
+            Check(w.King.GuardParries == 1 && w.King.DamageTaken == 0f, "자세를 잡은 첫 0.35초에 맞으면 받아친다");
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Siege.Enemies[1].Hp == 0f || w.Siege.Enemies[1].Grip == 4f, "반격파는 반경 6m, 피해 45, 밀어냄 8. 옆 레인의 방패병에게도 닿는다");
+        }
+
+        Section("석궁수의 사격");
+        {
+            var w = with(new string[0]);
+            Put(w, "crossbow", 0, EnemyState.Perched, k.LedgeHeight);
+            Steps(w, 74, down);
+            Check(w.King.DamageTaken == 0f, "2.5초가 되기 전에는 쏘지 않는다");
+            Steps(w, 3, down);
+            Check(w.King.DamageTaken == 10f && w.Siege.Bolts == 1, "2.5초마다 왕을 쏜다(10). 성벽 어디에 있든 닿는다");
+            Steps(w, 76, down);
+            Check(w.King.DamageTaken == 20f, "계속 쏜다");
+            w.King.Leave();
+            Steps(w, 200, down);
+            Check(w.Siege.Bolts == 2, "왕이 성벽에 없으면 쏘지 않는다");
+
+            w = with(new string[0]);
+            Put(w, "crossbow", 0, EnemyState.Perched, k.LedgeHeight);
+            Steps(w, 72, down);
+            w.Step(new InputFrame { AimY = -1f, Held = Buttons.Guard });
+            Steps(w, 6, down);
+            Check(w.King.Parries == 1 && w.King.DamageTaken == 0f && w.Siege.Enemies[0].Hp == 25f, "화살도 받아칠 수 있다. 반격파는 바위턱에 닿지 않는다");
+        }
+
+        Section("사다리조");
+        {
+            var w = with(new string[0]);
+            w.King.Leave();
+            Put(w, "ladder", 2, EnemyState.Climbing, 14.5f);
+            Put(w, "climber", 2, EnemyState.Climbing, 2f);
+            Put(w, "climber", 3, EnemyState.Climbing, 2f);
+            Steps(w, 40, down);
+            Check(w.Siege.Enemies[0].State == EnemyState.Raising && w.Siege.Enemies[0].Height == 15f, "턱밑 띠에 닿으면 멈춰서 사다리를 건다");
+            Steps(w, 90, down);
+            Check(w.Siege.Enemies[0].State == EnemyState.Ladder && w.Siege.LaddersUp == 1 && w.Siege.Enemies[0].Hp == 60f, "3초 뒤에 사다리가 걸린다(체력 60, 붙잡기 12)");
+            float h2 = w.Siege.Enemies[1].Height, h3 = w.Siege.Enemies[2].Height;
+            Steps(w, 30, down);
+            Check(Math.Abs(w.Siege.Enemies[1].Height - h2 - 1.2f) < 0.05f && Math.Abs(w.Siege.Enemies[2].Height - h3 - 0.6f) < 0.05f, "사다리가 걸린 레인은 두 배로 빨리 오른다");
+            w.King.Return();
+            w.King.X = k.LaneX(2);
+            w.King.Y = 1.5f;
+            for (int n = 0; n < 2; n++)
+            {
+                Steps(w, 19, new InputFrame { AimY = -1f, Held = Buttons.Attack });
+                Steps(w, 10, down);
+            }
+            Check(w.Siege.LaddersDown == 1 && w.Siege.Enemies[0].State == EnemyState.Dead, "강공격 두 번에 사다리가 넘어간다");
+            Check(w.Siege.Enemies[1].State != EnemyState.Climbing && w.Siege.Enemies[2].State == EnemyState.Climbing, "타고 있던 적은 떨어진다. 옆 레인은 그대로다");
+            Check(w.Siege.Kills == 0 || w.Siege.Enemies[1].State == EnemyState.Grounded, "사다리는 처치로 세지 않는다");
+
+            w = with(new string[0]);
+            w.King.Leave();
+            Put(w, "ladder", 2, EnemyState.Climbing, 14.9f);
+            Steps(w, 30 * 5, down);
+            Check(w.Siege.Enemies[0].State == EnemyState.Ladder && !w.Siege.Threat, "사다리만 남으면 습격은 끝난 것이다");
+        }
+
+        Section("대형 적");
+        {
+            var w = with(new string[0]);
+            Put(w, "titan", 2, EnemyState.Climbing, 16f);
+            Put(w, "shield", 2, EnemyState.Climbing, 9f);
+            w.King.Y = 1.5f;
+            int hits = 0;
+            while (hits < 5 && w.Siege.Enemies[0].State == EnemyState.Climbing)
+            {
+                Steps(w, 19, new InputFrame { AimY = -1f, Held = Buttons.Attack });
+                Steps(w, 9, down);
+                hits++;
+            }
+            Check(hits == 3, "절벽 거수(붙잡기 24)는 강공격을 세 번 연달아 맞아야 떨어진다");
+            Check(w.Siege.Enemies[0].State == EnemyState.Grounded, "턱밑에서 떨어져도 살아남는다(체력 320, 낙하 피해 115~146)");
+            Check(w.Siege.Enemies[1].State == EnemyState.Dead, "떨어지며 아래의 방패병을 휩쓴다(피해 60)");
+        }
+
+        Section("기술: 곶에서");
+        {
+            Func<string, Rock, World> at = (id, rock) =>
+            {
+                var w = FlatWorld(defs, cape, rock);
+                w.OpenShop(tree, castle);
+                w.Economy.Star = 50;
+                w.Build.Awaken(w, id);
+                OnCape(w, 23f, 3f);
+                w.Step(new InputFrame { AimY = 1f, Held = Buttons.Skill1 });
+                return w;
+            };
+            World a = at("F1", Rock.Soil);
+            Check(a.Cape.TilesDug == 5 && a.Cape.Land.At(11, 6) == Rock.Open && a.Cape.Land.At(11, 7) == Rock.Soil, "검기: 직선 다섯 타일을 한 번에 판다(흙)");
+            a = at("F1", Rock.Soft);
+            Check(a.Cape.TilesDug == 0 && a.Cape.Land.Hp[a.Cape.Land.Index(11, 4)] == 12, "검기: 연암은 강도 18만큼 깎인다(30 → 12)");
+            a = at("I1", Rock.Soil);
+            Check(a.Cape.TilesDug == 6 && a.Cape.Land.At(10, 3) == Rock.Open && a.Cape.Land.At(12, 2) == Rock.Open, "왕의 방패: 앞의 3 × 2타일");
+            a = at("P1", Rock.Soil);
+            Check(a.Cape.TilesDug == 5 && a.Cape.Land.At(11, 3) == Rock.Open && a.Cape.Land.At(9, 1) == Rock.Open, "내려찍기: 반경 2타일(열셋 가운데 빈터가 아닌 다섯)");
+            Check(Math.Abs(a.King.SkillCd[0] - 8f) < 0.01f, "곶에서 써도 재사용 대기는 같다");
         }
     }
 
@@ -1167,6 +1436,7 @@ static class Program
         TreeDef tree = TreeDef.Load(File.ReadAllText(Path.Combine(root, "data", "trees", "sword.json")));
         CastleDef castle = CastleDef.Load(File.ReadAllText(Path.Combine(root, "data", "castle", "castle.json")));
         ShopTests(defs, cape, ch1, tree, castle);
+        SkillTests(defs, cape, ch1, tree, castle);
         EconomyTests(defs, cape, ch1, tree, castle);
 
         Section("결정성과 되감기");

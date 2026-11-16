@@ -29,6 +29,7 @@ namespace LostRegalia.Sim
         public readonly int[] KingLevel = new int[4];
         public readonly int[] SlotKind, SlotTier;       // 종류는 Castle.Facilities의 번호, 비어 있으면 -1
         public readonly float[] SlotTimer;              // 재장전
+        public readonly int[] Equip;                    // 기술 칸에 장착한 노드의 번호. 비어 있으면 -1
         public int WallLevel, RefundsLeft, Chapter = 1;
         public int Shots;                               // 계측용
 
@@ -43,6 +44,8 @@ namespace LostRegalia.Sim
             SlotTimer = new float[slots];
             for (int i = 0; i < slots; i++) SlotKind[i] = -1;
             RefundsLeft = castle.Refunds;
+            Equip = new int[castle.SkillSlots];
+            for (int i = 0; i < Equip.Length; i++) Equip[i] = -1;
         }
 
         int Cap(int[] byChapter) { return byChapter[Math.Min(Chapter, byChapter.Length) - 1]; }
@@ -95,7 +98,26 @@ namespace LostRegalia.Sim
             w.Economy.Star -= n.Cost;
             w.Economy.Rune -= n.RuneCost;
             Awake[i] = true;
+            if (n.Skill != null && Array.IndexOf(Equip, i) < 0)
+            {
+                int empty = Array.IndexOf(Equip, -1);           // 빈 칸이 있으면 바로 장착한다
+                if (empty >= 0) Equip[empty] = i;
+            }
             Apply(w);
+            return Buy.Ok;
+        }
+
+        /// <summary>기술을 칸에 장착한다. id가 null이면 칸을 비운다. 값이 들지 않는다.</summary>
+        public Buy EquipSkill(World w, int slot, string id)
+        {
+            if (!CanShop(w)) return Buy.NotNow;
+            if (slot < 0 || slot >= Equip.Length) return Buy.Locked;
+            if (id == null) { Equip[slot] = -1; return Buy.Ok; }
+            int i = Tree.Index(id);
+            if (!Awake[i] || Tree.Nodes[i].Skill == null) return Buy.Missing;
+            int old = Array.IndexOf(Equip, i);
+            if (old >= 0) Equip[old] = Equip[slot];             // 이미 다른 칸에 있으면 자리를 바꾼다
+            Equip[slot] = i;
             return Buy.Ok;
         }
 
@@ -114,6 +136,8 @@ namespace LostRegalia.Sim
                 }
             w.Economy.Star += Tree.Nodes[i].Cost;
             w.Economy.Rune += Tree.Nodes[i].RuneCost;
+            int slot = Array.IndexOf(Equip, i);
+            if (slot >= 0) Equip[slot] = -1;
             Apply(w);
             return Buy.Ok;
         }
@@ -264,7 +288,7 @@ namespace LostRegalia.Sim
                 for (int i = 0; i < siege.Enemies.Count; i++)
                 {
                     Enemy e = siege.Enemies[i];
-                    bool inBand = e.State == EnemyState.Mounting || (e.State == EnemyState.Climbing && e.Height >= k.CliffHeight - k.ReachBelow);
+                    bool inBand = e.State == EnemyState.Mounting || e.State == EnemyState.Raising || (e.State == EnemyState.Climbing && e.Height >= k.CliffHeight - k.ReachBelow);
                     if (inBand) siege.Damage(i, siege.ThornDps * dt);
                 }
             }
@@ -280,7 +304,7 @@ namespace LostRegalia.Sim
                 for (int i = 0; i < siege.Enemies.Count; i++)
                 {
                     Enemy e = siege.Enemies[i];
-                    if (e.State == EnemyState.Dead || e.State == EnemyState.Grounded) continue;
+                    if (e.State == EnemyState.Dead || e.State == EnemyState.Grounded || e.State == EnemyState.Ladder) continue;
                     float h = e.State == EnemyState.OnWall ? k.CliffHeight + 1f : e.Height;
                     if (h > top) { top = h; best = i; }
                 }
@@ -289,7 +313,7 @@ namespace LostRegalia.Sim
                     SlotTimer[s] = 0f;                  // 쏠 것이 없으면 장전한 채로 기다린다
                     continue;
                 }
-                siege.Damage(best, f.Damage);
+                siege.Damage(best, f.Damage, true);
                 SlotTimer[s] = f.Interval;
                 Shots++;
             }
@@ -299,6 +323,7 @@ namespace LostRegalia.Sim
         {
             for (int i = 0; i < Awake.Length; i++) w.Write(Awake[i]);
             for (int a = 0; a < 4; a++) w.Write(KingLevel[a]);
+            for (int s = 0; s < Equip.Length; s++) w.Write(Equip[s]);
             for (int s = 0; s < SlotKind.Length; s++) { w.Write(SlotKind[s]); w.Write(SlotTier[s]); w.Write(SlotTimer[s]); }
             w.Write(WallLevel); w.Write(RefundsLeft); w.Write(Chapter); w.Write(Shots);
         }
@@ -307,6 +332,7 @@ namespace LostRegalia.Sim
         {
             for (int i = 0; i < Awake.Length; i++) Awake[i] = r.ReadBoolean();
             for (int a = 0; a < 4; a++) KingLevel[a] = r.ReadInt32();
+            for (int s = 0; s < Equip.Length; s++) Equip[s] = r.ReadInt32();
             for (int s = 0; s < SlotKind.Length; s++) { SlotKind[s] = r.ReadInt32(); SlotTier[s] = r.ReadInt32(); SlotTimer[s] = r.ReadSingle(); }
             WallLevel = r.ReadInt32(); RefundsLeft = r.ReadInt32(); Chapter = r.ReadInt32(); Shots = r.ReadInt32();
         }

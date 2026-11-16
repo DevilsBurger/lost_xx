@@ -11,7 +11,7 @@ namespace LostRegalia.Sim
     {
         public const int TickRate = 30;
         public const float Dt = 1f / TickRate;
-        const int SnapshotVersion = 5;
+        const int SnapshotVersion = 6;
 
         public readonly Defs Defs;
         public readonly Siege Siege;

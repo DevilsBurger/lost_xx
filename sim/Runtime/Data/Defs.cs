@@ -18,6 +18,8 @@ namespace LostRegalia.Sim
         public float Grip;
         public float WallDps;
         public float KingDamage;
+        public float RangedTaken = 1f;      // 오르는 동안 위에서 날아오는 피해를 받는 비율. 방패병은 0.3
+        public bool Ladder;                 // 사다리조
 
         public bool Climbs { get { return Climb > 0f; } }
         public bool Perches { get { return Route == "바위턱"; } }
@@ -79,7 +81,9 @@ namespace LostRegalia.Sim
         public float ReturnMinAway, ReturnMaxAway, ReturnMaxBonus, ReturnDuration, ReturnShockRadius, ReturnShockKnock;
         public float[] SpawnWindow, Calm, Alarm;                // 장마다(0이 1장)
         public float FlawlessBonus;
-        public float EnemyReach, EnemyInterval, EnemyStand;     // 성벽 위의 적이 왕을 치는 거리와 간격, 서는 자리
+        public float EnemyReach, EnemyInterval, EnemyStand;
+        public float RangedInterval, RangedAim;                 // 바위턱의 적이 쏘는 간격과 조준 시간
+        public float LadderRaise, LadderHp, LadderGrip, LadderClimbMul;     // 성벽 위의 적이 왕을 치는 거리와 간격, 서는 자리
 
         /// <summary>레인의 x 자리. 레인들은 성벽 가운데에 모여 있다.</summary>
         public float LaneX(int lane)
@@ -134,6 +138,8 @@ namespace LostRegalia.Sim
                 e.Grip = J.Num(o["grip"]);
                 e.WallDps = J.Num(o["wall_dps"]);
                 e.KingDamage = J.Num(o["king_damage"]);
+                if (o.ContainsKey("ranged_taken")) e.RangedTaken = J.Num(o["ranged_taken"]);
+                e.Ladder = e.Id == "ladder";
                 d.Enemies[i] = e;
                 d.index[e.Id] = i;
             }
@@ -229,6 +235,14 @@ namespace LostRegalia.Sim
             k.EnemyReach = J.Num(melee["reach"]);
             k.EnemyInterval = J.Num(melee["interval"]);
             k.EnemyStand = J.Num(melee["stand"]);
+            var ranged = J.Obj(o["enemy_ranged"]);
+            k.RangedInterval = J.Num(ranged["interval"]);
+            k.RangedAim = J.Num(ranged["aim"]);
+            var ladder = J.Obj(o["ladder"]);
+            k.LadderRaise = J.Num(ladder["raise"]);
+            k.LadderHp = J.Num(ladder["hp"]);
+            k.LadderGrip = J.Num(ladder["grip"]);
+            k.LadderClimbMul = J.Num(ladder["climb_mul"]);
             return k;
         }
     }

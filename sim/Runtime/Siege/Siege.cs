@@ -11,7 +11,9 @@ namespace LostRegalia.Sim
         OnWall = 2,     // 성벽 위. 성벽을 깎는다
         Perched = 3,    // 바위턱에 자리 잡음
         Grounded = 4,   // 떨어져서 살아남음. 잠시 뒤 다시 오른다
-        Dead = 5
+        Dead = 5,
+        Raising = 6,    // 사다리조가 턱밑에서 사다리를 거는 중
+        Ladder = 7      // 걸린 사다리. 그 레인의 등반이 빨라진다. 부수거나 밀어 넘어뜨린다
     }
 
     /// <summary>적 하나의 상태. 길 찾기가 없다. 레인 번호와 높이 값 하나로 움직인다.</summary>
@@ -47,7 +49,8 @@ namespace LostRegalia.Sim
         public float CollideKnockMul = 1f;      // 검 파멸 가지의 '굴러떨어지는 것들'을 깨우면 1.5
         public readonly List<Enemy> Enemies = new List<Enemy>();
         public readonly List<Spawn> Queue = new List<Spawn>();
-        public int Kills, FallKills, Drops;
+        public int Kills, FallKills, Drops, LaddersUp, LaddersDown, Bolts;
+        bool[] ladderLane;
 
         public Siege(Defs defs)
         {
@@ -76,7 +79,7 @@ namespace LostRegalia.Sim
                 for (int i = 0; i < Enemies.Count; i++)
                 {
                     EnemyState s = Enemies[i].State;
-                    if (s != EnemyState.Dead && s != EnemyState.Perched) return true;
+                    if (s != EnemyState.Dead && s != EnemyState.Perched && s != EnemyState.Ladder) return true;
                 }
                 return false;
             }
@@ -95,7 +98,11 @@ namespace LostRegalia.Sim
         public void Step(int tick, float dt, King king = null)
         {
             KingDef k = defs.King;
-            bool parried = false;
+            int answer = 0;                     // 왕이 받아쳤는가. 1 = 받아치기, 2 = 방패 자세로
+            if (ladderLane == null) ladderLane = new bool[k.Lanes];
+            for (int l = 0; l < ladderLane.Length; l++) ladderLane[l] = false;
+            for (int i = 0; i < Enemies.Count; i++)
+                if (Enemies[i].State == EnemyState.Ladder) ladderLane[Enemies[i].Lane] = true;
             for (int q = Queue.Count - 1; q >= 0; q--)
             {
                 if (Queue[q].Tick > tick) continue;
@@ -116,7 +123,15 @@ namespace LostRegalia.Sim
                 {
                     case EnemyState.Climbing:
                         RegenGrip(ref e, d, k, dt);
-                        e.Height += d.Climb * dt * (ThornSlow > 0f && e.Height >= k.CliffHeight - k.ReachBelow ? 1f - ThornSlow : 1f);
+                        e.Height += d.Climb * dt * (ThornSlow > 0f && e.Height >= k.CliffHeight - k.ReachBelow ? 1f - ThornSlow : 1f)
+                                    * (ladderLane[e.Lane] ? k.LadderClimbMul : 1f);
+                        if (d.Ladder && !ladderLane[e.Lane] && e.Height >= k.CliffHeight - k.ReachBelow)
+                        {
+                            e.Height = k.CliffHeight - k.ReachBelow;
+                            e.State = EnemyState.Raising;
+                            e.Timer = k.LadderRaise;
+                            break;
+                        }
                         if (d.Perches && e.Height >= k.LedgeHeight)
                         {
                             e.Height = k.LedgeHeight;
@@ -140,6 +155,38 @@ namespace LostRegalia.Sim
                         break;
                     case EnemyState.Perched:
                         RegenGrip(ref e, d, k, dt);
+                        if (d.KingDamage > 0f)
+                        {
+                            // 조준하고 쏜다. 왕이 성벽에 없으면 쏘지 않고 기다린다
+                            e.Timer += dt;
+                            if (e.Timer >= k.RangedInterval)
+                            {
+                                e.Timer = 0f;
+                                if (king != null && king.Targetable)
+                                {
+                                    Bolts++;
+                                    int r = king.TakeHit(d.KingDamage, k.LaneX(e.Lane), -(k.CliffHeight - e.Height));
+                                    if (r > answer) answer = r;
+                                }
+                            }
+                        }
+                        break;
+                    case EnemyState.Raising:
+                        RegenGrip(ref e, d, k, dt);
+                        e.Timer -= dt;
+                        if (e.Timer <= 0f)
+                        {
+                            e.State = EnemyState.Ladder;
+                            e.Height = k.CliffHeight;
+                            e.Hp = k.LadderHp;
+                            e.Grip = k.LadderGrip;
+                            e.SinceKnock = 999f;
+                            LaddersUp++;
+                        }
+                        break;
+                    case EnemyState.Ladder:
+                        e.SinceKnock += dt;
+                        if (e.SinceKnock > k.GripRegenDelay) e.Grip = Math.Min(k.LadderGrip, e.Grip + k.GripRegen * dt);
                         break;
                     case EnemyState.OnWall:
                         // 왕이 닿는 거리에 있으면 왕을 친다. 아니면 성벽을 깎는다
@@ -149,7 +196,8 @@ namespace LostRegalia.Sim
                             if (e.Timer >= k.EnemyInterval)
                             {
                                 e.Timer = 0f;
-                                if (king.TakeHit(d.KingDamage)) parried = true;
+                                int r = king.TakeHit(d.KingDamage, k.LaneX(e.Lane), k.EnemyStand);
+                                if (r > answer) answer = r;
                             }
                         }
                         else
@@ -171,7 +219,8 @@ namespace LostRegalia.Sim
                 }
                 Enemies[i] = e;
             }
-            if (parried) king.CounterWave(this);
+            if (answer == 1) king.CounterWave(this);
+            else if (answer == 2) king.GuardWave(this);
         }
 
         static bool Near(King king, int lane, KingDef k)
@@ -196,29 +245,50 @@ namespace LostRegalia.Sim
                 if (amount >= defs.Enemies[e.Def].Grip) Drop(i);
                 return;
             }
-            if (e.State != EnemyState.Climbing && e.State != EnemyState.Mounting && e.State != EnemyState.Perched) return;
+            if (e.State != EnemyState.Climbing && e.State != EnemyState.Mounting && e.State != EnemyState.Perched
+                && e.State != EnemyState.Raising && e.State != EnemyState.Ladder) return;
             e.Grip -= e.State == EnemyState.Mounting ? amount * 2f : amount;
             e.SinceKnock = 0f;
             Enemies[i] = e;
-            if (e.Grip <= 0f) Drop(i);
+            if (e.Grip > 0f) return;
+            if (e.State == EnemyState.Ladder) Topple(i); else Drop(i);
         }
 
         /// <summary>피해를 준다. 절벽에 매달린 채 죽은 적은 떨어지며 아래의 적을 덮친다.</summary>
-        public void Damage(int i, float amount)
+        public void Damage(int i, float amount, bool ranged = false)
         {
             Enemy e = Enemies[i];
             if (e.State == EnemyState.Dead) return;
+            bool hanging = e.State == EnemyState.Climbing || e.State == EnemyState.Mounting || e.State == EnemyState.Raising;
+            if (ranged && hanging) amount *= defs.Enemies[e.Def].RangedTaken;      // 머리 위로 든 방패
             e.Hp -= amount;
             if (e.Hp > 0f)
             {
                 Enemies[i] = e;
                 return;
             }
-            bool onCliff = e.State == EnemyState.Climbing || e.State == EnemyState.Mounting || e.State == EnemyState.Perched;
+            if (e.State == EnemyState.Ladder)
+            {
+                Enemies[i] = e;
+                Topple(i);
+                return;
+            }
+            bool onCliff = hanging || e.State == EnemyState.Perched;
             e.State = EnemyState.Dead;
             Kills++;
             Enemies[i] = e;
             if (onCliff) HitBelow(i, e.Lane, e.Height, defs.Enemies[e.Def].Size);
+        }
+
+        /// <summary>사다리가 넘어간다. 그 레인을 오르던 적이 모두 떨어진다.</summary>
+        void Topple(int i)
+        {
+            Enemy e = Enemies[i];
+            e.State = EnemyState.Dead;
+            Enemies[i] = e;
+            LaddersDown++;
+            for (int j = 0; j < Enemies.Count; j++)
+                if (Enemies[j].Lane == e.Lane && (Enemies[j].State == EnemyState.Climbing || Enemies[j].State == EnemyState.Mounting)) Drop(j);
         }
 
         /// <summary>
@@ -259,7 +329,7 @@ namespace LostRegalia.Sim
                 if (j == self) continue;
                 Enemy o = Enemies[j];
                 if (o.Lane != lane || o.Height >= height || o.Height <= best) continue;
-                if (o.State != EnemyState.Climbing && o.State != EnemyState.Perched) continue;
+                if (o.State != EnemyState.Climbing && o.State != EnemyState.Perched && o.State != EnemyState.Raising) continue;
                 below = j;
                 best = o.Height;
             }
@@ -275,7 +345,7 @@ namespace LostRegalia.Sim
             w.Write(CollideKnockMul);
             w.Write(Kills);
             w.Write(FallKills);
-            w.Write(Drops);
+            w.Write(Drops); w.Write(LaddersUp); w.Write(LaddersDown); w.Write(Bolts);
             w.Write(Enemies.Count);
             for (int i = 0; i < Enemies.Count; i++)
             {
@@ -304,7 +374,7 @@ namespace LostRegalia.Sim
             CollideKnockMul = r.ReadSingle();
             Kills = r.ReadInt32();
             FallKills = r.ReadInt32();
-            Drops = r.ReadInt32();
+            Drops = r.ReadInt32(); LaddersUp = r.ReadInt32(); LaddersDown = r.ReadInt32(); Bolts = r.ReadInt32();
             Enemies.Clear();
             int n = r.ReadInt32();
             for (int i = 0; i < n; i++)

@@ -34,6 +34,12 @@ namespace LostRegalia.Sim
         public float ParryWindow, ParryCd;
         public float DownTimer;
         public Buttons Prev;
+        public readonly float[] SkillCd = new float[3];     // 기술 칸마다 남은 재사용 대기
+        public int GuardSlot = -1;          // 방패 자세를 잡고 있는 칸. 아니면 -1
+        public float GuardTime;             // 자세를 잡은 뒤 지난 시간
+        public int SlamSlot = -1;           // 뛰어오른 내려찍기의 칸
+        public float SlamTimer;             // 내려찍을 때까지 남은 시간
+        public int Casts, GuardParries;
         public float MomentumTime;          // 여세가 남은 시간
 
         // 고른 것(Build)에서 나오는 값. 상태가 아니다. Build.Apply가 적는다
@@ -67,6 +73,7 @@ namespace LostRegalia.Sim
             if (!OnWall) return;
             OnWall = false;
             Away = 0f;
+            GuardSlot = SlamSlot = -1;
             Busy = Charge = ComboTimer = ParryWindow = 0f;
             Queued = false;
         }
@@ -116,6 +123,7 @@ namespace LostRegalia.Sim
             Busy -= dt;
             if (Busy < 0.0005f) Busy = 0f;      // 0.3초는 정확히 아홉 틱이어야 한다. 실수 오차로 한 틱 늘어지지 않게
             DashCd = Math.Max(0f, DashCd - dt);
+            for (int s = 0; s < SkillCd.Length; s++) SkillCd[s] = Math.Max(0f, SkillCd[s] - dt);
             MomentumTime = Math.Max(0f, MomentumTime - dt);
             float aim = (float)Math.Sqrt(input.AimX * input.AimX + input.AimY * input.AimY);
             if (aim > 0.01f)
@@ -127,7 +135,19 @@ namespace LostRegalia.Sim
             if (!OnWall)
             {
                 Away += dt;
-                if (w.Cape != null && w.Cape.StepKing(this, input, pressed, dt, w)) ComeHome(w);
+                if (w.Cape == null) return;
+                if (w.Cape.StepKing(this, input, pressed, dt, w)) { ComeHome(w); return; }
+                if (Mode != KingMode.Dashing && Busy <= 0f)
+                    for (int s = 0; s < SkillCd.Length; s++)
+                    {
+                        SkillDef sk = SkillAt(w, s);
+                        if (sk == null || SkillCd[s] > 0f || (pressed & SkillButton(s)) == 0) continue;
+                        w.Cape.SkillDig(this, sk);              // 곶에서는 기술이 땅을 판다
+                        SkillCd[s] = sk.Cooldown;
+                        Busy = w.Cape.Def.Swing;
+                        Casts++;
+                        break;
+                    }
                 return;
             }
 
@@ -146,6 +166,8 @@ namespace LostRegalia.Sim
                 }
             }
 
+            guarding = GuardSlot >= 0 ? SkillAt(w, GuardSlot) : null;
+            if (guarding != null) guardWave = guarding;
             float dx, dy;
             bool dashing = Displace(input, pressed, dt, MoveFactor, out dx, out dy);
             X = Math.Min(k.WallLength, Math.Max(0f, X + dx));
@@ -159,6 +181,64 @@ namespace LostRegalia.Sim
             }
             Y = Math.Min(k.WallWidth, Math.Max(0f, Y));
             if (dashing) return;
+
+            // 뛰어오른 내려찍기가 떨어진다
+            if (SlamSlot >= 0)
+            {
+                SlamTimer -= dt;
+                if (SlamTimer > 0.0005f) return;
+                SkillDef slam = SkillAt(w, SlamSlot);
+                SlamSlot = -1;
+                if (slam != null)
+                {
+                    Shock(siege);
+                    Strike(siege, slam.Range, 360f, slam.Damage, slam.Knock);
+                }
+                return;
+            }
+
+            // 방패 자세: 누르고 있는 동안 이어진다. 떼거나 시간이 다하면 재사용 대기가 시작된다
+            if (GuardSlot >= 0)
+            {
+                SkillDef guard = SkillAt(w, GuardSlot);
+                GuardTime += dt;
+                if (guard == null || (input.Held & SkillButton(GuardSlot)) == 0 || GuardTime >= guard.Hold)
+                {
+                    if (guard != null) SkillCd[GuardSlot] = guard.Cooldown;
+                    GuardSlot = -1;
+                }
+                return;                                         // 자세를 잡은 동안에는 치지 못한다
+            }
+
+            if (Busy <= 0f)
+                for (int s = 0; s < SkillCd.Length; s++)
+                {
+                    SkillDef sk = SkillAt(w, s);
+                    if (sk == null || SkillCd[s] > 0f || (pressed & SkillButton(s)) == 0) continue;
+                    Charge = 0f;
+                    Queued = false;
+                    Casts++;
+                    if (sk.Delivery == Delivery.Line)
+                    {
+                        Shock(siege);
+                        LineStrike(siege, sk);
+                        SkillCd[s] = sk.Cooldown;
+                        Busy = k.BasicTimes[0];
+                    }
+                    else if (sk.Delivery == Delivery.Slam)
+                    {
+                        SlamSlot = s;
+                        SlamTimer = sk.Air;
+                        SkillCd[s] = sk.Cooldown;
+                        IFrame = Math.Max(IFrame, sk.Air);       // 떠 있는 동안에는 맞지 않는다
+                    }
+                    else if (sk.Delivery == Delivery.Guard)
+                    {
+                        GuardSlot = s;
+                        GuardTime = 0f;
+                    }
+                    return;
+                }
 
             if ((pressed & Buttons.Guard) != 0 && ParryCd <= 0f && Busy <= 0f)
             {
@@ -183,6 +263,64 @@ namespace LostRegalia.Sim
                 Basic(siege);
             }
         }
+
+        static Buttons SkillButton(int slot)
+        {
+            return slot == 0 ? Buttons.Skill1 : slot == 1 ? Buttons.Skill2 : Buttons.Skill3;
+        }
+
+        /// <summary>칸에 장착한 기술. 없으면 null.</summary>
+        static SkillDef SkillAt(World w, int slot)
+        {
+            if (w.Build == null || slot >= w.Build.Equip.Length || w.Build.Equip[slot] < 0) return null;
+            return w.Build.Tree.Nodes[w.Build.Equip[slot]].Skill;
+        }
+
+        /// <summary>
+        /// 직선으로 나가는 기술. 조준한 쪽으로 사거리만큼, 가까운 적부터 정해진 수까지 꿰뚫는다.
+        /// 절벽면은 성벽의 평면을 아래로 펼친 것으로 본다. 높이 h의 적은 턱에서 (절벽 높이 - h)만큼 아래에 있다.
+        /// </summary>
+        void LineStrike(Siege siege, SkillDef sk)
+        {
+            KingDef k = defs.King;
+            float damage = sk.Damage * (1f + ReturnBonus), knock = sk.Knock * (1f + ReturnBonus);
+            var es = siege.Enemies;
+            int kills = siege.Kills;
+            float last = -1f;
+            for (int n = 0; n < sk.Pierce; n++)
+            {
+                int best = -1;
+                float bestT = float.MaxValue;
+                for (int i = 0; i < es.Count; i++)
+                {
+                    EnemyState s = es[i].State;
+                    if (s == EnemyState.Dead || s == EnemyState.Grounded) continue;
+                    float ey = s == EnemyState.OnWall ? k.EnemyStand : (s == EnemyState.Mounting || s == EnemyState.Ladder) ? 0f : -(k.CliffHeight - es[i].Height);
+                    float dx = k.LaneX(es[i].Lane) - X, dy = ey - Y;
+                    float t = dx * AimX + dy * AimY;
+                    if (t <= last || t > sk.Range || t >= bestT) continue;
+                    if (Math.Abs(dx * AimY - dy * AimX) > sk.Width) continue;
+                    best = i;
+                    bestT = t;
+                }
+                if (best < 0) break;
+                last = bestT;
+                if (knock > 0f) siege.Knock(best, knock);
+                EnemyState after = es[best].State;
+                if (after != EnemyState.Dead && after != EnemyState.Grounded) siege.Damage(best, damage, true);
+            }
+            if (siege.Kills > kills && MomentumMax > 0f) MomentumTime = MomentumMax;
+        }
+
+        /// <summary>방패 자세의 첫 순간에 받아쳤을 때의 반격파.</summary>
+        public void GuardWave(Siege siege)
+        {
+            if (guardWave == null) return;
+            Strike(siege, guardWave.Range, 360f, guardWave.Damage, guardWave.Knock);
+            if (ParryWallHeal > 0f) siege.WallHp = Math.Min(siege.WallMax, siege.WallHp + ParryWallHeal);
+        }
+
+        SkillDef guardWave, guarding;       // 방패 자세의 값. 틱마다 다시 적는다
 
         /// <summary>왕 강화와 여세가 더한 이동 속도. 1이 제 속도.</summary>
         public float MoveFactor { get { return SpeedMul * (MomentumTime > 0f ? 1f + MomentumSpeed : 1f); } }
@@ -307,7 +445,8 @@ namespace LostRegalia.Sim
                 EnemyState s = es[i].State;
                 float ey;
                 if (s == EnemyState.OnWall) ey = k.EnemyStand;
-                else if (s == EnemyState.Mounting || (s == EnemyState.Climbing && es[i].Height >= k.CliffHeight - k.ReachBelow)) ey = 0f;
+                else if (s == EnemyState.Mounting || s == EnemyState.Raising || s == EnemyState.Ladder
+                         || (s == EnemyState.Climbing && es[i].Height >= k.CliffHeight - k.ReachBelow)) ey = 0f;
                 else continue;
                 float dx = k.LaneX(es[i].Lane) - X, dy = ey - Y;
                 float dist = (float)Math.Sqrt(dx * dx + dy * dy);
@@ -320,17 +459,29 @@ namespace LostRegalia.Sim
             if (siege.Kills > kills && MomentumMax > 0f) MomentumTime = MomentumMax;
         }
 
-        /// <summary>적의 일격. 받아쳤으면 참을 돌려준다. 그때 피해는 없고 반격파가 나간다.</summary>
-        public bool TakeHit(float damage)
+        /// <summary>
+        /// 적의 일격. (fromX, fromY)는 친 쪽의 자리다. 받아쳤으면 1, 방패 자세의 첫 순간에 받아쳤으면 2를 돌려준다.
+        /// 그때 피해는 없고 반격파가 나간다.
+        /// </summary>
+        public int TakeHit(float damage, float fromX, float fromY)
         {
-            if (!Targetable) return false;
+            if (!Targetable) return 0;
             if (ParryWindow > 0f)
             {
                 ParryWindow = 0f;
                 Parries++;
-                return true;
+                return 1;
             }
-            if (IFrame > 0f) return false;
+            if (guarding != null && GuardSlot >= 0)
+            {
+                if (GuardTime <= guarding.Window)
+                {
+                    GuardParries++;
+                    return 2;
+                }
+                if ((fromX - X) * AimX + (fromY - Y) * AimY > 0f) damage *= 1f - guarding.Reduce;       // 앞에서 온 것만 막는다
+            }
+            if (IFrame > 0f) return 0;
             Hp -= damage;
             DamageTaken += damage;
             IFrame = defs.King.HitIFrame;
@@ -342,8 +493,9 @@ namespace LostRegalia.Sim
                 Downs++;
                 Busy = Charge = ComboTimer = ParryWindow = DashTime = 0f;
                 Queued = false;
+                GuardSlot = SlamSlot = -1;
             }
-            return false;
+            return 0;
         }
 
         /// <summary>받아치기에 성공했을 때의 반격파.</summary>
@@ -363,6 +515,8 @@ namespace LostRegalia.Sim
             w.Write(IFrame); w.Write(ParryWindow); w.Write(ParryCd); w.Write(DownTimer);
             w.Write((ushort)Prev);
             w.Write(CX); w.Write(CY); w.Write(Star); w.Write(Iron); w.Write(Rune); w.Write(HasFragment);
+            for (int s = 0; s < SkillCd.Length; s++) w.Write(SkillCd[s]);
+            w.Write(GuardSlot); w.Write(GuardTime); w.Write(SlamSlot); w.Write(SlamTimer); w.Write(Casts); w.Write(GuardParries);
             w.Write(MomentumTime); w.Write(Away); w.Write(ReturnBonus); w.Write(ReturnTime); w.Write(ShockReady);
             w.Write(Swings); w.Write(Parries); w.Write(Downs); w.Write(DamageTaken);
         }
@@ -376,6 +530,8 @@ namespace LostRegalia.Sim
             IFrame = r.ReadSingle(); ParryWindow = r.ReadSingle(); ParryCd = r.ReadSingle(); DownTimer = r.ReadSingle();
             Prev = (Buttons)r.ReadUInt16();
             CX = r.ReadSingle(); CY = r.ReadSingle(); Star = r.ReadInt32(); Iron = r.ReadInt32(); Rune = r.ReadInt32(); HasFragment = r.ReadBoolean();
+            for (int s = 0; s < SkillCd.Length; s++) SkillCd[s] = r.ReadSingle();
+            GuardSlot = r.ReadInt32(); GuardTime = r.ReadSingle(); SlamSlot = r.ReadInt32(); SlamTimer = r.ReadSingle(); Casts = r.ReadInt32(); GuardParries = r.ReadInt32();
             MomentumTime = r.ReadSingle(); Away = r.ReadSingle(); ReturnBonus = r.ReadSingle(); ReturnTime = r.ReadSingle(); ShockReady = r.ReadBoolean();
             Swings = r.ReadInt32(); Parries = r.ReadInt32(); Downs = r.ReadInt32(); DamageTaken = r.ReadSingle();
         }

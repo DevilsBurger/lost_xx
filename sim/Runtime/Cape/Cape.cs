@@ -180,11 +180,51 @@ namespace LostRegalia.Sim
             if (c >= 0) Hit(king, c);
         }
 
+        /// <summary>
+        /// 기술로 판다. 기술마다 정해진 모양의 타일에 정해진 강도를 한 번에 준다. 채굴 위력과는 상관없다.
+        /// 방향은 조준에서 가로와 세로 가운데 큰 쪽을 따른다.
+        /// </summary>
+        public void SkillDig(King king, SkillDef sk)
+        {
+            int m = Def.TileM;
+            int kx = (int)Math.Floor(king.CX / m), ky = (int)Math.Floor(king.CY / m);
+            int fx = 0, fy = 0;
+            if (Math.Abs(king.AimX) > Math.Abs(king.AimY)) fx = king.AimX > 0f ? 1 : -1; else fy = king.AimY > 0f ? 1 : -1;
+            if (sk.MineShape == MineShape.Line)
+            {
+                for (int s = 1; s <= sk.MineA; s++) Blast(king, kx + fx * s, ky + fy * s, sk.MinePower);
+            }
+            else if (sk.MineShape == MineShape.Box)
+            {
+                int half = sk.MineA / 2;
+                for (int s = 1; s <= sk.MineB; s++)
+                    for (int o = -half; o <= half; o++) Blast(king, kx + fx * s + fy * o, ky + fy * s + fx * o, sk.MinePower);
+            }
+            else
+            {
+                for (int y = ky - sk.MineA; y <= ky + sk.MineA; y++)
+                    for (int x = kx - sk.MineA; x <= kx + sk.MineA; x++)
+                        if ((x - kx) * (x - kx) + (y - ky) * (y - ky) <= sk.MineA * sk.MineA) Blast(king, x, y, sk.MinePower);
+            }
+            Swings++;
+        }
+
+        void Blast(King king, int tx, int ty, int power)
+        {
+            if (!Land.Inside(tx, ty) || !Land.IsRock(Land.Rocks[Land.Index(tx, ty)])) return;
+            Hit(king, Land.Index(tx, ty), power);
+        }
+
         void Hit(King king, int i)
         {
-            if (Land.Hp[i] > DigPower)
+            Hit(king, i, DigPower);
+        }
+
+        void Hit(King king, int i, int power)
+        {
+            if (Land.Hp[i] > power)
             {
-                Land.Hp[i] = (ushort)(Land.Hp[i] - DigPower);
+                Land.Hp[i] = (ushort)(Land.Hp[i] - power);
                 return;
             }
             Land.Hp[i] = 0;

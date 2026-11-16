@@ -23,6 +23,20 @@ namespace LostRegalia.Sim
         public float Add;
     }
 
+    public enum Delivery : byte { None = 0, Line, Slam, Guard }
+    public enum MineShape : byte { None = 0, Line, Box, Circle }
+
+    /// <summary>능동 기술의 값. 노드의 stats와 skill에서 읽는다.</summary>
+    public sealed class SkillDef
+    {
+        public Delivery Delivery;
+        public float Damage, Cooldown, Range, Knock;
+        public int Pierce;
+        public float Width, Air, Hold, Reduce, Window;
+        public MineShape MineShape;
+        public int MineA, MineB, MinePower;     // 직선: 타일 수 / 상자: 폭, 깊이 / 원: 반지름(타일)
+    }
+
     /// <summary>각성 트리의 노드 하나. data/trees/*.json.</summary>
     public sealed class NodeDef
     {
@@ -32,6 +46,7 @@ namespace LostRegalia.Sim
         public string[] Pair;           // 교차 노드: 두 가지의 이름
         public int Need;                // 교차 노드: 가지마다 깨워야 하는 수
         public Effect[] Effects = new Effect[0];
+        public SkillDef Skill;          // 능동 기술이면
     }
 
     public sealed class TreeDef
@@ -84,6 +99,32 @@ namespace LostRegalia.Sim
                         n.Effects[e] = new Effect { Stat = (Stat)s, Add = J.Num(f["add"]) };
                     }
                 }
+                if (o.ContainsKey("skill"))
+                {
+                    var s = J.Obj(o["skill"]);
+                    var st = J.Obj(o["stats"]);
+                    var def = new SkillDef();
+                    string delivery = J.Str(s["delivery"]);
+                    def.Delivery = delivery == "line" ? Delivery.Line : delivery == "slam" ? Delivery.Slam : delivery == "guard" ? Delivery.Guard : Delivery.None;
+                    if (def.Delivery == Delivery.None) throw new FormatException("알 수 없는 전달 방식: " + delivery);
+                    def.Damage = J.Num(st["피해"]);
+                    def.Cooldown = J.Num(st["재사용"]);
+                    def.Range = J.Num(st["사거리"]);
+                    def.Knock = J.Num(st["밀어냄"]);
+                    def.Pierce = s.ContainsKey("pierce") ? J.Int(s["pierce"]) : 0;
+                    def.Width = s.ContainsKey("width") ? J.Num(s["width"]) : 0f;
+                    def.Air = s.ContainsKey("air") ? J.Num(s["air"]) : 0f;
+                    def.Hold = s.ContainsKey("hold") ? J.Num(s["hold"]) : 0f;
+                    def.Reduce = s.ContainsKey("reduce") ? J.Num(s["reduce"]) : 0f;
+                    def.Window = s.ContainsKey("window") ? J.Num(s["window"]) : 0f;
+                    var m = J.Obj(s["mine"]);
+                    string shape = J.Str(m["shape"]);
+                    def.MinePower = J.Int(m["power"]);
+                    if (shape == "line") { def.MineShape = MineShape.Line; def.MineA = J.Int(m["tiles"]); }
+                    else if (shape == "box") { def.MineShape = MineShape.Box; def.MineA = J.Int(m["wide"]); def.MineB = J.Int(m["deep"]); }
+                    else { def.MineShape = MineShape.Circle; def.MineA = J.Int(m["tiles"]); }
+                    n.Skill = def;
+                }
                 t.Nodes[i] = n;
             }
             return t;
@@ -108,7 +149,7 @@ namespace LostRegalia.Sim
     public sealed class CastleDef
     {
         public int[] Slots, FacilityTier, KingLevel, TreeTier;      // 장마다의 상한(0이 1장)
-        public int Refunds;
+        public int Refunds, SkillSlots;
         public int[] WallCost;
         public float[] WallHp;
         public KingLevelDef[][] King = new KingLevelDef[4][];
@@ -144,6 +185,7 @@ namespace LostRegalia.Sim
             c.KingLevel = Ints(caps["king_level"]);
             c.TreeTier = Ints(caps["tree_tier"]);
             c.Refunds = J.Int(o["refunds_per_chapter"]);
+            c.SkillSlots = J.Int(o["skill_slots"]);
             var ups = J.Arr(J.Obj(o["wall"])["upgrades"]);
             c.WallCost = new int[ups.Count];
             c.WallHp = new float[ups.Count];

@@ -57,6 +57,16 @@
     "interval": 1.2,
     "stand": 1.0
   },
+  "enemy_ranged": {
+    "interval": 2.5,
+    "aim": 1.0
+  },
+  "ladder": {
+    "raise": 3,
+    "hp": 60,
+    "grip": 12,
+    "climb_mul": 2
+  },
   "return": {
     "min_away": 10,
     "max_away": 60,
