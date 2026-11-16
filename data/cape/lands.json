@@ -1,0 +1,469 @@
+{
+ "grid": {
+  "width": 24,
+  "length": 36,
+  "bands": 3,
+  "tile_m": 2
+ },
+ "hardness": {
+  "흙": 12,
+  "연암": 30,
+  "경암": 80,
+  "흑암": 180
+ },
+ "dig": {
+  "swing": 0.3,
+  "power_by_nodes": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "walk_per_tile": 0.33
+ },
+ "light": {
+  "base_m": 14,
+  "fog_loss_m": 9
+ },
+ "structures": {
+  "min_gap": 6,
+  "entrance": {
+   "rows": 2,
+   "cols": [
+    10,
+    13
+   ]
+  },
+  "vault": {
+   "size": 5,
+   "inner": 3
+  },
+  "crater": {
+   "size": 5,
+   "rows": [
+    28,
+    32
+   ]
+  },
+  "coffin": {
+   "size": 3
+  },
+  "old_road": {
+   "length": [
+    10,
+    14
+   ],
+   "turn": 0.25
+  },
+  "channel_wander": 1
+ },
+ "veins": {
+  "star": {
+   "cluster": [
+    2,
+    4
+   ],
+   "host_weight": {
+    "흙": 2,
+    "연암": 3,
+    "경암": 3,
+    "흑암": 2
+   }
+  },
+  "iron": {
+   "cluster": [
+    2,
+    3
+   ],
+   "host_weight": {
+    "흙": 1,
+    "연암": 3,
+    "경암": 3,
+    "흑암": 2
+   }
+  },
+  "rune": {
+   "cluster": [
+    1,
+    1
+   ],
+   "host_weight": {
+    "흙": 0,
+    "연암": 1,
+    "경암": 5,
+    "흑암": 5
+   }
+  }
+ },
+ "lands": [
+  {
+   "id": 1,
+   "name": "옛 채석장",
+   "dig_nodes": 1,
+   "ridge": 0.09,
+   "pockets": 4,
+   "mix": [
+    {
+     "흙": 0.7,
+     "연암": 0.3
+    },
+    {
+     "흙": 0.42,
+     "연암": 0.46,
+     "경암": 0.12
+    },
+    {
+     "흙": 0.24,
+     "연암": 0.48,
+     "경암": 0.28
+    }
+   ],
+   "star": {
+    "total": 170,
+    "per_tile": 5,
+    "split": [
+     0.25,
+     0.33,
+     0.42
+    ]
+   },
+   "iron": {
+    "total": 60,
+    "per_tile": 5,
+    "split": [
+     0.0,
+     0.4,
+     0.6
+    ]
+   },
+   "rune": {
+    "total": 0,
+    "per_tile": 1,
+    "split": [
+     0,
+     0,
+     0
+    ]
+   },
+   "vaults": [
+    1,
+    1,
+    1
+   ],
+   "vault_wall": "경암",
+   "springs": 1,
+   "boulders": 0,
+   "crystals": 0,
+   "corruption": 0,
+   "channels": [],
+   "tidal_share": 0,
+   "fog": [
+    0.0,
+    0.33,
+    0.66
+   ],
+   "sea_end": false
+  },
+  {
+   "id": 2,
+   "name": "왕릉 언덕",
+   "dig_nodes": 2,
+   "ridge": 0.11,
+   "pockets": 3,
+   "mix": [
+    {
+     "흙": 0.5,
+     "연암": 0.42,
+     "경암": 0.08
+    },
+    {
+     "흙": 0.3,
+     "연암": 0.48,
+     "경암": 0.22
+    },
+    {
+     "흙": 0.18,
+     "연암": 0.46,
+     "경암": 0.36
+    }
+   ],
+   "star": {
+    "total": 230,
+    "per_tile": 6,
+    "split": [
+     0.25,
+     0.33,
+     0.42
+    ]
+   },
+   "iron": {
+    "total": 95,
+    "per_tile": 5,
+    "split": [
+     0.1,
+     0.4,
+     0.5
+    ]
+   },
+   "rune": {
+    "total": 5,
+    "per_tile": 1,
+    "split": [
+     0,
+     0.4,
+     0.6
+    ]
+   },
+   "vaults": [
+    1,
+    2,
+    1
+   ],
+   "vault_wall": "경암",
+   "springs": 1,
+   "boulders": 8,
+   "crystals": 0,
+   "corruption": 0,
+   "channels": [],
+   "tidal_share": 0,
+   "fog": [
+    0.2,
+    0.45,
+    0.7
+   ],
+   "sea_end": false
+  },
+  {
+   "id": 3,
+   "name": "별 떨어진 분지",
+   "dig_nodes": 2,
+   "ridge": 0.08,
+   "pockets": 5,
+   "mix": [
+    {
+     "흙": 0.4,
+     "연암": 0.45,
+     "경암": 0.15
+    },
+    {
+     "흙": 0.25,
+     "연암": 0.45,
+     "경암": 0.3
+    },
+    {
+     "흙": 0.15,
+     "연암": 0.4,
+     "경암": 0.45
+    }
+   ],
+   "star": {
+    "total": 290,
+    "per_tile": 7,
+    "split": [
+     0.25,
+     0.33,
+     0.42
+    ]
+   },
+   "iron": {
+    "total": 130,
+    "per_tile": 6,
+    "split": [
+     0.1,
+     0.4,
+     0.5
+    ]
+   },
+   "rune": {
+    "total": 7,
+    "per_tile": 1,
+    "split": [
+     0,
+     0.4,
+     0.6
+    ]
+   },
+   "vaults": [
+    1,
+    1,
+    1
+   ],
+   "vault_wall": "경암",
+   "springs": 2,
+   "boulders": 4,
+   "crystals": 10,
+   "corruption": 2,
+   "channels": [],
+   "tidal_share": 0,
+   "fog": [
+    0.3,
+    0.5,
+    0.75
+   ],
+   "sea_end": false
+  },
+  {
+   "id": 4,
+   "name": "해무의 황야",
+   "dig_nodes": 3,
+   "ridge": 0.08,
+   "pockets": 4,
+   "mix": [
+    {
+     "흙": 0.35,
+     "연암": 0.4,
+     "경암": 0.25
+    },
+    {
+     "흙": 0.2,
+     "연암": 0.35,
+     "경암": 0.35,
+     "흑암": 0.1
+    },
+    {
+     "흙": 0.12,
+     "연암": 0.3,
+     "경암": 0.38,
+     "흑암": 0.2
+    }
+   ],
+   "star": {
+    "total": 350,
+    "per_tile": 8,
+    "split": [
+     0.25,
+     0.33,
+     0.42
+    ]
+   },
+   "iron": {
+    "total": 150,
+    "per_tile": 9,
+    "split": [
+     0.1,
+     0.4,
+     0.5
+    ]
+   },
+   "rune": {
+    "total": 9,
+    "per_tile": 1,
+    "split": [
+     0,
+     0.4,
+     0.6
+    ]
+   },
+   "vaults": [
+    1,
+    1,
+    2
+   ],
+   "vault_wall": "흑암",
+   "springs": 1,
+   "boulders": 4,
+   "crystals": 6,
+   "corruption": 3,
+   "channels": [
+    12,
+    22
+   ],
+   "tidal_share": 0.1,
+   "tide": {
+    "period": 140,
+    "rise": 8,
+    "high": 30,
+    "fall": 7
+   },
+   "fog": [
+    0.6,
+    0.8,
+    0.95
+   ],
+   "sea_end": false
+  },
+  {
+   "id": 5,
+   "name": "땅끝",
+   "dig_nodes": 3,
+   "ridge": 0.12,
+   "pockets": 3,
+   "mix": [
+    {
+     "흙": 0.28,
+     "연암": 0.37,
+     "경암": 0.3,
+     "흑암": 0.05
+    },
+    {
+     "흙": 0.17,
+     "연암": 0.32,
+     "경암": 0.36,
+     "흑암": 0.15
+    },
+    {
+     "흙": 0.12,
+     "연암": 0.3,
+     "경암": 0.36,
+     "흑암": 0.22
+    }
+   ],
+   "star": {
+    "total": 410,
+    "per_tile": 9,
+    "split": [
+     0.25,
+     0.33,
+     0.42
+    ]
+   },
+   "iron": {
+    "total": 165,
+    "per_tile": 9,
+    "split": [
+     0.1,
+     0.4,
+     0.5
+    ]
+   },
+   "rune": {
+    "total": 11,
+    "per_tile": 1,
+    "split": [
+     0,
+     0.4,
+     0.6
+    ]
+   },
+   "vaults": [
+    1,
+    1,
+    1
+   ],
+   "vault_wall": "흑암",
+   "springs": 1,
+   "boulders": 6,
+   "crystals": 6,
+   "corruption": 3,
+   "channels": [
+    10,
+    21
+   ],
+   "tidal_share": 0.12,
+   "tide": {
+    "period": 110,
+    "rise": 8,
+    "high": 35,
+    "fall": 7
+   },
+   "fog": [
+    0.5,
+    0.7,
+    0.85
+   ],
+   "sea_end": true
+  }
+ ],
+ "human_factor": 0.55,
+ "retry_limit": 20
+}

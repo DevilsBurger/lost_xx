@@ -17,6 +17,7 @@
 | [경제·밸런스 시트](docs/04_balance.md) | 매장량과 비용, 시간 예산, 진행 시뮬레이션, 위협 예산 |
 | [검 각성 트리 상세](docs/05_sword_tree.md) | 검의 노드 69개, 기술과 변형, 진명과 궁극, 빌드 경로 예시 |
 | [전투 규칙](docs/06_combat_rules.md) | 피해와 추락의 규칙, 인장과 반응, 적 15종의 행동, 습격 편성, 보스 5종 |
+| [곶 생성 규칙](docs/07_cape_generation.md) | 땅을 만드는 순서, 타일과 광맥, 자리와 위험, 검증, 만들어 본 땅의 측정값 |
 
 ## 도구
 
@@ -43,3 +44,12 @@ python3 tools/combat_doc.py
 ```
 
 `data/combat/`와 `data/waves/`가 원본이다. 처치 시간, 떨어뜨리는 데 필요한 횟수, 낙하 결과, 습격의 부하를 계산해 `docs/06_combat_rules.md`의 표를 채운다.
+
+곶 생성기 (땅을 만들고, 검증하고, 재 본다):
+
+```bash
+python3 tools/cape_gen.py stats       # 문서의 표 갱신
+python3 tools/cape_gen.py render 7    # 시드 7의 다섯 땅을 그림으로 (docs/img/)
+```
+
+`data/cape/lands.json`이 규칙의 원본이다. 이 생성기가 Unity 생성기의 기준 구현이다.
