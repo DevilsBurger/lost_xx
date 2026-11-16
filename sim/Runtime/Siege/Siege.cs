@@ -65,6 +65,31 @@ namespace LostRegalia.Sim
         }
 
         /// <summary>틱 하나. king이 없으면(null) 성벽이 비어 있는 것으로 본다.</summary>
+        /// <summary>성벽으로 오고 있거나 성벽 위에 있는 적이 남았는가. 바위턱에 앉은 적은 세지 않는다.</summary>
+        public bool Threat
+        {
+            get
+            {
+                if (Queue.Count > 0) return true;
+                for (int i = 0; i < Enemies.Count; i++)
+                {
+                    EnemyState s = Enemies[i].State;
+                    if (s != EnemyState.Dead && s != EnemyState.Perched) return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>습격이 끝났다. 죽은 적을 치우고, 바위턱에 남은 적은 물러난다. 물러난 수를 돌려준다.</summary>
+        public int EndAssault()
+        {
+            int retreated = 0;
+            for (int i = 0; i < Enemies.Count; i++)
+                if (Enemies[i].State != EnemyState.Dead) retreated++;
+            Enemies.Clear();
+            return retreated;
+        }
+
         public void Step(int tick, float dt, King king = null)
         {
             KingDef k = defs.King;

@@ -23,6 +23,45 @@ namespace LostRegalia.Sim
         public bool Perches { get { return Route == "바위턱"; } }
     }
 
+    /// <summary>습격 하나의 편성. data/waves/ch*.json의 한 항목.</summary>
+    public sealed class WaveDef
+    {
+        public bool Elite;
+        public bool Final;                                      // 총공세
+        public List<KeyValuePair<string, int>> Units = new List<KeyValuePair<string, int>>();
+    }
+
+    /// <summary>장 하나의 습격들. 정규 습격이 차례로, 총공세가 따로.</summary>
+    public sealed class ChapterDef
+    {
+        public int Chapter;                                     // 1부터
+        public WaveDef[] Waves;
+        public WaveDef Onslaught;
+
+        public static ChapterDef Load(string wavesJson)
+        {
+            var o = J.Obj(MiniJson.Parse(wavesJson));
+            var c = new ChapterDef { Chapter = J.Int(o["chapter"]) };
+            var regular = new List<WaveDef>();
+            var list = J.Arr(o["waves"]);
+            for (int i = 0; i < list.Count; i++)
+            {
+                var w = J.Obj(list[i]);
+                var def = new WaveDef();
+                def.Elite = w.ContainsKey("elite");
+                def.Final = w["n"] is string;                   // 번호 대신 이름이 붙은 것이 총공세
+                var counts = J.Obj(w["units"]);
+                var ids = new List<string>(counts.Keys);
+                ids.Sort(StringComparer.Ordinal);               // 사전의 순회 순서에 기대지 않는다
+                for (int u = 0; u < ids.Count; u++)
+                    def.Units.Add(new KeyValuePair<string, int>(ids[u], J.Int(counts[ids[u]])));
+                if (def.Final) c.Onslaught = def; else regular.Add(def);
+            }
+            c.Waves = regular.ToArray();
+            return c;
+        }
+    }
+
     /// <summary>왕과 전장의 규칙 값. data/combat/king.json.</summary>
     public sealed class KingDef
     {
@@ -37,6 +76,9 @@ namespace LostRegalia.Sim
         public float BasicRadius, BasicArc, ComboGrace, ChargeRadius;
         public float ParryWindow, ParryDamage, ParryRadius, ParryKnock, ParryCooldown;
         public float WallLength, WallWidth;
+        public float ReturnMinAway, ReturnMaxAway, ReturnMaxBonus, ReturnDuration, ReturnShockRadius, ReturnShockKnock;
+        public float[] SpawnWindow, Calm, Alarm;                // 장마다(0이 1장)
+        public float FlawlessBonus;
         public float EnemyReach, EnemyInterval, EnemyStand;     // 성벽 위의 적이 왕을 치는 거리와 간격, 서는 자리
 
         /// <summary>레인의 x 자리. 레인들은 성벽 가운데에 모여 있다.</summary>
@@ -170,6 +212,18 @@ namespace LostRegalia.Sim
             k.ParryRadius = J.Num(parry["radius"]);
             k.ParryKnock = J.Num(parry["knock"]);
             k.ParryCooldown = J.Num(parry["cooldown"]);
+            var ret = J.Obj(o["return"]);
+            k.ReturnMinAway = J.Num(ret["min_away"]);
+            k.ReturnMaxAway = J.Num(ret["max_away"]);
+            k.ReturnMaxBonus = J.Num(ret["max_bonus"]);
+            k.ReturnDuration = J.Num(ret["duration"]);
+            k.ReturnShockRadius = J.Num(ret["shock_radius"]);
+            k.ReturnShockKnock = J.Num(ret["shock_knock"]);
+            var assault = J.Obj(o["assault"]);
+            k.SpawnWindow = J.Nums(assault["spawn_window_by_chapter"]);
+            k.Calm = J.Nums(assault["calm_by_chapter"]);
+            k.Alarm = J.Nums(assault["alarm_by_chapter"]);
+            k.FlawlessBonus = J.Num(assault["flawless_bonus"]);
             var melee = J.Obj(o["enemy_melee"]);
             k.EnemyReach = J.Num(melee["reach"]);
             k.EnemyInterval = J.Num(melee["interval"]);

@@ -262,6 +262,153 @@ static class Program
         }
     }
 
+    /// <summary>장 하나를 처음부터 끝까지. late초만큼 습격마다 늦게 돌아온다(0이면 성벽을 떠나지 않는다).</summary>
+    static World Chapter(Defs defs, ChapterDef ch, ulong seed, float late, out int flawless, out float worst)
+    {
+        var w = new World(defs, seed);
+        w.Cycle.Begin(w, ch);
+        flawless = 0;
+        worst = 0f;
+        int guard = 30 * 60 * 60;
+        while (guard-- > 0 && w.Cycle.Phase != Phase.Victory && w.Cycle.Phase != Phase.Fallen)
+        {
+            bool fighting = w.Cycle.Phase == Phase.Assault || w.Cycle.Phase == Phase.Onslaught;
+            if (late > 0f)
+            {
+                // 고요가 시작되면 나가고, 습격이 시작된 뒤 late초에 돌아온다
+                if (!fighting && w.King.OnWall && w.Cycle.TimeLeft < w.Cycle.LastCalm - 5f) w.King.Leave();
+                if (fighting && !w.King.OnWall && w.Cycle.AssaultTicks >= late * World.TickRate) w.King.Return();
+            }
+            if (w.Cycle.Wave >= ch.Waves.Length) w.Cycle.DeliverFragment();
+            w.Step(Bot(w));
+            for (int i = 0; i < w.Events.Count; i++)
+                if (w.Events[i].Kind == EventKind.AssaultEnd)
+                {
+                    flawless += w.Events[i].C;
+                    worst = Math.Max(worst, w.Events[i].B);
+                }
+        }
+        return w;
+    }
+
+    static void CycleTests(Defs defs, ChapterDef ch)
+    {
+        KingDef k = defs.King;
+
+        Section("왕의 귀환");
+        {
+            var w = new World(defs, 1);
+            w.King.Leave();
+            Steps(w, 30 * 5, new InputFrame { MoveX = 1f });
+            w.King.Return();
+            Check(w.King.ReturnBonus == 0f && !w.King.ShockReady && w.King.X == k.WallLength * 0.5f, "10초 안에 돌아오면 아무 일도 없다. 비운 동안에는 성벽 위에서 움직이지 않는다");
+            w.King.Leave();
+            Steps(w, 30 * 35, new InputFrame());
+            w.King.Return();
+            Check(Math.Abs(w.King.ReturnBonus - 0.3f) < 0.01f, "35초를 비우면 +30%");
+            w.King.Leave();
+            Steps(w, 30 * 90, new InputFrame());
+            w.King.Return();
+            Check(Math.Abs(w.King.ReturnBonus - k.ReturnMaxBonus) < 0.001f, "60초를 넘게 비워도 +60%가 끝이다");
+
+            w.King.X = k.LaneX(2);
+            w.King.Y = 2f;
+            Put(w, "shield", 2, EnemyState.Climbing, 17f);
+            Put(w, "shield", 3, EnemyState.Climbing, 17f);
+            Put(w, "porter", 2, EnemyState.OnWall, k.CliffHeight);
+            float hp = w.Siege.Enemies[2].Hp;
+            Tap(w, Buttons.Attack);
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Siege.Enemies[1].State == EnemyState.Dead,
+                  "돌아온 첫 일격의 충격파(8 × 1.6 = 12.8)가 옆 레인의 방패병까지 떨어뜨린다");
+            Check(Math.Abs(w.Siege.Enemies[2].Hp - (hp - k.BasicDamage[0] * 1.6f)) < 0.01f, "피해도 60% 는다");
+            Check(!w.King.ShockReady, "충격파는 한 번뿐이다");
+            Steps(w, 30 * 5, new InputFrame());
+            Check(w.King.ReturnBonus == 0f, "5초 뒤에 꺼진다");
+        }
+
+        Section("주기");
+        {
+            Check(ch.Waves.Length == 12 && ch.Onslaught != null && ch.Waves[5].Elite, "1장: 정규 습격 12, 총공세 1, 여섯째는 엘리트");
+            var w = new World(defs, 3);
+            w.Cycle.Begin(w, ch);
+            Check(w.Cycle.Phase == Phase.Calm && w.Cycle.TimeLeft == 100f, "고요 100초로 시작한다");
+            int bell = -1, start = -1;
+            for (int i = 0; i < 30 * 101 && start < 0; i++)
+            {
+                w.Step(Bot(w));
+                for (int e = 0; e < w.Events.Count; e++)
+                {
+                    if (w.Events[e].Kind == EventKind.Bell) bell = w.Tick;
+                    if (w.Events[e].Kind == EventKind.AssaultStart) start = w.Tick;
+                }
+            }
+            Check(Math.Abs(bell - 30 * 85) <= 2, "85초에 종이 울린다");
+            Check(Math.Abs(start - 30 * 100) <= 2 && w.Cycle.Phase == Phase.Assault, "100초에 습격이 시작된다");
+            Check(w.Siege.Queue.Count + w.Siege.Enemies.Count == 10, "첫 습격은 등반병 10");
+            SimEvent end = default(SimEvent);
+            bool ended = false;
+            for (int i = 0; i < 30 * 120 && !ended; i++)
+            {
+                w.Step(Bot(w));
+                for (int e = 0; e < w.Events.Count; e++)
+                    if (w.Events[e].Kind == EventKind.AssaultEnd) { end = w.Events[e]; ended = true; }
+            }
+            Check(ended && end.A == 1 && end.B == 0 && end.C == 1, "적이 다 사라지면 습격이 끝난다. 성벽이 깎이지 않았으면 흠 없는 방어");
+            Check(w.Cycle.Phase == Phase.Calm && w.Cycle.TimeLeft == 110f && w.Cycle.Wave == 1, "흠 없는 방어 뒤의 고요는 10초 길다");
+            Check(w.Siege.Enemies.Count == 0, "습격이 끝나면 죽은 적을 치운다");
+
+            // 스냅숏: 고요 한가운데에서 떠서 다음 습격이 끝난 뒤까지 돌린 것과 견준다
+            Steps(w, 30 * 40, new InputFrame());
+            byte[] snap = w.Snapshot();
+            for (int i = 0; i < 30 * 150; i++) w.Step(Bot(w));
+            ulong after = w.StateHash();
+            int wave = w.Cycle.Wave;
+            w.Restore(snap);
+            Check(w.Cycle.Wave == 1 && w.Cycle.Phase == Phase.Calm, "되감으면 주기도 돌아간다");
+            for (int i = 0; i < 30 * 150; i++) w.Step(Bot(w));
+            Check(w.StateHash() == after && w.Cycle.Wave == wave && wave == 2, "되감은 뒤 다시 돌리면 같은 습격을 같은 결과로 치른다");
+
+            // 함락
+            w = new World(defs, 3);
+            w.Cycle.Begin(w, ch);
+            w.King.Leave();
+            bool fell = false;
+            int guard = 30 * 600;
+            while (guard-- > 0 && w.Cycle.Phase != Phase.Fallen)
+            {
+                w.Step();
+                for (int e = 0; e < w.Events.Count; e++) fell |= w.Events[e].Kind == EventKind.Fallen;
+            }
+            Check(w.Cycle.Phase == Phase.Fallen && fell && w.Cycle.Wave == 0, "성벽을 비워 두면 첫 습격에 함락된다");
+            int tick = w.Tick;
+            w.Step();
+            Check(w.Tick == tick, "함락된 뒤에는 틱이 나아가지 않는다");
+            Console.WriteLine("  비워 두면 " + (tick / 30f).ToString("0") + "초에 함락 (첫 습격이 시작되고 " + (tick / 30f - 100f).ToString("0") + "초)");
+        }
+
+        Section("1장을 처음부터 끝까지");
+        {
+            int flawless;
+            float worst;
+            World w = Chapter(defs, ch, 11, 0f, out flawless, out worst);
+            Check(w.Cycle.Phase == Phase.Victory && w.Cycle.Wave == 12, "성벽을 떠나지 않으면 열두 습격과 총공세를 막고 이긴다");
+            Console.WriteLine("  떠나지 않는 왕: " + (w.Tick / 30f / 60f).ToString("0.0") + "분, 성벽 -" + (k.WallHp - w.Siege.WallHp).ToString("0")
+                              + ", 흠 없는 방어 " + flawless + "/13, 왕이 받은 피해 " + w.King.DamageTaken.ToString("0") + ", 쓰러짐 " + w.King.Downs
+                              + ", 물러난 석궁수 " + w.Cycle.Retreated);
+            ulong h = w.StateHash();
+            Check(Chapter(defs, ch, 11, 0f, out flawless, out worst).StateHash() == h, "같은 시드의 한 장은 같은 결과로 끝난다");
+
+            Console.WriteLine("  습격마다 늦게 돌아오는 왕 (수리 없음. 성벽 1,000으로 한 장을 버틴다)");
+            foreach (float late in new[] { 10f, 20f, 30f, 40f, 50f })
+            {
+                w = Chapter(defs, ch, 11, late, out flawless, out worst);
+                Console.WriteLine("    " + late.ToString("0") + "초 늦음: " + (w.Cycle.Phase == Phase.Victory ? "승리" : "함락(습격 " + (w.Cycle.Wave + 1) + ")")
+                                  + ", 성벽 -" + (k.WallHp - w.Siege.WallHp).ToString("0") + ", 한 습격에 가장 크게 -" + worst.ToString("0")
+                                  + ", 흠 없는 방어 " + flawless + "/13, 왕이 받은 피해 " + w.King.DamageTaken.ToString("0") + ", 쓰러짐 " + w.King.Downs);
+            }
+        }
+    }
+
     static int Main()
     {
         string root = Root();
@@ -331,6 +478,7 @@ static class Program
         }
 
         KingTests(defs);
+        CycleTests(defs, ChapterDef.Load(File.ReadAllText(Path.Combine(root, "data", "waves", "ch1.json"))));
 
         Section("결정성과 되감기");
         var wave1 = Wave(J.Obj(waves[0]));

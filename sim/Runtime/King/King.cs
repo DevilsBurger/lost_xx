@@ -34,6 +34,10 @@ namespace LostRegalia.Sim
         public float ParryWindow, ParryCd;
         public float DownTimer;
         public Buttons Prev;
+        public float Away;                  // 성벽을 비운 시간
+        public float ReturnBonus;           // 왕의 귀환: 피해와 밀어냄에 더해지는 비율
+        public float ReturnTime;            // 왕의 귀환이 남은 시간
+        public bool ShockReady;             // 돌아온 첫 일격의 충격파가 남아 있는가
 
         public int Swings, Parries, Downs;  // 계측용
         public float DamageTaken;
@@ -48,6 +52,32 @@ namespace LostRegalia.Sim
         /// <summary>적이 왕을 칠 수 있는 상태인가.</summary>
         public bool Targetable { get { return OnWall && Mode != KingMode.Downed; } }
 
+        /// <summary>뒷문을 나선다. 이때부터 비운 시간을 센다.</summary>
+        public void Leave()
+        {
+            if (!OnWall) return;
+            OnWall = false;
+            Away = 0f;
+            Busy = Charge = ComboTimer = ParryWindow = 0f;
+            Queued = false;
+        }
+
+        /// <summary>성벽에 돌아온다. 10초 넘게 비웠으면 왕의 귀환이 켜진다.</summary>
+        public void Return()
+        {
+            if (OnWall) return;
+            KingDef k = defs.King;
+            OnWall = true;
+            if (Away > k.ReturnMinAway)
+            {
+                float t = Math.Min(1f, (Away - k.ReturnMinAway) / (k.ReturnMaxAway - k.ReturnMinAway));
+                ReturnBonus = k.ReturnMaxBonus * t;
+                ReturnTime = k.ReturnDuration;
+                ShockReady = true;
+            }
+            Away = 0f;
+        }
+
         void Respawn()
         {
             X = defs.King.WallLength * 0.5f;
@@ -60,7 +90,11 @@ namespace LostRegalia.Sim
             Buttons pressed = input.Held & ~Prev;
             Buttons released = Prev & ~input.Held;
             Prev = input.Held;
-            if (!OnWall) return;
+            if (!OnWall)
+            {
+                if (Mode != KingMode.Downed) Away += dt;        // 쓰러져 있던 시간은 세지 않는다
+                return;
+            }
 
             if (Mode == KingMode.Downed)
             {
@@ -75,6 +109,15 @@ namespace LostRegalia.Sim
             }
 
             Busy = Math.Max(0f, Busy - dt);
+            if (ReturnTime > 0f)
+            {
+                ReturnTime -= dt;
+                if (ReturnTime <= 0f)
+                {
+                    ReturnTime = ReturnBonus = 0f;
+                    ShockReady = false;
+                }
+            }
             ComboTimer = Math.Max(0f, ComboTimer - dt);
             DashCd = Math.Max(0f, DashCd - dt);
             IFrame = Math.Max(0f, IFrame - dt);
@@ -166,6 +209,7 @@ namespace LostRegalia.Sim
             KingDef k = defs.King;
             int step = ComboTimer > 0f ? ComboStep : 0;
             Swings++;
+            Shock(siege);
             Strike(siege, k.BasicRadius, k.BasicArc, k.BasicDamage[step], k.BasicKnock[step]);
             Busy = k.BasicTimes[step];
             ComboStep = (step + 1) % k.BasicTimes.Length;
@@ -176,10 +220,19 @@ namespace LostRegalia.Sim
         {
             KingDef k = defs.King;
             Swings++;
+            Shock(siege);
             Strike(siege, k.ChargeRadius, 360f, k.ChargeDamage, k.ChargeKnock);
             Busy = k.ChargeRecover;
             ComboStep = 0;
             ComboTimer = 0f;
+        }
+
+        /// <summary>왕의 귀환의 첫 일격. 주변의 붙잡기를 깎는 충격파가 먼저 나간다.</summary>
+        void Shock(Siege siege)
+        {
+            if (!ShockReady) return;
+            ShockReady = false;
+            Strike(siege, defs.King.ReturnShockRadius, 360f, 0f, defs.King.ReturnShockKnock);
         }
 
         /// <summary>
@@ -190,6 +243,8 @@ namespace LostRegalia.Sim
         {
             KingDef k = defs.King;
             float cos = (float)Math.Cos(arcDegrees * 0.5 * Math.PI / 180.0);
+            damage *= 1f + ReturnBonus;                         // 피해 증가는 서로 더한다. 지금은 왕의 귀환 하나다
+            knock *= 1f + ReturnBonus;
             var es = siege.Enemies;
             for (int i = 0; i < es.Count; i++)
             {
@@ -204,7 +259,7 @@ namespace LostRegalia.Sim
                 if (arcDegrees < 360f && dist > 0.001f && (dx * AimX + dy * AimY) / dist < cos) continue;
                 if (knock > 0f) siege.Knock(i, knock);
                 s = es[i].State;
-                if (s != EnemyState.Dead && s != EnemyState.Grounded) siege.Damage(i, damage);
+                if (damage > 0f && s != EnemyState.Dead && s != EnemyState.Grounded) siege.Damage(i, damage);
             }
         }
 
@@ -249,6 +304,7 @@ namespace LostRegalia.Sim
             w.Write(DashTime); w.Write(DashCd); w.Write(DashDX); w.Write(DashDY);
             w.Write(IFrame); w.Write(ParryWindow); w.Write(ParryCd); w.Write(DownTimer);
             w.Write((ushort)Prev);
+            w.Write(Away); w.Write(ReturnBonus); w.Write(ReturnTime); w.Write(ShockReady);
             w.Write(Swings); w.Write(Parries); w.Write(Downs); w.Write(DamageTaken);
         }
 
@@ -260,6 +316,7 @@ namespace LostRegalia.Sim
             DashTime = r.ReadSingle(); DashCd = r.ReadSingle(); DashDX = r.ReadSingle(); DashDY = r.ReadSingle();
             IFrame = r.ReadSingle(); ParryWindow = r.ReadSingle(); ParryCd = r.ReadSingle(); DownTimer = r.ReadSingle();
             Prev = (Buttons)r.ReadUInt16();
+            Away = r.ReadSingle(); ReturnBonus = r.ReadSingle(); ReturnTime = r.ReadSingle(); ShockReady = r.ReadBoolean();
             Swings = r.ReadInt32(); Parries = r.ReadInt32(); Downs = r.ReadInt32(); DamageTaken = r.ReadSingle();
         }
     }

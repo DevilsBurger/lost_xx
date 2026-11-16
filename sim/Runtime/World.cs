@@ -11,11 +11,14 @@ namespace LostRegalia.Sim
     {
         public const int TickRate = 30;
         public const float Dt = 1f / TickRate;
-        const int SnapshotVersion = 2;
+        const int SnapshotVersion = 3;
 
         public readonly Defs Defs;
         public readonly Siege Siege;
         public readonly King King;
+        public readonly Cycle Cycle = new Cycle();
+        /// <summary>이번 틱에 일어난 일. 틱이 시작될 때 비운다.</summary>
+        public readonly List<SimEvent> Events = new List<SimEvent>();
         public int Tick;
         public Rng Rng;
 
@@ -36,9 +39,17 @@ namespace LostRegalia.Sim
         /// <summary>틱 하나. 왕이 먼저 움직이고 친 다음, 적이 움직이고 친다.</summary>
         public void Step(InputFrame input)
         {
+            Events.Clear();
+            if (Cycle.Phase == Phase.Victory || Cycle.Phase == Phase.Fallen) return;    // 판이 끝났다
             King.Step(input, Siege, Dt);
             Siege.Step(Tick, Dt, King);
+            Cycle.Step(this, Dt);
             Tick++;
+        }
+
+        public void Emit(EventKind kind, int a, int b, int c)
+        {
+            Events.Add(new SimEvent { Kind = kind, A = a, B = b, C = c });
         }
 
         /// <summary>
@@ -82,6 +93,7 @@ namespace LostRegalia.Sim
                 w.Write(SnapshotVersion);
                 w.Write(Tick);
                 w.Write(Rng.State);
+                Cycle.Write(w);
                 King.Write(w);
                 Siege.Write(w);
                 w.Flush();
@@ -98,6 +110,7 @@ namespace LostRegalia.Sim
                 if (version != SnapshotVersion) throw new InvalidDataException("스냅숏 버전이 다르다: " + version);
                 Tick = r.ReadInt32();
                 Rng.State = r.ReadUInt64();
+                Cycle.Read(r);
                 King.Read(r);
                 Siege.Read(r);
             }
