@@ -1,0 +1,523 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic','NanumGothic',sans-serif" role="img"><title>각성 트리 화면 — 검, 3장 진행 중 (3단계까지 열림)</title><rect width="1600" height="900" fill="#11151b"/>
+<rect x="0.0" y="0.0" width="1600.0" height="64.0" rx="0" fill="#19202a" stroke="none" stroke-width="1"/>
+<line x1="0.0" y1="64.0" x2="1600.0" y2="64.0" stroke="#5a6678" stroke-width="1"/>
+<rect x="24.0" y="22.0" width="20.0" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="34.0" y="35.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">Q</text>
+<text x="82.0" y="38.0" font-size="15" fill="#8f9aaa" text-anchor="middle" font-weight="400">왕좌</text>
+<rect x="119.0" y="12.0" width="96.0" height="40.0" rx="5" fill="#232c38" stroke="#e6b85c" stroke-width="1"/>
+<text x="167.0" y="38.0" font-size="15" fill="#e6b85c" text-anchor="middle" font-weight="700">레갈리아</text>
+<text x="244.5" y="38.0" font-size="15" fill="#8f9aaa" text-anchor="middle" font-weight="400">성</text>
+<text x="307.0" y="38.0" font-size="15" fill="#8f9aaa" text-anchor="middle" font-weight="400">기록</text>
+<text x="377.0" y="38.0" font-size="15" fill="#8f9aaa" text-anchor="middle" font-weight="400">체계</text>
+<rect x="418.0" y="22.0" width="20.0" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="428.0" y="35.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">E</text>
+<circle cx="760.0" cy="32.0" r="15.0" fill="none" stroke="#e6b85c" stroke-width="2"/>
+<path d="M760,17 A15,15 0 0 1 773,39.5" fill="none" stroke="#e6b85c" stroke-width="4"/>
+<text x="784.0" y="29.0" font-size="14" fill="#d8dee6" text-anchor="start" font-weight="700">고요 0:47 남음</text>
+<text x="784.0" y="47.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">메뉴가 열려 있는 동안 멈춘다</text>
+<text x="1090.0" y="28.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">성광석</text>
+<text x="1090.0" y="48.0" font-size="17" fill="#e6b85c" text-anchor="start" font-weight="700">124</text>
+<text x="1124.6" y="48.0" font-size="13" fill="#62c6d6" text-anchor="start" font-weight="700">→ 80</text>
+<text x="1218.0" y="28.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">흑철</text>
+<text x="1218.0" y="48.0" font-size="17" fill="#d8dee6" text-anchor="start" font-weight="700">18</text>
+<text x="1322.0" y="28.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">룬 수정</text>
+<text x="1322.0" y="48.0" font-size="17" fill="#d8dee6" text-anchor="start" font-weight="700">3</text>
+<text x="1426.0" y="28.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">마정</text>
+<text x="1426.0" y="48.0" font-size="17" fill="#d8dee6" text-anchor="start" font-weight="700">2</text>
+<circle cx="548.0" cy="446.0" r="96.0" fill="none" stroke="#5a6678" stroke-width="1" stroke-dasharray="1 5"/>
+<circle cx="548.0" cy="446.0" r="146.0" fill="none" stroke="#5a6678" stroke-width="1" stroke-dasharray="1 5"/>
+<circle cx="548.0" cy="446.0" r="196.0" fill="none" stroke="#5a6678" stroke-width="1" stroke-dasharray="1 5"/>
+<circle cx="548.0" cy="446.0" r="246.0" fill="none" stroke="#333c49" stroke-width="1" stroke-dasharray="2 7"/>
+<circle cx="548.0" cy="446.0" r="294.0" fill="none" stroke="#333c49" stroke-width="1" stroke-dasharray="2 7"/>
+<circle cx="548.0" cy="446.0" r="74.0" fill="#19202a" stroke="#5a6678" stroke-width="1"/>
+<text x="548.0" y="444.0" font-size="22" fill="#e6b85c" text-anchor="middle" font-weight="700">검</text>
+<text x="548.0" y="462.0" font-size="11" fill="#8f9aaa" text-anchor="middle" font-weight="400">22 / 69</text>
+<line x1="487.1" y1="391.1" x2="317.6" y2="238.6" stroke="#333c49" stroke-width="1" stroke-dasharray="1 6"/>
+<line x1="608.9" y1="391.1" x2="778.4" y2="238.6" stroke="#333c49" stroke-width="1" stroke-dasharray="1 6"/>
+<line x1="626.0" y1="420.7" x2="842.8" y2="350.2" stroke="#333c49" stroke-width="1" stroke-dasharray="1 6"/>
+<line x1="565.0" y1="526.2" x2="612.5" y2="749.2" stroke="#333c49" stroke-width="1" stroke-dasharray="1 6"/>
+<line x1="531.0" y1="526.2" x2="483.5" y2="749.2" stroke="#333c49" stroke-width="1" stroke-dasharray="1 6"/>
+<line x1="470.0" y1="420.7" x2="253.2" y2="350.2" stroke="#333c49" stroke-width="1" stroke-dasharray="1 6"/>
+<text x="676.0" y="134.0" font-size="18" fill="#d8dee6" text-anchor="start" font-weight="700">철벽</text>
+<text x="676.0" y="152.0" font-size="11.5" fill="#8f9aaa" text-anchor="start" font-weight="400">깨운 별 6 / 19</text>
+<text x="940.0" y="716.0" font-size="18" fill="#d8dee6" text-anchor="end" font-weight="700">파멸</text>
+<text x="940.0" y="734.0" font-size="11.5" fill="#8f9aaa" text-anchor="end" font-weight="400">깨운 별 9 / 19</text>
+<text x="156.0" y="716.0" font-size="18" fill="#d8dee6" text-anchor="start" font-weight="700">섬광</text>
+<text x="156.0" y="734.0" font-size="11.5" fill="#8f9aaa" text-anchor="start" font-weight="400">깨운 별 2 / 19</text>
+<circle cx="619.3" cy="381.8" r="9.0" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="619.3" y="385.8" font-size="11" fill="#8f9aaa" text-anchor="middle" font-weight="700">1</text>
+<circle cx="656.5" cy="348.3" r="9.0" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="656.5" y="352.3" font-size="11" fill="#8f9aaa" text-anchor="middle" font-weight="700">2</text>
+<circle cx="693.7" cy="314.9" r="9.0" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="693.7" y="318.9" font-size="11" fill="#8f9aaa" text-anchor="middle" font-weight="700">3</text>
+<circle cx="730.8" cy="281.4" r="9.0" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="730.8" y="285.4" font-size="11" fill="#5a6678" text-anchor="middle" font-weight="700">4</text>
+<circle cx="766.5" cy="249.3" r="9.0" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="766.5" y="253.3" font-size="11" fill="#5a6678" text-anchor="middle" font-weight="700">5</text>
+<rect x="880.0" y="398.0" width="204.0" height="66.0" rx="6" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="894.0" y="420.0" font-size="12" fill="#d8dee6" text-anchor="start" font-weight="700">잠긴 고리</text>
+<text x="894.0" y="438.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">4단계 — 3장 대파편에 열린다</text>
+<text x="894.0" y="454.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">5단계 — 4장 대파편에 열린다</text>
+<line x1="548.0" y1="396.0" x2="591.3" y2="421.0" stroke="#e6b85c" stroke-width="2"/>
+<line x1="591.3" y1="421.0" x2="591.3" y2="471.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="476.7" y1="510.2" x2="468.5" y2="568.4" stroke="#5a6678" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="468.5" y1="568.4" x2="462.1" y2="622.2" stroke="#5a6678" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="434.5" y1="537.9" x2="414.3" y2="589.3" stroke="#5a6678" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="414.3" y1="589.3" x2="425.0" y2="659.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="357.0" y1="490.1" x2="310.4" y2="509.7" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="335.0" y1="569.0" x2="293.4" y2="593.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="310.4" y1="509.7" x2="261.5" y2="512.1" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="528.0" y1="352.1" x2="481.7" y2="315.9" stroke="#e6b85c" stroke-width="2"/>
+<line x1="481.7" y1="315.9" x2="438.4" y2="283.5" stroke="#5a6678" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="525.2" y1="301.8" x2="490.7" y2="258.6" stroke="#5a6678" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="490.7" y1="258.6" x2="425.0" y2="233.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="605.3" y1="258.6" x2="611.7" y2="208.4" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="548.0" y1="200.0" x2="548.0" y2="152.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="611.7" y1="208.4" x2="634.0" y2="164.8" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="639.3" y1="475.7" x2="693.8" y2="453.6" stroke="#e6b85c" stroke-width="2"/>
+<line x1="693.8" y1="453.6" x2="743.5" y2="432.3" stroke="#e6b85c" stroke-width="2"/>
+<line x1="684.3" y1="498.3" x2="739.0" y2="490.1" stroke="#e6b85c" stroke-width="2"/>
+<line x1="739.0" y1="490.1" x2="794.0" y2="446.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="681.7" y1="589.3" x2="721.9" y2="619.9" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="761.0" y1="569.0" x2="802.6" y2="593.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="721.9" y1="619.9" x2="748.5" y2="661.0" stroke="#333c49" stroke-width="1" stroke-dasharray="3 4"/>
+<line x1="548.0" y1="372.0" x2="528.0" y2="352.1" stroke="#e6b85c" stroke-width="2"/>
+<line x1="548.0" y1="372.0" x2="568.0" y2="352.1" stroke="#e6b85c" stroke-width="2"/>
+<line x1="612.1" y1="483.0" x2="639.3" y2="475.7" stroke="#e6b85c" stroke-width="2"/>
+<line x1="612.1" y1="483.0" x2="619.3" y2="510.2" stroke="#e6b85c" stroke-width="2"/>
+<line x1="483.9" y1="483.0" x2="476.7" y2="510.2" stroke="#e6b85c" stroke-width="2"/>
+<line x1="483.9" y1="483.0" x2="456.7" y2="475.7" stroke="#e6b85c" stroke-width="2"/>
+<rect x="541.0" y="389.0" width="14.0" height="14.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="497.7" y="414.0" width="14.0" height="14.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="584.3" y="414.0" width="14.0" height="14.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="497.7" y="464.0" width="14.0" height="14.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="584.3" y="464.0" width="14.0" height="14.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<rect x="541.0" y="489.0" width="14.0" height="14.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="476.7,497.2 489.7,510.2 476.7,523.2 463.7,510.2" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<circle cx="456.7" cy="475.7" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="434.5,524.9 447.5,537.9 434.5,550.9 421.5,537.9" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<polygon points="468.5,559.4 477.5,568.4 468.5,577.4 459.5,568.4" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<line x1="468.5" y1="559.4" x2="468.5" y2="577.4" stroke="#d8dee6" stroke-width="1"/>
+<circle cx="411.7" cy="498.3" r="7.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<circle cx="402.2" cy="453.6" r="7.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<polygon points="378.3,530.0 390.4,537.0 390.4,551.0 378.3,558.0 366.1,551.0 366.1,537.0" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<polygon points="378.3,536.0 385.2,540.0 385.2,548.0 378.3,552.0 371.3,548.0 371.3,540.0" fill="#11151b" stroke="#5a6678" stroke-width="1"/>
+<polygon points="357.0,477.1 370.0,490.1 357.0,503.1 344.0,490.1" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<polygon points="462.1,613.2 471.1,622.2 462.1,631.2 453.1,622.2" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<line x1="462.1" y1="613.2" x2="462.1" y2="631.2" stroke="#5a6678" stroke-width="1"/>
+<polygon points="414.3,580.3 423.3,589.3 414.3,598.3 405.3,589.3" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<line x1="414.3" y1="580.3" x2="414.3" y2="598.3" stroke="#5a6678" stroke-width="1"/>
+<circle cx="352.5" cy="432.3" r="7.0" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<circle cx="335.0" cy="569.0" r="16.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="335.0,559.0 345.0,569.0 335.0,579.0 325.0,569.0" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="425.0,650.0 434.0,659.0 425.0,668.0 416.0,659.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="425.0" y1="650.0" x2="425.0" y2="668.0" stroke="#333c49" stroke-width="1"/>
+<polygon points="310.4,500.7 319.4,509.7 310.4,518.7 301.4,509.7" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="310.4" y1="500.7" x2="310.4" y2="518.7" stroke="#333c49" stroke-width="1"/>
+<circle cx="374.1" cy="619.9" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="302.0" cy="446.0" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="293.4" cy="593.0" r="11.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="293.4" cy="593.0" r="5.0" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="261.5,503.1 270.5,512.1 261.5,521.1 252.5,512.1" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="261.5" y1="503.1" x2="261.5" y2="521.1" stroke="#333c49" stroke-width="1"/>
+<circle cx="347.5" cy="661.0" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="528.0,339.1 541.0,352.1 528.0,365.1 515.0,352.1" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="520.0" y="346.6" width="16.0" height="13.0" rx="3" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="528.0" y="356.6" font-size="11" fill="#e6b85c" text-anchor="middle" font-weight="700">R</text>
+<circle cx="568.0" cy="352.1" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="525.2,288.8 538.2,301.8 525.2,314.8 512.2,301.8" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="481.7,306.9 490.7,315.9 481.7,324.9 472.7,315.9" fill="#11151b" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="481.7,306.9 481.7,324.9 472.7,315.9" fill="#e6b85c" stroke="none" stroke-width="1"/>
+<line x1="481.7" y1="306.9" x2="481.7" y2="324.9" stroke="#e6b85c" stroke-width="1"/>
+<circle cx="570.8" cy="301.8" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<circle cx="614.3" cy="315.9" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="548.0,236.0 560.1,243.0 560.1,257.0 548.0,264.0 535.9,257.0 535.9,243.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<polygon points="548.0,242.0 554.9,246.0 554.9,254.0 548.0,258.0 541.1,254.0 541.1,246.0" fill="#11151b" stroke="#d8dee6" stroke-width="1"/>
+<polygon points="605.3,245.6 618.3,258.6 605.3,271.6 592.3,258.6" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<polygon points="438.4,274.5 447.4,283.5 438.4,292.5 429.4,283.5" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<line x1="438.4" y1="274.5" x2="438.4" y2="292.5" stroke="#d8dee6" stroke-width="1"/>
+<polygon points="490.7,249.6 499.7,258.6 490.7,267.6 481.7,258.6" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<line x1="490.7" y1="249.6" x2="490.7" y2="267.6" stroke="#d8dee6" stroke-width="1"/>
+<circle cx="657.6" cy="283.5" r="7.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<circle cx="548.0" cy="200.0" r="16.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="548.0,190.0 558.0,200.0 548.0,210.0 538.0,200.0" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="425.0,224.0 434.0,233.0 425.0,242.0 416.0,233.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="425.0" y1="224.0" x2="425.0" y2="242.0" stroke="#333c49" stroke-width="1"/>
+<polygon points="611.7,199.4 620.7,208.4 611.7,217.4 602.7,208.4" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="611.7" y1="199.4" x2="611.7" y2="217.4" stroke="#333c49" stroke-width="1"/>
+<circle cx="484.3" cy="208.4" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="671.0" cy="233.0" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="548.0" cy="152.0" r="11.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="548.0" cy="152.0" r="5.0" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="634.0,155.8 643.0,164.8 634.0,173.8 625.0,164.8" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="634.0" y1="155.8" x2="634.0" y2="173.8" stroke="#333c49" stroke-width="1"/>
+<circle cx="462.0" cy="164.8" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="639.3" cy="475.7" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<polygon points="639.3,462.7 652.3,475.7 639.3,488.7 626.3,475.7" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="631.3" y="470.2" width="16.0" height="13.0" rx="3" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="639.3" y="480.2" font-size="11" fill="#e6b85c" text-anchor="middle" font-weight="700">Q</text>
+<circle cx="619.3" cy="510.2" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<circle cx="619.3" cy="510.2" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<circle cx="684.3" cy="498.3" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<polygon points="684.3,485.3 697.3,498.3 684.3,511.3 671.3,498.3" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<rect x="676.3" y="492.8" width="16.0" height="13.0" rx="3" fill="#11151b" stroke="none" stroke-width="1"/>
+<text x="684.3" y="502.8" font-size="11" fill="#e6b85c" text-anchor="middle" font-weight="700">E</text>
+<polygon points="693.8,444.6 702.8,453.6 693.8,462.6 684.8,453.6" fill="#11151b" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="693.8,444.6 693.8,462.6 684.8,453.6" fill="#e6b85c" stroke="none" stroke-width="1"/>
+<line x1="693.8" y1="444.6" x2="693.8" y2="462.6" stroke="#e6b85c" stroke-width="1"/>
+<circle cx="661.5" cy="537.9" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<circle cx="627.5" cy="568.4" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<circle cx="627.5" cy="568.4" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="717.7,530.0 729.9,537.0 729.9,551.0 717.7,558.0 705.6,551.0 705.6,537.0" fill="#11151b" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="717.7,536.0 724.7,540.0 724.7,548.0 717.7,552.0 710.8,548.0 710.8,540.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<polygon points="681.7,576.3 694.7,589.3 681.7,602.3 668.7,589.3" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="743.5,423.3 752.5,432.3 743.5,441.3 734.5,432.3" fill="#11151b" stroke="#e6b85c" stroke-width="2"/>
+<polygon points="743.5,423.3 743.5,441.3 734.5,432.3" fill="#e6b85c" stroke="none" stroke-width="1"/>
+<line x1="743.5" y1="423.3" x2="743.5" y2="441.3" stroke="#e6b85c" stroke-width="1"/>
+<circle cx="739.0" cy="490.1" r="23.0" fill="none" stroke="#ffffff" stroke-width="1.5"/>
+<polygon points="739.0,481.1 748.0,490.1 739.0,499.1 730.0,490.1" fill="#11151b" stroke="#62c6d6" stroke-width="2" stroke-dasharray="3 3"/>
+<line x1="739.0" y1="481.1" x2="739.0" y2="499.1" stroke="#62c6d6" stroke-width="1"/>
+<circle cx="633.9" cy="622.2" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<circle cx="633.9" cy="622.2" r="7.0" fill="#11151b" stroke="#62c6d6" stroke-width="2" stroke-dasharray="3 3"/>
+<circle cx="761.0" cy="569.0" r="16.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="761.0,559.0 771.0,569.0 761.0,579.0 751.0,569.0" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="794.0,437.0 803.0,446.0 794.0,455.0 785.0,446.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="794.0" y1="437.0" x2="794.0" y2="455.0" stroke="#333c49" stroke-width="1"/>
+<polygon points="721.9,610.9 730.9,619.9 721.9,628.9 712.9,619.9" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="721.9" y1="610.9" x2="721.9" y2="628.9" stroke="#333c49" stroke-width="1"/>
+<circle cx="785.6" cy="509.7" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="671.0" cy="659.0" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="802.6" cy="593.0" r="11.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<circle cx="802.6" cy="593.0" r="5.0" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="748.5,652.0 757.5,661.0 748.5,670.0 739.5,661.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<line x1="748.5" y1="652.0" x2="748.5" y2="670.0" stroke="#333c49" stroke-width="1"/>
+<circle cx="834.5" cy="512.1" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="421.6,360.0 425.4,369.1 434.6,373.0 425.4,376.9 421.6,386.0 417.7,376.9 408.6,373.0 417.7,369.1" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<circle cx="674.4" cy="373.0" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<polygon points="674.4,360.0 678.3,369.1 687.4,373.0 678.3,376.9 674.4,386.0 670.6,376.9 661.4,373.0 670.6,369.1" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<circle cx="548.0" cy="592.0" r="19.0" fill="none" stroke="#e6b85c" stroke-width="1" stroke-dasharray="1 3"/>
+<polygon points="548.0,579.0 551.9,588.1 561.0,592.0 551.9,595.9 548.0,605.0 544.1,595.9 535.0,592.0 544.1,588.1" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<polygon points="335.0,310.0 338.8,319.1 348.0,323.0 338.8,326.9 335.0,336.0 331.1,326.9 322.0,323.0 331.1,319.1" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="761.0,310.0 764.9,319.1 774.0,323.0 764.9,326.9 761.0,336.0 757.2,326.9 748.0,323.0 757.2,319.1" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<polygon points="548.0,679.0 551.9,688.1 561.0,692.0 551.9,695.9 548.0,705.0 544.1,695.9 535.0,692.0 544.1,688.1" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<rect x="436.1" y="518.6" width="27.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="461.1" y="529.6" font-size="11.5" fill="#d8dee6" text-anchor="end" font-weight="500">검기</text>
+<rect x="370.2" y="545.4" width="50.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="418.2" y="556.4" font-size="11.5" fill="#d8dee6" text-anchor="end" font-weight="500">질풍베기</text>
+<rect x="276.2" y="548.5" width="85.9" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="360.1" y="559.5" font-size="11.5" fill="#8f9aaa" text-anchor="end" font-weight="500">멈추지 않는 칼</text>
+<rect x="311.6" y="488.3" width="27.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="336.6" y="499.3" font-size="11.5" fill="#8f9aaa" text-anchor="end" font-weight="500">잔상</text>
+<rect x="291.8" y="573.5" width="27.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="316.8" y="584.5" font-size="11.5" fill="#5a6678" text-anchor="end" font-weight="500">무영</text>
+<rect x="495.5" y="322.6" width="56.4" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="523.7" y="333.6" font-size="11.5" fill="#d8dee6" text-anchor="middle" font-weight="500">왕의 방패</text>
+<rect x="487.9" y="272.1" width="67.9" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="521.9" y="283.1" font-size="11.5" fill="#d8dee6" text-anchor="middle" font-weight="500">도발의 함성</text>
+<rect x="519.8" y="220.0" width="56.4" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="548.0" y="231.0" font-size="11.5" fill="#d8dee6" text-anchor="middle" font-weight="500">한 걸음도</text>
+<rect x="597.9" y="229.6" width="27.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="611.4" y="240.6" font-size="11.5" fill="#d8dee6" text-anchor="middle" font-weight="500">불퇴</text>
+<rect x="534.5" y="170.0" width="27.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="548.0" y="181.0" font-size="11.5" fill="#5a6678" text-anchor="middle" font-weight="500">부동</text>
+<rect x="657.3" y="475.8" width="50.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="659.3" y="486.8" font-size="11.5" fill="#d8dee6" text-anchor="start" font-weight="500">내려찍기</text>
+<rect x="701.9" y="499.6" width="67.9" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="703.9" y="510.6" font-size="11.5" fill="#d8dee6" text-anchor="start" font-weight="500">대지 가르기</text>
+<rect x="733.9" y="548.5" width="85.9" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="735.9" y="559.5" font-size="11.5" fill="#d8dee6" text-anchor="start" font-weight="500">성을 부수는 검</text>
+<rect x="694.0" y="599.2" width="27.0" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="696.0" y="610.2" font-size="11.5" fill="#d8dee6" text-anchor="start" font-weight="500">처형</text>
+<rect x="777.2" y="573.5" width="67.9" height="14.0" rx="2" fill="#11151b" stroke="none" stroke-width="1" opacity="0.8"/>
+<text x="779.2" y="584.5" font-size="11.5" fill="#5a6678" text-anchor="start" font-weight="500">벼랑 가르기</text>
+<text x="421.6" y="401.0" font-size="10" fill="#8f9aaa" text-anchor="middle" font-weight="400">섬광 2/5 · 철벽 5/5</text>
+<text x="548.0" y="620.0" font-size="10" fill="#8f9aaa" text-anchor="middle" font-weight="400">파멸 5/5 · 섬광 2/5</text>
+<text x="24.0" y="92.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">태그</text>
+<rect x="58.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="78.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">연쇄</text>
+<rect x="104.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="124.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">설치</text>
+<rect x="150.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<text x="170.0" y="91.3" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">추락</text>
+<rect x="196.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="216.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">수호</text>
+<rect x="242.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="262.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">표식</text>
+<rect x="288.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="308.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">지대</text>
+<rect x="334.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="354.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">소환</text>
+<rect x="380.0" y="76.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="400.0" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">처형</text>
+<text x="432.0" y="92.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">누르면 그 태그의 별·룬·시설이 빛난다</text>
+<text x="884.0" y="92.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">빌드</text>
+<rect x="916.0" y="76.0" width="53.4" height="22.0" rx="11.0" fill="#232c38" stroke="#e6b85c" stroke-width="1"/>
+<text x="942.7" y="91.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">1 추락</text>
+<rect x="975.4" y="76.0" width="36.2" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="993.5" y="91.3" font-size="12" fill="#8f9aaa" text-anchor="middle" font-weight="400">2 —</text>
+<rect x="1017.6" y="76.0" width="36.2" height="22.0" rx="11.0" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="1035.7" y="91.3" font-size="12" fill="#8f9aaa" text-anchor="middle" font-weight="400">3 —</text>
+<rect x="24.0" y="112.0" width="108.0" height="250.0" rx="6" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<polygon points="46.0,121.0 59.0,134.0 46.0,147.0 33.0,134.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<text x="68.0" y="138.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">기술</text>
+<polygon points="46.0,147.0 55.0,156.0 46.0,165.0 37.0,156.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<line x1="46.0" y1="147.0" x2="46.0" y2="165.0" stroke="#d8dee6" stroke-width="1"/>
+<text x="68.0" y="160.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">변형 A | B</text>
+<circle cx="46.0" cy="178.0" r="7.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<text x="68.0" y="182.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">수동</text>
+<rect x="39.0" y="193.0" width="14.0" height="14.0" rx="2" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<text x="68.0" y="204.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">줄기</text>
+<polygon points="46.0,209.0 49.9,218.1 59.0,222.0 49.9,225.9 46.0,235.0 42.1,225.9 33.0,222.0 42.1,218.1" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<text x="68.0" y="226.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">교차</text>
+<polygon points="46.0,230.0 58.1,237.0 58.1,251.0 46.0,258.0 33.9,251.0 33.9,237.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<polygon points="46.0,236.0 52.9,240.0 52.9,248.0 46.0,252.0 39.1,248.0 39.1,240.0" fill="#11151b" stroke="#d8dee6" stroke-width="1"/>
+<text x="68.0" y="248.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">진명</text>
+<circle cx="46.0" cy="266.0" r="16.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<polygon points="46.0,256.0 56.0,266.0 46.0,276.0 36.0,266.0" fill="#11151b" stroke="#d8dee6" stroke-width="1"/>
+<text x="68.0" y="270.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">궁극</text>
+<circle cx="46.0" cy="288.0" r="11.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<circle cx="46.0" cy="288.0" r="5.0" fill="#11151b" stroke="#d8dee6" stroke-width="1"/>
+<text x="68.0" y="292.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">진화</text>
+<circle cx="46.0" cy="308.0" r="7.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="2"/>
+<text x="68.0" y="312.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">깨운 별</text>
+<circle cx="46.0" cy="328.0" r="7.0" fill="#11151b" stroke="#d8dee6" stroke-width="2"/>
+<text x="68.0" y="332.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">깨울 수 있다</text>
+<circle cx="46.0" cy="348.0" r="7.0" fill="#11151b" stroke="#62c6d6" stroke-width="2" stroke-dasharray="3 3"/>
+<text x="68.0" y="352.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">가상 투자</text>
+<rect x="966.0" y="112.0" width="112.0" height="62.0" rx="6" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<circle cx="984.0" cy="132.0" r="7.0" fill="#11151b" stroke="#5a6678" stroke-width="1.2"/>
+<text x="1000.0" y="136.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">아직 멀다</text>
+<circle cx="984.0" cy="156.0" r="7.0" fill="#11151b" stroke="#333c49" stroke-width="1.2"/>
+<text x="1000.0" y="160.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">단계 잠김</text>
+<rect x="1100.0" y="76.0" width="476.0" height="424.0" rx="6" fill="#19202a" stroke="#5a6678" stroke-width="1"/>
+<polygon points="1130.0,99.0 1139.0,108.0 1130.0,117.0 1121.0,108.0" fill="#11151b" stroke="#62c6d6" stroke-width="2" stroke-dasharray="3 3"/>
+<line x1="1130.0" y1="99.0" x2="1130.0" y2="117.0" stroke="#62c6d6" stroke-width="1"/>
+<text x="1154.0" y="104.0" font-size="18" fill="#d8dee6" text-anchor="start" font-weight="700">대지 가르기 1차</text>
+<text x="1154.0" y="122.0" font-size="11.5" fill="#8f9aaa" text-anchor="start" font-weight="400">파멸 · 3단계 · 변형 분기</text>
+<rect x="1466.0" y="92.0" width="76.8" height="23.0" rx="11.5" fill="#11151b" stroke="#e6b85c" stroke-width="1"/>
+<text x="1504.4" y="108.2" font-size="13" fill="#e6b85c" text-anchor="middle" font-weight="700">성광석 22</text>
+<text x="1120.0" y="152.0" font-size="11.5" fill="#8f9aaa" text-anchor="start" font-weight="400">둘 중 하나를 고른다. 왕좌에서 언제든 바꾼다.</text>
+<rect x="1120.0" y="164.0" width="214.0" height="122.0" rx="6" fill="#232c38" stroke="#62c6d6" stroke-width="2"/>
+<text x="1134.0" y="188.0" font-size="14" fill="#d8dee6" text-anchor="start" font-weight="700">A  갈래</text>
+<text x="1320.0" y="188.0" font-size="11" fill="#62c6d6" text-anchor="end" font-weight="700">고름</text>
+<text x="1134.0" y="210.0" font-size="11.5" fill="#d8dee6" text-anchor="start" font-weight="400">양옆 레인으로도 갈라진다(피해와</text>
+<text x="1134.0" y="227.2" font-size="11.5" fill="#d8dee6" text-anchor="start" font-weight="400">밀어냄 60%)</text>
+<rect x="1342.0" y="164.0" width="214.0" height="122.0" rx="6" fill="#11151b" stroke="#5a6678" stroke-width="1"/>
+<text x="1356.0" y="188.0" font-size="14" fill="#d8dee6" text-anchor="start" font-weight="700">B  깊은 틈</text>
+<text x="1356.0" y="210.0" font-size="11.5" fill="#8f9aaa" text-anchor="start" font-weight="400">균열이 6초 동안 남아 그 레인의</text>
+<text x="1356.0" y="227.2" font-size="11.5" fill="#8f9aaa" text-anchor="start" font-weight="400">등반 속도 -40%</text>
+<text x="1120.0" y="312.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">대지 가르기가 이렇게 바뀐다</text>
+<text x="1120.0" y="334.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">닿는 레인</text>
+<text x="1250.0" y="334.0" font-size="12" fill="#d8dee6" text-anchor="start" font-weight="400">1줄</text>
+<text x="1316.0" y="334.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">→</text>
+<text x="1340.0" y="334.0" font-size="12" fill="#62c6d6" text-anchor="start" font-weight="700">3줄 (양옆은 60%)</text>
+<text x="1120.0" y="356.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">피해 · 밀어냄</text>
+<text x="1250.0" y="356.0" font-size="12" fill="#d8dee6" text-anchor="start" font-weight="400">40 · 8</text>
+<text x="1316.0" y="356.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">→</text>
+<text x="1340.0" y="356.0" font-size="12" fill="#62c6d6" text-anchor="start" font-weight="700">40 · 8  /  24 · 4.8</text>
+<text x="1120.0" y="378.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">재사용</text>
+<text x="1250.0" y="378.0" font-size="12" fill="#d8dee6" text-anchor="start" font-weight="400">12초</text>
+<text x="1316.0" y="378.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">→</text>
+<text x="1340.0" y="378.0" font-size="12" fill="#d8dee6" text-anchor="start" font-weight="400">12초</text>
+<text x="1120.0" y="410.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">태그</text>
+<rect x="1156.0" y="394.0" width="40.0" height="22.0" rx="11.0" fill="#232c38" stroke="#e6b85c" stroke-width="1"/>
+<text x="1176.0" y="409.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="400">연쇄</text>
+<text x="1120.0" y="440.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">조건</text>
+<text x="1156.0" y="440.0" font-size="12" fill="#7fc48a" text-anchor="start" font-weight="400">✓ 대지 가르기를 깨웠다     ✓ 3단계 열림</text>
+<rect x="1120.0" y="456.0" width="214.0" height="32.0" rx="5" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="1227.0" y="476.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">가상 투자 취소</text>
+<rect x="1342.0" y="456.0" width="214.0" height="32.0" rx="5" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="1449.0" y="476.3" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">A ↔ B 바꿔 보기</text>
+<rect x="1100.0" y="512.0" width="476.0" height="190.0" rx="6" fill="#19202a" stroke="#5a6678" stroke-width="1"/>
+<text x="1120.0" y="538.0" font-size="15" fill="#d8dee6" text-anchor="start" font-weight="700">공명</text>
+<text x="1162.0" y="538.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">같은 태그 3 / 6 / 9개. 트리 + 룬 + 성물 + 시설</text>
+<text x="1120.0" y="570.0" font-size="12.5" fill="#d8dee6" text-anchor="start" font-weight="400">연쇄</text>
+<rect x="1160.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#62c6d6" stroke="#62c6d6" stroke-width="1"/>
+<rect x="1174.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1188.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1207.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1221.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1235.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1254.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1268.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1282.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1306.0" y="570.0" font-size="12" fill="#62c6d6" text-anchor="start" font-weight="700">0 → 1</text>
+<text x="1348.0" y="570.0" font-size="12.5" fill="#8f9aaa" text-anchor="start" font-weight="400">설치</text>
+<rect x="1388.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1402.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1416.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1435.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1449.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1463.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1482.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1496.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1510.0" y="559.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1534.0" y="570.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="700">0</text>
+<text x="1120.0" y="604.0" font-size="12.5" fill="#d8dee6" text-anchor="start" font-weight="700">추락</text>
+<rect x="1160.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1174.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1188.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1207.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1221.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1235.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#62c6d6" stroke="#62c6d6" stroke-width="1"/>
+<rect x="1254.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1268.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1282.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1306.0" y="604.0" font-size="12" fill="#62c6d6" text-anchor="start" font-weight="700">5 → 6</text>
+<text x="1348.0" y="604.0" font-size="12.5" fill="#d8dee6" text-anchor="start" font-weight="400">수호</text>
+<rect x="1388.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1402.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1416.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1435.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1449.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1463.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1482.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1496.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1510.0" y="593.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1534.0" y="604.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="700">3</text>
+<text x="1120.0" y="638.0" font-size="12.5" fill="#d8dee6" text-anchor="start" font-weight="400">표식</text>
+<rect x="1160.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1174.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1188.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1207.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1221.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1235.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1254.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1268.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1282.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1306.0" y="638.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="700">1</text>
+<text x="1348.0" y="638.0" font-size="12.5" fill="#d8dee6" text-anchor="start" font-weight="400">지대</text>
+<rect x="1388.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1402.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1416.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1435.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1449.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1463.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1482.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1496.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1510.0" y="627.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1534.0" y="638.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="700">1</text>
+<text x="1120.0" y="672.0" font-size="12.5" fill="#8f9aaa" text-anchor="start" font-weight="400">소환</text>
+<rect x="1160.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1174.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1188.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1207.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1221.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1235.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1254.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1268.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1282.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1306.0" y="672.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="700">0</text>
+<text x="1348.0" y="672.0" font-size="12.5" fill="#d8dee6" text-anchor="start" font-weight="400">처형</text>
+<rect x="1388.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="1402.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1416.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1435.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1449.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1463.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1482.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1496.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<rect x="1510.0" y="661.0" width="11.0" height="13.0" rx="2" fill="#11151b" stroke="#333c49" stroke-width="1"/>
+<text x="1534.0" y="672.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="700">1</text>
+<rect x="1100.0" y="712.0" width="476.0" height="50.0" rx="6" fill="#11151b" stroke="#62c6d6" stroke-width="1"/>
+<text x="1116.0" y="733.0" font-size="13" fill="#62c6d6" text-anchor="start" font-weight="700">추락 6 공명이 켜진다</text>
+<text x="1116.0" y="751.0" font-size="12" fill="#d8dee6" text-anchor="start" font-weight="400">떨어진 적이 아래 적을 함께 떨어뜨린다</text>
+<line x1="0.0" y1="764.0" x2="1088.0" y2="764.0" stroke="#333c49" stroke-width="1"/>
+<text x="24.0" y="784.0" font-size="13" fill="#d8dee6" text-anchor="start" font-weight="700">장착</text>
+<text x="24.0" y="802.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">깨운 기술 4</text>
+<text x="24.0" y="818.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">칸은 3</text>
+<rect x="108.0" y="772.0" width="62.0" height="62.0" rx="6" fill="#19202a" stroke="#5a6678" stroke-width="1"/>
+<text x="139.0" y="800.0" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">내려찍기</text>
+<polygon points="159.0,777.0 164.2,780.0 164.2,786.0 159.0,789.0 153.8,786.0 153.8,780.0" fill="#7fd0f0" stroke="#11151b" stroke-width="1"/>
+<circle cx="117.0" cy="826.0" r="3.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<circle cx="127.0" cy="826.0" r="3.0" fill="none" stroke="#e6b85c" stroke-width="1"/>
+<rect x="129.0" y="830.0" width="20.0" height="18.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="139.0" y="843.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">Q</text>
+<rect x="186.0" y="772.0" width="62.0" height="62.0" rx="6" fill="#19202a" stroke="#5a6678" stroke-width="1"/>
+<text x="217.0" y="800.0" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">대지</text>
+<text x="217.0" y="815.0" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">가르기</text>
+<polygon points="237.0,777.0 243.0,787.8 231.0,787.8" fill="#e8843c" stroke="#11151b" stroke-width="1"/>
+<circle cx="195.0" cy="826.0" r="3.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="207.0" y="830.0" width="20.0" height="18.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="217.0" y="843.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">E</text>
+<rect x="264.0" y="772.0" width="62.0" height="62.0" rx="6" fill="#19202a" stroke="#5a6678" stroke-width="1"/>
+<text x="295.0" y="800.0" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">왕의</text>
+<text x="295.0" y="815.0" font-size="12" fill="#d8dee6" text-anchor="middle" font-weight="500">방패</text>
+<circle cx="273.0" cy="826.0" r="3.0" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<rect x="285.0" y="830.0" width="20.0" height="18.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="295.0" y="843.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">R</text>
+<rect x="358.0" y="772.0" width="62.0" height="62.0" rx="6" fill="#11151b" stroke="#333c49" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="389.0" y="801.0" font-size="12" fill="#8f9aaa" text-anchor="middle" font-weight="400">잠김</text>
+<text x="389.0" y="817.0" font-size="10" fill="#8f9aaa" text-anchor="middle" font-weight="400">3장 대파편</text>
+<rect x="379.0" y="830.0" width="20.0" height="18.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="389.0" y="843.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">F</text>
+<text x="450.0" y="784.0" font-size="13" fill="#d8dee6" text-anchor="start" font-weight="700">진명</text>
+<text x="450.0" y="802.0" font-size="11" fill="#8f9aaa" text-anchor="start" font-weight="400">슬롯 1 / 3</text>
+<rect x="516.0" y="772.0" width="150.0" height="62.0" rx="6" fill="#19202a" stroke="#e6b85c" stroke-width="1"/>
+<text x="591.0" y="800.0" font-size="12.5" fill="#d8dee6" text-anchor="middle" font-weight="700">성을 부수는 검</text>
+<text x="591.0" y="818.0" font-size="10.5" fill="#e2645d" text-anchor="middle" font-weight="400">연타를 칠 수 없다</text>
+<rect x="676.0" y="772.0" width="98.0" height="62.0" rx="6" fill="#11151b" stroke="#333c49" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="725.0" y="800.0" font-size="12" fill="#8f9aaa" text-anchor="middle" font-weight="400">잠김</text>
+<text x="725.0" y="818.0" font-size="10" fill="#8f9aaa" text-anchor="middle" font-weight="400">4장 대파편</text>
+<rect x="784.0" y="772.0" width="98.0" height="62.0" rx="6" fill="#11151b" stroke="#333c49" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="833.0" y="800.0" font-size="12" fill="#8f9aaa" text-anchor="middle" font-weight="400">잠김</text>
+<text x="833.0" y="818.0" font-size="10" fill="#8f9aaa" text-anchor="middle" font-weight="400">5장 대파편</text>
+<text x="906.0" y="784.0" font-size="13" fill="#d8dee6" text-anchor="start" font-weight="700">인장</text>
+<polygon points="916.0,799.0 923.8,803.5 923.8,812.5 916.0,817.0 908.2,812.5 908.2,803.5" fill="#7fd0f0" stroke="#11151b" stroke-width="1"/>
+<polygon points="946.0,799.0 955.0,815.2 937.0,815.2" fill="#e8843c" stroke="#11151b" stroke-width="1"/>
+<text x="906.0" y="834.0" font-size="10.5" fill="#8f9aaa" text-anchor="start" font-weight="400">서리 + 화염 = 파열</text>
+<rect x="1100.0" y="772.0" width="300.0" height="62.0" rx="5" fill="#e6b85c" stroke="#e6b85c" stroke-width="1"/>
+<text x="1250.0" y="808.0" font-size="14" fill="#11151b" text-anchor="middle" font-weight="700">깨우기 확정 — 별 2개 · 성광석 44</text>
+<rect x="1410.0" y="772.0" width="166.0" height="28.0" rx="5" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="1493.0" y="790.1" font-size="11.5" fill="#d8dee6" text-anchor="middle" font-weight="500">가상 투자 모두 취소</text>
+<rect x="1410.0" y="806.0" width="166.0" height="28.0" rx="5" fill="#232c38" stroke="#5a6678" stroke-width="1"/>
+<text x="1493.0" y="824.1" font-size="11.5" fill="#d8dee6" text-anchor="middle" font-weight="500">처음부터 재배치 (무료)</text>
+<line x1="0.0" y1="854.0" x2="1600.0" y2="854.0" stroke="#333c49" stroke-width="1"/>
+<rect x="24.0" y="864.0" width="43.0" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="45.5" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">좌클릭</text>
+<text x="72.0" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">가상 투자</text>
+<rect x="148.7" y="864.0" width="43.0" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="170.2" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">우클릭</text>
+<text x="196.7" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">취소</text>
+<rect x="242.7" y="864.0" width="40.8" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="263.1" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">Enter</text>
+<text x="288.5" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">확정</text>
+<rect x="334.5" y="864.0" width="40.8" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="354.9" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">1 2 3</text>
+<text x="380.3" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">기술 칸에 장착</text>
+<rect x="487.8" y="864.0" width="21.0" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="498.3" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">휠</text>
+<text x="513.8" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">확대</text>
+<rect x="559.8" y="864.0" width="22.3" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="570.9" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">F5</text>
+<text x="587.1" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">빌드 저장</text>
+<rect x="663.8" y="864.0" width="28.5" height="19.0" rx="3" fill="#11151b" stroke="#8f9aaa" stroke-width="1"/>
+<text x="678.0" y="877.5" font-size="11" fill="#d8dee6" text-anchor="middle" font-weight="700">Tab</text>
+<text x="697.3" y="878.0" font-size="12" fill="#8f9aaa" text-anchor="start" font-weight="400">닫기</text>
+<circle cx="44.0" cy="70.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="44.0" y="74.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">1</text>
+<circle cx="906.0" cy="70.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="906.0" y="74.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">2</text>
+<circle cx="618.0" cy="392.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="618.0" y="396.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">3</text>
+<circle cx="584.0" cy="584.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="584.0" y="588.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">4</text>
+<circle cx="1084.0" cy="110.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="1084.0" y="114.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">5</text>
+<circle cx="1094.0" cy="70.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="1094.0" y="74.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">6</text>
+<circle cx="1094.0" cy="506.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="1094.0" y="510.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">7</text>
+<circle cx="1094.0" cy="706.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="1094.0" y="710.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">8</text>
+<circle cx="92.0" cy="766.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="92.0" y="770.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">9</text>
+<circle cx="510.0" cy="766.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="510.0" y="770.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">10</text>
+<circle cx="1094.0" cy="766.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="1094.0" y="770.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">11</text>
+<circle cx="1076.0" cy="30.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="1076.0" y="34.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">12</text>
+<circle cx="874.0" cy="398.0" r="11.0" fill="#f3f5f8" stroke="#11151b" stroke-width="2"/>
+<text x="874.0" y="402.5" font-size="12" fill="#11151b" text-anchor="middle" font-weight="700">13</text>
+</svg>

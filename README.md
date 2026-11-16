@@ -19,6 +19,7 @@
 | [전투 규칙](docs/06_combat_rules.md) | 피해와 추락의 규칙, 인장과 반응, 적 15종의 행동, 습격 편성, 보스 5종 |
 | [곶 생성 규칙](docs/07_cape_generation.md) | 땅을 만드는 순서, 타일과 광맥, 자리와 위험, 검증, 만들어 본 땅의 측정값 |
 | [기술 설계서](docs/08_technical_design.md) | 시뮬레이션과 화면의 분리, 틱과 결정성, 저장과 되감기, Unity 쪽 구조, 데이터, 테스트 |
+| [화면 설계서](docs/09_screen_design.md) | 전투 화면, 각성 트리 화면, 시설 건설 화면, 왕좌 메뉴의 와이어프레임. 화면의 흐름, 요소와 상태, 입력 |
 
 ## 도구
 
@@ -54,6 +55,14 @@ python3 tools/cape_gen.py render 7    # 시드 7의 다섯 땅을 그림으로 (
 ```
 
 `data/cape/lands.json`이 규칙의 원본이다. 이 생성기가 Unity 생성기의 기준 구현이다.
+
+화면 설계서의 와이어프레임:
+
+```bash
+python3 tools/ui_wireframes.py
+```
+
+`docs/img/ui_*.svg`를 그린다. 각성 트리 화면은 `data/trees/sword.json`의 노드를 그대로 배치한다.
 
 ## 시뮬레이션 코어
 
