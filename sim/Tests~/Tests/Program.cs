@@ -405,6 +405,26 @@ static partial class Program
             Check(w.Cycle.Phase == Phase.Calm && w.Cycle.TimeLeft == 110f && w.Cycle.Wave == 1, "흠 없는 방어 뒤의 고요는 10초 길다");
             Check(w.Siege.Enemies.Count == 0, "습격이 끝나면 죽은 적을 치운다");
 
+            // 장을 끝내는 때
+            {
+                var v = new World(defs, 3);
+                v.Cycle.Begin(v, ch);
+                Check(v.Cycle.Next.Count == 10, "첫 습격은 열 기");
+                v.Cycle.Wave = 12;
+                WaveDef over = v.Cycle.Next;
+                Check(over.Count == 13 && !over.Final, "열두 습격을 넘기면 열두째 편성이 9% 거세진다(12기 → 13기)");
+                v.Cycle.Wave = 16;
+                Check(v.Cycle.Next.Count > over.Count, "넘길수록 더 거세진다");
+                v.Cycle.Wave = 12;
+                v.Cycle.DeliverFragment();
+                Check(v.Cycle.Next == ch.Onslaught && v.Cycle.Next.Count == 20, "열두 습격 뒤에 부른 총공세는 정해진 편성(20기)");
+                v.Cycle.Wave = 6;
+                int early = v.Cycle.Next.Count;
+                v.Cycle.Wave = 16;
+                int late = v.Cycle.Next.Count;
+                Check(early < 20 && late > 20 && v.Cycle.Next.Final, "일찍 부르면 작고(" + early + "기), 늦게 부르면 크다(" + late + "기)");
+            }
+
             // 스냅숏: 고요 한가운데에서 떠서 다음 습격이 끝난 뒤까지 돌린 것과 견준다
             Steps(w, 30 * 40, new InputFrame());
             byte[] snap = w.Snapshot();
@@ -691,10 +711,13 @@ static partial class Program
     /// 테스트용 광부. 본 게임의 코드가 아니다. 가장 싸게 닿는 광맥으로 파 들어가고, 가득 차거나 부르면 돌아온다.
     /// 땅 전체를 안다(안개가 없다). tools/cape_gen.py의 광부와 같은 셈법이다.
     /// </summary>
+    /// <summary>테스트용 광부의 솜씨. 1이면 쉬지 않는다. 0.55면 캐는 동안 틱의 45%를 헤맨다(사람 보정, 곶 생성 규칙 9장).</summary>
+    static float MinerSkill = 1f;
+
     sealed class Miner
     {
         readonly List<int> path = new List<int>();
-        int plannedAt = -1;
+        int plannedAt = -1, plannedPiles;
         bool plannedHome;
         public bool Exhausted;
 
@@ -713,12 +736,16 @@ static partial class Program
             dist[start] = 0;
             pq.Enqueue(start, 0);
             int goal = -1, entrance = L.Index(L.EntranceX, L.EntranceY);
+            var pile = new bool[n];                 // 들지 못해 남겨 둔 더미도 가지러 간다
+            for (int i = 0; i < w.Cape.Piles.Count; i++)
+                pile[L.Index((int)(w.Cape.Piles[i].X / c.TileM), (int)(w.Cape.Piles[i].Y / c.TileM))] = true;
+            if (!home && pile[start]) { path.Add(start); return; }
             while (pq.Count > 0)
             {
                 int p, d;
                 pq.TryDequeue(out p, out d);
                 if (d > dist[p]) continue;
-                if (p != start && (home ? p == entrance : L.OreKind[p] != Ore.None)) { goal = p; break; }
+                if (p != start && (home ? p == entrance : (L.OreKind[p] != Ore.None || pile[p]))) { goal = p; break; }
                 for (int k = 0; k < 4; k++)
                 {
                     int qx = p % L.W + LandGen.DX[k], qy = p / L.W + LandGen.DY[k];
@@ -759,8 +786,17 @@ static partial class Program
                 if (Math.Abs(gx) < 1.2f) f.MoveY = -1f;
                 return f;
             }
+            if (!home && MinerSkill < 1f && (int)((w.Tick + 1) * MinerSkill) == (int)(w.Tick * MinerSkill)) return f;     // 헤매는 틱
             if (path.Count > 0 && path[0] == here) path.RemoveAt(0);
-            if (path.Count == 0 || plannedAt != cape.TilesDug || plannedHome != home) Plan(w, here, home);
+            if (path.Count == 0 || plannedAt != cape.TilesDug || plannedHome != home || plannedPiles != cape.Piles.Count) Plan(w, here, home);
+            plannedPiles = cape.Piles.Count;
+            if (!home && path.Count == 1 && path[0] == here)
+            {
+                // 더미 위에 섰다. 줍는다
+                path.Clear();
+                if (w.Tick % 2 == 0) f.Held = Buttons.Interact;
+                return f;
+            }
             if (path.Count == 0) return f;
             int next = path[0];
             float dx = next % L.W * m + m * 0.5f - king.CX, dy = next / L.W * m + m * 0.5f - king.CY;
@@ -773,6 +809,9 @@ static partial class Program
 
     /// <summary>테스트용 왕이 성벽에 있을 때, 고요가 이만큼 넘게 남았으면 (다시) 캐러 나간다.</summary>
     static float CampaignAgain = 30f;
+
+    /// <summary>테스트용 왕이 대파편을 가져오는 때. 치른 습격이 이 수에 닿으면. 0이면 땅을 다 캤을 때.</summary>
+    static int CampaignLeaveAt = 12;
 
     sealed class Trip
     {
@@ -802,7 +841,7 @@ static partial class Program
             bool fighting = ph == Phase.Assault || ph == Phase.Onslaught;
             float alarm = defs.King.Alarm[0];
             bool call = (ph == Phase.Alarm && w.Cycle.TimeLeft <= alarm - linger) || (fighting && w.Cycle.AssaultTicks >= (linger - alarm) * World.TickRate);
-            if (w.Cycle.Wave >= ch.Waves.Length) w.Cycle.DeliverFragment();
+            if (CampaignLeaveAt > 0 ? w.Cycle.Wave >= CampaignLeaveAt : (miner.Exhausted && w.King.OnWall)) w.Cycle.DeliverFragment();
             InputFrame f;
             bool wasOut = !w.King.OnWall;
             if (shop != null && !wasOut && ph == Phase.Calm) shop(w);

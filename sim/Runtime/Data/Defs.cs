@@ -31,6 +31,31 @@ namespace LostRegalia.Sim
         public bool Elite;
         public bool Final;                                      // 총공세
         public List<KeyValuePair<string, int>> Units = new List<KeyValuePair<string, int>>();
+
+        /// <summary>적의 수를 비율만큼 늘리거나 줄인 편성. 가장 많은 적은 적어도 하나 남는다.</summary>
+        public WaveDef Scaled(float scale)
+        {
+            var w = new WaveDef { Elite = Elite, Final = Final };
+            int most = 0;
+            for (int i = 1; i < Units.Count; i++) if (Units[i].Value > Units[most].Value) most = i;
+            for (int i = 0; i < Units.Count; i++)
+            {
+                int n = (int)(Units[i].Value * scale + 0.5f);
+                if (i == most && n < 1) n = 1;
+                if (n > 0) w.Units.Add(new KeyValuePair<string, int>(Units[i].Key, n));
+            }
+            return w;
+        }
+
+        public int Count
+        {
+            get
+            {
+                int n = 0;
+                for (int i = 0; i < Units.Count; i++) n += Units[i].Value;
+                return n;
+            }
+        }
     }
 
     /// <summary>장 하나의 습격들. 정규 습격이 차례로, 총공세가 따로.</summary>
@@ -80,7 +105,7 @@ namespace LostRegalia.Sim
         public float WallLength, WallWidth;
         public float ReturnMinAway, ReturnMaxAway, ReturnMaxBonus, ReturnDuration, ReturnShockRadius, ReturnShockKnock;
         public float[] SpawnWindow, Calm, Alarm;                // 장마다(0이 1장)
-        public float FlawlessBonus;
+        public float FlawlessBonus, BudgetGrowth;
         public float EnemyReach, EnemyInterval, EnemyStand;
         public float RangedInterval, RangedAim;                 // 바위턱의 적이 쏘는 간격과 조준 시간
         public float LadderRaise, LadderHp, LadderGrip, LadderClimbMul;     // 성벽 위의 적이 왕을 치는 거리와 간격, 서는 자리
@@ -231,6 +256,7 @@ namespace LostRegalia.Sim
             k.Calm = J.Nums(assault["calm_by_chapter"]);
             k.Alarm = J.Nums(assault["alarm_by_chapter"]);
             k.FlawlessBonus = J.Num(assault["flawless_bonus"]);
+            k.BudgetGrowth = J.Num(assault["budget_growth"]);
             var melee = J.Obj(o["enemy_melee"]);
             k.EnemyReach = J.Num(melee["reach"]);
             k.EnemyInterval = J.Num(melee["interval"]);

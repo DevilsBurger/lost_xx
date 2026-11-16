@@ -104,6 +104,8 @@ static partial class Program
         if (what == "bolt" || what == "all") TuneBolt(root);
         if (what == "fort" || what == "all") TuneFort(root);
         if (what == "empty" || what == "all") TuneEmpty(root);
+        if (what == "greed" || what == "all") TuneGreed(root);
+        if (what == "leave" || what == "all") TuneLeave(root);
         return 0;
     }
 
@@ -219,6 +221,59 @@ static partial class Program
                 Console.WriteLine("  " + (pack.Key + ", 습격 " + (wave + 1)).PadRight(40 - KoreanExtra(pack.Key + ", 습격 ")) + at[0].ToString("0").PadLeft(6) + at[1].ToString("0").PadLeft(6)
                                   + at[2].ToString("0").PadLeft(6) + "   함락 " + (fall / 30f).ToString("0") + "초");
             }
+    }
+
+    static void TuneGreed(string root)
+    {
+        Console.WriteLine("[탐욕] 사람만큼 캐는 광부(솜씨 0.55)와 쉬지 않는 광부(1.0). 채굴 위력 2, 시드 열 개, 수리 없음");
+        Console.WriteLine("  " + "".PadRight(40) + "성광석  나간 수  비운 분    성벽  흠없음  왕 피해  승리");
+        Action<World> f1 = w => { if (!w.Build.Awake[w.Build.Tree.Index("F1")]) { w.Economy.Star += 8; w.Build.Awaken(w, "F1"); } };
+        foreach (float skill in new[] { 1f, 0.55f })
+        {
+            MinerSkill = skill;
+            Console.WriteLine("  -- 솜씨 " + skill);
+            foreach (float linger in new[] { -15f, 0f, 10f, 20f, 30f, 40f })
+                CampaignRow("종 뒤 " + linger.ToString("0") + "초에 돌아섬", Load(root), linger, 15f, f1);
+        }
+        MinerSkill = 1f;
+    }
+
+    static void TuneLeave(string root)
+    {
+        Console.WriteLine("[언제 끝낼까] 대파편을 가져오는 때에 따라. 사람만큼 캐는 광부(0.55), 종 뒤 20초에 돌아서는 느슨한 왕, 채굴 위력 2, 시드 열 개, 수리 없음");
+        Console.WriteLine("  " + "".PadRight(26) + "치른 습격  성광석  흑철  총공세의 적  마지막 습격의 적    성벽   한 장(분)  승리");
+        MinerSkill = 0.55f;
+        Action<World> f1 = w => { if (!w.Build.Awake[w.Build.Tree.Index("F1")]) { w.Economy.Star += 8; w.Build.Awaken(w, "F1"); } };
+        foreach (int at in new[] { 6, 8, 10, 12, 14, 16, 0 })
+        {
+            CampaignLeaveAt = at;
+            CampaignAgain = 15f;
+            double star = 0, iron = 0, wall = 0, wins = 0, waves = 0, mins = 0, final = 0, last = 0;
+            for (ulong seed = 1; seed <= 10; seed++)
+            {
+                Kit kit = Load(root);
+                float away;
+                int flawless, finalCount = 0, lastCount = 0;
+                var trips = new List<Trip>();
+                World w = Campaign(kit.Defs, kit.Cape, kit.Ch, seed, 2, 20f, trips, out away, out flawless, f1, kit.Tree, kit.Castle);
+                foreach (Trip t in trips) { star += t.Star; iron += t.Iron; }
+                wall += w.Siege.WallMax - w.Siege.WallHp; waves += w.Cycle.Wave; mins += w.Tick / 1800.0;
+                if (w.Cycle.Phase == Phase.Victory) wins++;
+                finalCount = w.Cycle.Next.Count;                       // 승리한 뒤에도 총공세의 편성을 가리킨다
+                w.Cycle.FragmentHome = false;
+                int back = w.Cycle.Wave;
+                w.Cycle.Wave = Math.Max(0, back - 1);
+                lastCount = w.Cycle.Next.Count;
+                final += finalCount; last += lastCount;
+            }
+            string name = at == 0 ? "땅을 다 캤을 때" : at + "번째 습격 뒤";
+            Console.WriteLine("  " + name.PadRight(26 - KoreanExtra(name)) + (waves / 10).ToString("0.0").PadLeft(8) + (star / 10).ToString("0").PadLeft(8) + (iron / 10).ToString("0").PadLeft(6)
+                              + (final / 10).ToString("0.0").PadLeft(11) + (last / 10).ToString("0.0").PadLeft(15) + ("-" + (wall / 10).ToString("0")).PadLeft(12)
+                              + (mins / 10).ToString("0.0").PadLeft(10) + wins.ToString("0").PadLeft(7));
+        }
+        CampaignLeaveAt = 12;
+        CampaignAgain = 30f;
+        MinerSkill = 1f;
     }
 
     static void TuneBolt(string root)

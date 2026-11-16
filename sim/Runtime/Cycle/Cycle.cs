@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -55,6 +56,7 @@ namespace LostRegalia.Sim
         public void Begin(World w, ChapterDef def)
         {
             chapter = def;
+            growth = w.Defs.King.BudgetGrowth;
             Wave = 0;
             FragmentHome = false;
             FlawlessCount = Retreated = 0;
@@ -62,19 +64,28 @@ namespace LostRegalia.Sim
         }
 
         /// <summary>저장을 새 World에 불러올 때. 상태는 스냅숏이, 편성은 데이터가 준다.</summary>
-        public void Attach(ChapterDef def)
+        public void Attach(ChapterDef def, float budgetGrowth)
         {
             chapter = def;
+            growth = budgetGrowth;
         }
 
-        /// <summary>다음에 올 습격. 정규 습격을 다 치른 뒤에는 마지막 편성이 되풀이된다.</summary>
+        float growth = 1f;
+
+        /// <summary>
+        /// 다음에 올 습격. 장을 끝내는 때는 왕이 정한다.
+        /// 정해진 습격을 다 치르고도 대파편을 가져오지 않으면 마지막 편성이 습격마다 거세진다(위협 예산의 성장률만큼).
+        /// 총공세는 그때까지 치른 습격의 수를 따른다. 일찍 부르면 작고, 늦게 부르면 크다.
+        /// </summary>
         public WaveDef Next
         {
             get
             {
                 if (chapter == null) return null;
-                if (FragmentHome) return chapter.Onslaught;
-                return chapter.Waves[Wave < chapter.Waves.Length ? Wave : chapter.Waves.Length - 1];
+                int regular = chapter.Waves.Length;
+                if (FragmentHome) return Wave == regular ? chapter.Onslaught : chapter.Onslaught.Scaled((float)Math.Pow(growth, Wave - regular));
+                if (Wave < regular) return chapter.Waves[Wave];
+                return chapter.Waves[regular - 1].Scaled((float)Math.Pow(growth, Wave - regular + 1));
             }
         }
 
