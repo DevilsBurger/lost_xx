@@ -64,9 +64,11 @@ namespace LostRegalia.Sim
             }
         }
 
-        public void Step(int tick, float dt)
+        /// <summary>틱 하나. king이 없으면(null) 성벽이 비어 있는 것으로 본다.</summary>
+        public void Step(int tick, float dt, King king = null)
         {
             KingDef k = defs.King;
+            bool parried = false;
             for (int q = Queue.Count - 1; q >= 0; q--)
             {
                 if (Queue[q].Tick > tick) continue;
@@ -103,13 +105,31 @@ namespace LostRegalia.Sim
                     case EnemyState.Mounting:
                         RegenGrip(ref e, d, k, dt);
                         e.Timer -= dt;
-                        if (e.Timer <= 0f) e.State = EnemyState.OnWall;
+                        if (e.Timer <= 0f)
+                        {
+                            e.State = EnemyState.OnWall;
+                            e.Timer = 0f;
+                        }
                         break;
                     case EnemyState.Perched:
                         RegenGrip(ref e, d, k, dt);
                         break;
                     case EnemyState.OnWall:
-                        WallHp = Math.Max(0f, WallHp - d.WallDps * dt);
+                        // 왕이 닿는 거리에 있으면 왕을 친다. 아니면 성벽을 깎는다
+                        if (d.KingDamage > 0f && king != null && king.Targetable && Near(king, e.Lane, k))
+                        {
+                            e.Timer += dt;
+                            if (e.Timer >= k.EnemyInterval)
+                            {
+                                e.Timer = 0f;
+                                if (king.TakeHit(d.KingDamage)) parried = true;
+                            }
+                        }
+                        else
+                        {
+                            e.Timer = 0f;
+                            WallHp = Math.Max(0f, WallHp - d.WallDps * dt);
+                        }
                         break;
                     case EnemyState.Grounded:
                         e.Timer -= dt;
@@ -124,6 +144,13 @@ namespace LostRegalia.Sim
                 }
                 Enemies[i] = e;
             }
+            if (parried) king.CounterWave(this);
+        }
+
+        static bool Near(King king, int lane, KingDef k)
+        {
+            float dx = k.LaneX(lane) - king.X, dy = k.EnemyStand - king.Y;
+            return dx * dx + dy * dy <= k.EnemyReach * k.EnemyReach;
         }
 
         static void RegenGrip(ref Enemy e, EnemyDef d, KingDef k, float dt)
@@ -136,6 +163,12 @@ namespace LostRegalia.Sim
         public void Knock(int i, float amount)
         {
             Enemy e = Enemies[i];
+            if (e.State == EnemyState.OnWall)
+            {
+                // 성벽 위의 적은 붙잡기가 깎이지 않는다. 한 번의 밀어냄이 붙잡기를 넘으면 벼랑 밖으로 떨어진다
+                if (amount >= defs.Enemies[e.Def].Grip) Drop(i);
+                return;
+            }
             if (e.State != EnemyState.Climbing && e.State != EnemyState.Mounting && e.State != EnemyState.Perched) return;
             e.Grip -= e.State == EnemyState.Mounting ? amount * 2f : amount;
             e.SinceKnock = 0f;

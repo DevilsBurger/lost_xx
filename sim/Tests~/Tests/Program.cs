@@ -37,58 +37,229 @@ static class Program
         return list;
     }
 
-    /// <summary>테스트용 왕. 가장 급한 레인으로 가서 강공격을 한다. 본 게임의 코드가 아니다.</summary>
-    sealed class Bot
+    /// <summary>
+    /// 테스트용 왕. 본 게임의 코드가 아니다. 상태를 읽고 입력만 만든다. 받아치기와 대시는 쓰지 않는다.
+    /// 가장 급한 적의 레인으로 걸어가 강공격을 모아 친다.
+    /// </summary>
+    static InputFrame Bot(World w)
     {
-        float cooldown;
-        int lane = 3;
-
-        public void Step(World w)
+        KingDef k = w.Defs.King;
+        var es = w.Siege.Enemies;
+        var f = new InputFrame { AimY = -1f };
+        int best = -1;
+        float score = -1f;
+        for (int i = 0; i < es.Count; i++)
         {
-            cooldown -= World.Dt;
-            if (cooldown > 0f) return;
-            KingDef k = w.Defs.King;
-            var es = w.Siege.Enemies;
-            int best = -1;
-            float score = -1f;
-            for (int i = 0; i < es.Count; i++)
-            {
-                float s = -1f;
-                if (es[i].State == EnemyState.OnWall) s = 100f;
-                else if (es[i].State == EnemyState.Mounting) s = 50f;
-                else if (es[i].State == EnemyState.Climbing && es[i].Height >= k.CliffHeight - k.ReachBelow) s = es[i].Height;
-                if (s > score) { score = s; best = i; }
-            }
-            if (best < 0) return;
-            int target = es[best].Lane;
-            float travel = Math.Abs(target - lane) * k.LaneGap / k.Speed;
-            lane = target;
-            for (int i = 0; i < es.Count; i++)
-            {
-                if (es[i].Lane != lane) continue;
-                bool inBand = es[i].State == EnemyState.Mounting ||
-                              (es[i].State == EnemyState.Climbing && es[i].Height >= k.CliffHeight - k.ReachBelow);
-                if (inBand) w.Siege.Knock(i, k.ChargeKnock);                          // 밀어냄이 먼저
-                if (es[i].State == EnemyState.OnWall || (inBand && es[i].State != EnemyState.Dead && es[i].State != EnemyState.Grounded))
-                    w.Siege.Damage(i, k.ChargeDamage);
-            }
-            cooldown = travel + k.ChargeTime + k.ChargeRecover;
+            float s = -1f;
+            if (es[i].State == EnemyState.OnWall) s = 100f;
+            else if (es[i].State == EnemyState.Mounting) s = 50f;
+            else if (es[i].State == EnemyState.Climbing) s = es[i].Height;
+            if (s > score) { score = s; best = i; }
         }
+        if (best < 0) return f;
+        float dx = k.LaneX(es[best].Lane) - w.King.X;
+        float dy = 1.5f - w.King.Y;
+        if (Math.Abs(dx) > 0.3f) f.MoveX = Math.Sign(dx);
+        if (Math.Abs(dy) > 0.2f) f.MoveY = Math.Sign(dy);
+        bool reachable = es[best].State != EnemyState.Climbing || es[best].Height >= k.CliffHeight - k.ReachBelow;
+        bool ready = w.King.Charge >= k.ChargeTime && Math.Abs(dx) <= 1.5f && reachable;
+        if (!ready) f.Held = Buttons.Attack;        // 모은다. 다 모았고 닿으면 뗀다
+        return f;
     }
 
     static World Run(Defs defs, ulong seed, List<KeyValuePair<string, int>> units, float window, bool withBot, int maxTicks, out int ticks)
     {
         var w = new World(defs, seed);
+        w.King.OnWall = withBot;                    // 지키지 않는 판에서는 왕이 성벽에 없다
         w.StartAssault(units, window);
-        var bot = withBot ? new Bot() : null;
         ticks = 0;
         while (ticks < maxTicks && w.Siege.Active)
         {
-            if (bot != null) bot.Step(w);
-            w.Step();
+            if (withBot) w.Step(Bot(w)); else w.Step();
             ticks++;
         }
         return w;
+    }
+
+    static void Steps(World w, int n, InputFrame f)
+    {
+        for (int i = 0; i < n; i++) w.Step(f);
+    }
+
+    static void Tap(World w, Buttons b)
+    {
+        w.Step(new InputFrame { Held = b });
+        w.Step(new InputFrame());
+    }
+
+    static void Put(World w, string id, int lane, EnemyState state, float height)
+    {
+        EnemyDef d = w.Defs.Enemies[w.Defs.EnemyIndex(id)];
+        w.Siege.Enemies.Add(new Enemy { Def = w.Defs.EnemyIndex(id), Lane = lane, Height = height, Hp = d.Hp, Grip = d.Grip, SinceKnock = 999f, State = state });
+    }
+
+    static void KingTests(Defs defs)
+    {
+        KingDef k = defs.King;
+        float mid = k.WallLength * 0.5f;
+        Func<World> at = () =>
+        {
+            var w = new World(defs, 1);
+            w.King.X = k.LaneX(2);
+            w.King.Y = 2f;
+            return w;
+        };
+
+        Section("왕: 이동과 대시");
+        {
+            var w = new World(defs, 1);
+            Check(w.King.X == mid && w.King.Hp == k.Hp, "성벽 가운데에서 가득 찬 체력으로 시작한다");
+            Steps(w, 30, new InputFrame { MoveX = 1f });
+            Check(Math.Abs(w.King.X - (mid + k.Speed)) < 0.01f, "1초에 6m를 걷는다");
+            Steps(w, 30, new InputFrame { MoveX = 3f, MoveY = 4f });
+            Check(Math.Abs(w.King.X - (mid + k.Speed + k.Speed * 0.6f)) < 0.01f, "입력이 1을 넘어도 속도는 같다");
+            Steps(w, 300, new InputFrame { MoveX = 1f, MoveY = -1f });
+            Check(w.King.X == k.WallLength && w.King.Y == 0f, "성벽 밖으로 나가지 않는다");
+
+            w = new World(defs, 1);
+            w.Step(new InputFrame { MoveX = -1f, Held = Buttons.Dash });
+            Check(w.King.Mode == KingMode.Dashing && w.King.IFrame > 0f, "대시하는 동안 무적이다");
+            Steps(w, 5, new InputFrame { Held = Buttons.Dash });
+            Check(Math.Abs(w.King.X - (mid - k.DashDistance)) < 0.01f && w.King.Mode == KingMode.Normal, "대시는 7m를 간다");
+            float x = w.King.X;
+            Tap(w, Buttons.Dash);
+            Check(w.King.X == x, "재사용 대기 중에는 대시가 나가지 않는다");
+            Steps(w, 60, new InputFrame());
+            w.Step(new InputFrame { Held = Buttons.Dash });
+            Check(w.King.Mode == KingMode.Dashing && w.King.DashDY == -1f, "2초 뒤에 다시 나간다. 서 있으면 조준한 쪽으로");
+        }
+
+        Section("왕: 연타");
+        {
+            var w = at();
+            Put(w, "porter", 2, EnemyState.OnWall, k.CliffHeight);
+            float hp = w.Siege.Enemies[0].Hp;
+            Tap(w, Buttons.Attack);
+            Check(w.Siege.Enemies[0].Hp == hp - k.BasicDamage[0], "첫 타 12");
+            Tap(w, Buttons.Attack);
+            Check(w.Siege.Enemies[0].Hp == hp - k.BasicDamage[0], "동작이 끝나기 전에는 다음 타가 나가지 않는다");
+            Steps(w, 12, new InputFrame());
+            Check(w.Siege.Enemies[0].Hp == hp - 24f && w.King.Swings == 2, "미리 누른 한 번은 동작이 끝나면 나간다");
+            Steps(w, 10, new InputFrame());
+            Tap(w, Buttons.Attack);
+            Check(w.Siege.Enemies[0].Hp == hp - 44f, "셋째 타 20");
+            Steps(w, 60, new InputFrame());
+            Tap(w, Buttons.Attack);
+            Check(w.Siege.Enemies[0].Hp == hp - 56f, "쉬었다 치면 첫 타로 돌아간다");
+
+            w = at();
+            Put(w, "porter", 2, EnemyState.OnWall, k.CliffHeight);
+            for (int i = 0; i < 63; i++) w.Step(new InputFrame { Held = i % 2 == 0 ? Buttons.Attack : Buttons.None });
+            Check(w.King.Swings == 6, "두 틱에 한 번씩 눌러 대면 2.1초에 여섯 타(연타 두 바퀴)");
+
+            w = at();
+            Put(w, "climber", 2, EnemyState.Climbing, 16f);
+            Put(w, "climber", 2, EnemyState.Climbing, 14f);
+            Put(w, "climber", 4, EnemyState.Climbing, 17f);
+            Tap(w, Buttons.Attack);
+            Check(w.Siege.Enemies[0].Hp == 18f, "턱밑 띠의 적에게 닿는다");
+            Check(w.Siege.Enemies[1].Hp == 30f, "띠 아래의 적에게는 닿지 않는다");
+            Check(w.Siege.Enemies[2].Hp == 30f, "두 레인 옆의 적에게는 닿지 않는다");
+            w.Step(new InputFrame { AimY = 1f, Held = Buttons.Attack });
+            Steps(w, 12, new InputFrame { AimY = 1f });
+            Check(w.Siege.Enemies[0].Hp == 18f, "등 뒤는 베지 못한다");
+        }
+
+        Section("왕: 강공격");
+        {
+            var w = at();
+            Put(w, "climber", 2, EnemyState.Climbing, 17f);
+            Put(w, "climber", 2, EnemyState.Climbing, 10f);
+            Steps(w, 17, new InputFrame { Held = Buttons.Attack });
+            Steps(w, 1, new InputFrame());
+            Check(w.Siege.Enemies[0].Hp == 18f, "덜 모으고 떼면 연타가 나간다");
+            Steps(w, 30, new InputFrame());
+            Steps(w, 19, new InputFrame { Held = Buttons.Attack });
+            Check(w.Siege.Drops == 0, "누르고 있는 동안에는 나가지 않는다");
+            Steps(w, 1, new InputFrame());
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Siege.FallKills == 1, "0.6초를 모아 떼면 등반병이 떨어져 죽는다");
+            Check(w.Siege.Enemies[1].Hp == 20f, "떨어진 적이 아래의 적을 덮친다");
+
+            w = at();
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Put(w, "shield", 2, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 19, new InputFrame { Held = Buttons.Attack, AimY = 1f });
+            Steps(w, 1, new InputFrame());
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Siege.FallKills == 1, "성벽 위의 등반병은 강공격에 벼랑 밖으로 떨어진다");
+            Check(w.Siege.Enemies[1].State == EnemyState.OnWall && w.Siege.Enemies[1].Hp == 45f - k.ChargeDamage, "방패병은 버티고 피해만 받는다. 강공격은 방향을 가리지 않는다");
+        }
+
+        Section("왕: 맞기, 받아치기, 쓰러짐");
+        {
+            var w = at();
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 35, new InputFrame());
+            Check(w.King.Hp == k.Hp && w.Siege.WallHp == k.WallHp, "왕이 곁에 있으면 적은 성벽 대신 왕을 노린다");
+            Steps(w, 2, new InputFrame());
+            Check(w.King.Hp < k.Hp && w.King.Hp >= k.Hp - 8f && w.King.DamageTaken == 8f, "1.2초마다 한 번 친다(등반병 8)");
+
+            w = at();
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Put(w, "climber", 3, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 37, new InputFrame());
+            Check(w.King.DamageTaken == 8f, "둘이 함께 쳐도 한 번만 맞는다(피격 후 무적)");
+
+            w = at();
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Put(w, "shield", 3, EnemyState.Climbing, 17f);
+            w.King.X += 1.5f;
+            w.King.Y = 1f;
+            Steps(w, 33, new InputFrame());
+            w.Step(new InputFrame { Held = Buttons.Guard });
+            Steps(w, 4, new InputFrame());
+            Check(w.King.Parries == 1 && w.King.DamageTaken == 0f, "맞는 순간에 받아치면 피해가 없다");
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead, "반격파가 친 적을 벼랑 밖으로 떨어뜨린다");
+            Check(w.Siege.Enemies[1].Grip == 12f - k.ParryKnock && w.Siege.Enemies[1].Hp == 45f - k.ParryDamage, "반격파는 옆 레인의 턱밑 띠에도 닿는다");
+
+            w = at();
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            w.Step(new InputFrame { Held = Buttons.Guard });
+            Steps(w, 40, new InputFrame());
+            Check(w.King.Parries == 0 && w.King.DamageTaken == 8f, "너무 일찍 누르면 맞는다");
+
+            w = at();
+            Put(w, "porter", 2, EnemyState.OnWall, k.CliffHeight);
+            w.King.Hp = 10f;
+            Steps(w, 37, new InputFrame { MoveX = 1f });
+            w.King.X = k.LaneX(2);
+            Steps(w, 40, new InputFrame());
+            Check(w.King.Mode == KingMode.Downed && w.King.Downs == 1, "체력이 다하면 쓰러진다");
+            float wall = w.Siege.WallHp;
+            Steps(w, 60, new InputFrame { MoveX = 1f, Held = Buttons.Attack });
+            Check(w.King.X == k.LaneX(2) && w.King.Swings == 0, "쓰러져 있는 동안에는 조작이 없다");
+            Check(w.Siege.WallHp < wall, "그동안 적은 성벽을 깎는다");
+            Steps(w, 125, new InputFrame());
+            Check(w.King.Mode == KingMode.Normal && w.King.Hp >= k.Hp - 16f && w.King.Downs == 1, "6초 뒤에 가득 찬 체력으로 일어난다");
+
+            w = at();
+            w.King.OnWall = false;
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 60, new InputFrame { MoveX = 1f });
+            Check(w.King.DamageTaken == 0f && w.Siege.WallHp < k.WallHp, "성벽을 비우면 적은 성벽을 깎는다");
+        }
+
+        Section("왕: 입력으로 되감기");
+        {
+            var w = new World(defs, 5);
+            w.StartAssault(new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>("climber", 12) }, 20f);
+            for (int i = 0; i < 900; i++) w.Step(Bot(w));
+            byte[] snap = w.Snapshot();
+            for (int i = 0; i < 600; i++) w.Step(Bot(w));
+            ulong after = w.StateHash();
+            w.Restore(snap);
+            for (int i = 0; i < 600; i++) w.Step(Bot(w));
+            Check(w.StateHash() == after, "왕이 싸우는 도중의 스냅숏으로 되돌려도 같은 상태에 닿는다");
+        }
     }
 
     static int Main()
@@ -159,6 +330,8 @@ static class Program
             Check(w.Siege.Enemies[0].State == EnemyState.Dead, "올라서는 방패병은 강공격 한 번에 떨어진다");
         }
 
+        KingTests(defs);
+
         Section("결정성과 되감기");
         var wave1 = Wave(J.Obj(waves[0]));
         var wave12 = Wave(J.Obj(waves[11]));
@@ -196,7 +369,12 @@ static class Program
                               + " (" + (ticks / 30f).ToString("0") + "초에 끝, 추락사 " + kept.Siege.FallKills + ")");
             World last = Run(defs, 7, wave12, 35f, true, 30 * 180, out ticks);
             Console.WriteLine("  1장 열두째 습격: 지키면 성벽 -" + (k.WallHp - last.Siege.WallHp).ToString("0")
-                              + " (" + (ticks / 30f).ToString("0") + "초, 처치 " + last.Siege.Kills + ", 추락사 " + last.Siege.FallKills + ")");
+                              + " (" + (ticks / 30f).ToString("0") + "초, 처치 " + last.Siege.Kills + ", 추락사 " + last.Siege.FallKills
+                              + ", 왕이 받은 피해 " + last.King.DamageTaken.ToString("0") + ", 휘두른 횟수 " + last.King.Swings + ")");
+            World all = Run(defs, 7, Wave(J.Obj(waves[waves.Count - 1])), 35f, true, 30 * 120, out ticks);
+            Console.WriteLine("  1장 총공세: 지키면 성벽 -" + (k.WallHp - all.Siege.WallHp).ToString("0")
+                              + " (" + (ticks / 30f).ToString("0") + "초, 처치 " + all.Siege.Kills + ", 왕이 받은 피해 " + all.King.DamageTaken.ToString("0")
+                              + ", 쓰러짐 " + all.King.Downs + "). 바위턱의 석궁수 " + (20 - all.Siege.Kills) + "기는 칼이 닿지 않아 남는다");
         }
 
         Section("성능");

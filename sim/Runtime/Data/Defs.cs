@@ -32,6 +32,19 @@ namespace LostRegalia.Sim
         public float ReachBelow;
         public float Speed;
 
+        public float Hp, RegenOnWall, HitIFrame, Revive;
+        public float DashDistance, DashTime, DashIFrame, DashCooldown;
+        public float BasicRadius, BasicArc, ComboGrace, ChargeRadius;
+        public float ParryWindow, ParryDamage, ParryRadius, ParryKnock, ParryCooldown;
+        public float WallLength, WallWidth;
+        public float EnemyReach, EnemyInterval, EnemyStand;     // 성벽 위의 적이 왕을 치는 거리와 간격, 서는 자리
+
+        /// <summary>레인의 x 자리. 레인들은 성벽 가운데에 모여 있다.</summary>
+        public float LaneX(int lane)
+        {
+            return WallLength * 0.5f + (lane - (Lanes - 1) * 0.5f) * LaneGap;
+        }
+
         public float CliffHeight, LedgeHeight, LaneGap, MountTime;
         public int Lanes;
 
@@ -133,7 +146,34 @@ namespace LostRegalia.Sim
                 k.CollideDamage[i] = J.Num(cd[sizes[i]]);
                 k.CollideKnock[i] = J.Num(ck[sizes[i]]);
             }
-            k.WallHp = J.Num(J.Obj(o["wall"])["hp"]);
+            var wall = J.Obj(o["wall"]);
+            k.WallHp = J.Num(wall["hp"]);
+            k.WallLength = J.Num(wall["length"]);
+            k.WallWidth = J.Num(wall["width"]);
+
+            k.Hp = J.Num(o["hp"]);
+            k.RegenOnWall = J.Num(o["regen_on_wall"]);
+            k.HitIFrame = J.Num(o["hit_iframe"]);
+            k.Revive = J.Num(J.Obj(o["downed"])["revive"]);
+            var dash = J.Obj(o["dash"]);
+            k.DashDistance = J.Num(dash["distance"]);
+            k.DashTime = J.Num(dash["time"]);
+            k.DashIFrame = J.Num(dash["iframe"]);
+            k.DashCooldown = J.Num(dash["cooldown"]);
+            k.BasicRadius = J.Num(basic["radius"]);
+            k.BasicArc = J.Num(basic["arc"]);
+            k.ComboGrace = J.Num(basic["combo_grace"]);
+            k.ChargeRadius = J.Num(ch["radius"]);
+            var parry = J.Obj(o["parry"]);
+            k.ParryWindow = J.Num(parry["window"]);
+            k.ParryDamage = J.Num(parry["damage"]);
+            k.ParryRadius = J.Num(parry["radius"]);
+            k.ParryKnock = J.Num(parry["knock"]);
+            k.ParryCooldown = J.Num(parry["cooldown"]);
+            var melee = J.Obj(o["enemy_melee"]);
+            k.EnemyReach = J.Num(melee["reach"]);
+            k.EnemyInterval = J.Num(melee["interval"]);
+            k.EnemyStand = J.Num(melee["stand"]);
             return k;
         }
     }

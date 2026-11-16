@@ -26,7 +26,8 @@
       4
     ],
     "radius": 2.6,
-    "arc": 120
+    "arc": 120,
+    "combo_grace": 0.5
   },
   "charged": {
     "charge": 0.6,
@@ -50,6 +51,11 @@
   "reach_below": 3.0,
   "downed": {
     "revive": 6
+  },
+  "enemy_melee": {
+    "reach": 4,
+    "interval": 1.2,
+    "stand": 1.0
   },
   "return": {
     "min_away": 10,
@@ -91,7 +97,9 @@
   },
   "wall": {
     "hp": 1000,
-    "repair_per_iron": 50
+    "repair_per_iron": 50,
+    "length": 40,
+    "width": 4
   },
   "assault": {
     "spawn_window": 35,
