@@ -219,6 +219,32 @@ def blocks(k, enemies, sig, waves, by):
     return B
 
 
+def expect(k, enemies):
+    """C# 시뮬레이션(sim/)의 테스트가 대조하는 기대값."""
+    f = k["fall"]
+    cd, ck, kc = f["collide_damage"], f["collide_knock"], k["charged"]["knock"]
+
+    def code(size, e):
+        if cd[size] >= e["hp"]:
+            return "dies"
+        if ck[size] >= e["grip"]:
+            return "falls"
+        if ck[size] * 1.5 >= e["grip"]:
+            return "falls_with_passive"
+        if ck[size] >= e["grip"] * f["frozen_grip"]:
+            return "falls_if_frozen"
+        return "holds"
+
+    return {
+        "fall": {str(h): fall_damage(k, h) for h in (18, 12, 6)},
+        "enemies": {e["id"]: {
+            "charged_to_drop": charged_hits(k, e["grip"], kc)[0],
+            "charged_to_drop_frozen": charged_hits(k, e["grip"] * f["frozen_grip"], kc * f["frozen_knock_taken"])[0],
+            "collide": {"small": code("소", e), "medium": code("중", e), "large": code("대", e)},
+        } for e in enemies if e["grip"] is not None},
+    }
+
+
 def main():
     k = load("data/combat/king.json")
     enemies = load("data/combat/enemies.json")
@@ -231,6 +257,9 @@ def main():
             print(" -", e)
         sys.exit(1)
     B = blocks(k, enemies, sig, waves, by)
+    out = ROOT / "data" / "expect" / "combat.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(expect(k, enemies), ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     if "--print" in sys.argv or not DOC.exists():
         for name, text in B.items():
             print(f"\n### {name}\n{text}")

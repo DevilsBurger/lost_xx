@@ -1,0 +1,108 @@
+{
+ "fall": {
+  "18": 146,
+  "12": 65,
+  "6": 16
+ },
+ "enemies": {
+  "climber": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls_with_passive",
+    "medium": "falls",
+    "large": "dies"
+   }
+  },
+  "shield": {
+   "charged_to_drop": 2,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "holds",
+    "medium": "falls_if_frozen",
+    "large": "dies"
+   }
+  },
+  "crossbow": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls_with_passive",
+    "medium": "falls",
+    "large": "dies"
+   }
+  },
+  "ladder": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls_if_frozen",
+    "medium": "falls_with_passive",
+    "large": "dies"
+   }
+  },
+  "revenant": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls_with_passive",
+    "medium": "falls",
+    "large": "dies"
+   }
+  },
+  "shadow": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls_if_frozen",
+    "medium": "falls_with_passive",
+    "large": "dies"
+   }
+  },
+  "porter": {
+   "charged_to_drop": 2,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "holds",
+    "medium": "holds",
+    "large": "falls_if_frozen"
+   }
+  },
+  "crawler": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls",
+    "medium": "dies",
+    "large": "dies"
+   }
+  },
+  "borer": {
+   "charged_to_drop": 1,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "falls",
+    "medium": "falls",
+    "large": "dies"
+   }
+  },
+  "titan": {
+   "charged_to_drop": 3,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "holds",
+    "medium": "holds",
+    "large": "falls_if_frozen"
+   }
+  },
+  "collector": {
+   "charged_to_drop": 2,
+   "charged_to_drop_frozen": 1,
+   "collide": {
+    "small": "holds",
+    "medium": "holds",
+    "large": "falls_with_passive"
+   }
+  }
+ }
+}

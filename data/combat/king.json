@@ -68,7 +68,8 @@
     "tiers": 3,
     "lanes": 6,
     "lane_gap": 4.0,
-    "ledge_height": 12
+    "ledge_height": 12,
+    "mount_time": 2.0
   },
   "fall": {
     "coef": 0.45,

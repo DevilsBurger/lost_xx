@@ -1,0 +1,7 @@
+{
+  "name": "com.lostregalia.sim",
+  "version": "0.1.0",
+  "displayName": "Lost Regalia Sim",
+  "description": "엔진에 기대지 않는 시뮬레이션 코어. Unity 없이 컴파일되고 테스트된다.",
+  "unity": "6000.0"
+}
