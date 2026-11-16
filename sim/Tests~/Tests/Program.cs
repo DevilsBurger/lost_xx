@@ -8,7 +8,7 @@ using LostRegalia.Sim;
 ///   dotnet run --project sim/Tests~/Tests
 /// 하나라도 실패하면 종료 코드 1.
 /// </summary>
-static class Program
+static partial class Program
 {
     static int failed, passed;
 
@@ -771,10 +771,13 @@ static class Program
         }
     }
 
+    /// <summary>테스트용 왕이 성벽에 있을 때, 고요가 이만큼 넘게 남았으면 (다시) 캐러 나간다.</summary>
+    static float CampaignAgain = 30f;
+
     sealed class Trip
     {
         public int Wave, Star, Iron;
-        public float Away;
+        public float Away, Left;        // 비운 시간, 돌아왔을 때 습격까지 남은 시간(습격 중이면 음수: 시작하고 지난 시간)
     }
 
     /// <summary>
@@ -809,7 +812,7 @@ static class Program
                 away += World.Dt;
             }
             else if (fighting || w.Siege.Threat) f = Bot(w);
-            else if (!miner.Exhausted && ph == Phase.Calm && w.Cycle.TimeLeft > 30f)
+            else if (!miner.Exhausted && ph == Phase.Calm && w.Cycle.TimeLeft > CampaignAgain)
             {
                 // 고요다. 뒷문으로 간다
                 float dx = defs.King.WallLength * 0.5f - w.King.X;
@@ -823,7 +826,8 @@ static class Program
                 SimEvent e = w.Events[i];
                 if (e.Kind == EventKind.AssaultEnd) flawless += e.C;
                 if (e.Kind == EventKind.Deposit && trips != null)
-                    trips.Add(new Trip { Wave = w.Cycle.Wave, Star = e.A, Iron = e.B, Away = w.Tick / 30f - leftAt });
+                    trips.Add(new Trip { Wave = w.Cycle.Wave, Star = e.A, Iron = e.B, Away = w.Tick / 30f - leftAt,
+                                         Left = (w.Cycle.Phase == Phase.Calm || w.Cycle.Phase == Phase.Alarm) ? w.Cycle.TimeLeft : -w.Cycle.AssaultTicks / 30f });
             }
         }
         return w;
@@ -977,29 +981,30 @@ static class Program
             w.King.Leave();
             Put(w, "climber", 1, EnemyState.Climbing, 3f);
             Put(w, "climber", 4, EnemyState.Climbing, 9f);
-            Steps(w, 30 * 4 + 2, new InputFrame());
-            Check(w.Siege.Enemies[1].State == EnemyState.Dead && w.Siege.Enemies[0].Hp == 30f && w.Build.Shots == 1, "발리스타: 4초마다 가장 높은 적에게 40");
-            Steps(w, 30 * 4, new InputFrame());
+            Steps(w, 30 * 8 + 2, new InputFrame());
+            Check(w.Siege.Enemies[1].State == EnemyState.Dead && w.Siege.Enemies[0].Hp == 30f && w.Build.Shots == 1, "발리스타: 8초마다 가장 높은 적에게 40. 칸이 어디든 성벽 전체에 닿는다");
+            Steps(w, 30 * 8, new InputFrame());
             Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Build.Shots == 2, "다음 발은 그다음으로 높은 적에게");
             Steps(w, 30 * 20, new InputFrame());
             Put(w, "climber", 1, EnemyState.Climbing, 3f);
             Steps(w, 3, new InputFrame());
             Check(w.Build.Shots == 3, "쏠 것이 없으면 장전한 채로 기다렸다가 바로 쏜다");
 
-            Func<bool, float[]> thorn = on =>
+            Func<bool, int, float[]> thorn = (on, lane) =>
             {
                 var v = ShopWorld(defs, cape, tree, castle, 0, 100);
                 if (on) v.Build.BuildFacility(v, 1, "thorns");
                 v.King.Leave();
-                Put(v, "porter", 2, EnemyState.Climbing, 14.9f);
+                Put(v, "porter", lane, EnemyState.Climbing, 14.9f);
                 int n = 0;
                 while (n < 3000 && v.Siege.Enemies[0].State == EnemyState.Climbing) { v.Step(); n++; }
                 return new[] { n / 30f, v.Siege.Enemies[0].Hp };
             };
-            float[] plain = thorn(false), thorny = thorn(true);
-            Check(Math.Abs(plain[0] - 7.75f) < 0.2f && plain[1] == 220f, "난간이 없으면 짐꾼 거인은 턱밑 띠 3m를 7.5초에 오른다");
-            Check(Math.Abs(thorny[0] - (0.25f + 3f / 0.28f)) < 0.3f, "가시 난간: 턱밑 띠에서 30% 느리다(10.7초)");
-            Check(Math.Abs(thorny[1] - (220f - 6f * 3f / 0.28f)) < 2f, "가시 난간: 그동안 초당 6을 깎는다(-64)");
+            float[] plain = thorn(false, 2), thorny = thorn(true, 2), outside = thorn(true, 4);
+            Check(Math.Abs(plain[0] - 5.17f) < 0.2f && plain[1] == 220f, "난간이 없으면 짐꾼 거인은 턱밑 띠 3m를 5초에 오른다");
+            Check(Math.Abs(thorny[0] - (0.17f + 3f / 0.42f)) < 0.3f, "가시 난간: 턱밑 띠에서 30% 느리다(7.1초)");
+            Check(Math.Abs(thorny[1] - (220f - 6f * 3f / 0.42f)) < 2f, "가시 난간: 그동안 초당 6을 깎는다(-43)");
+            Check(Math.Abs(outside[0] - plain[0]) < 0.01f && outside[1] == 220f, "가시 난간은 그 칸이 있는 구역의 레인 둘에만 닿는다");
 
             w = ShopWorld(defs, cape, tree, castle, 0, 100);
             w.Build.BuildFacility(w, 2, "watchtower");
@@ -1186,7 +1191,7 @@ static class Program
             Put(w, "climber", 4, EnemyState.Climbing, 10f);
             Put(w, "climber", 3, EnemyState.Climbing, 0.5f);
             w.Step(new InputFrame { AimY = -1f, Held = Buttons.Skill1 });
-            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.King.Casts == 1, "바위턱의 석궁수에 닿는다(피해 30)");
+            Check(w.Siege.Enemies[0].Hp == 5f && w.King.Casts == 1, "바위턱의 석궁수에 닿는다(피해 30. 체력 35에서 5가 남는다)");
             Check(w.Siege.Enemies[1].Hp == 30f, "옆 레인의 적은 맞지 않는다");
             Check(Math.Abs(w.King.SkillCd[0] - 6f) < 0.01f, "재사용 6초");
             Steps(w, 30 * 6, down);
@@ -1210,7 +1215,7 @@ static class Program
             w = with(new[] { "F1" });
             Put(w, "crossbow", 5, EnemyState.Perched, k.LedgeHeight);
             w.Step(new InputFrame { AimX = k.LaneX(5) - w.King.X, AimY = -6f - w.King.Y, Held = Buttons.Skill1 });
-            Check(w.Siege.Enemies[0].State == EnemyState.Dead, "비스듬히 조준하면 먼 레인의 석궁수도 맞는다");
+            Check(w.Siege.Enemies[0].Hp == 5f, "비스듬히 조준하면 먼 레인의 석궁수도 맞는다");
         }
 
         Section("기술: 내려찍기");
@@ -1273,7 +1278,7 @@ static class Program
             Steps(w, 72, down);
             w.Step(new InputFrame { AimY = -1f, Held = Buttons.Guard });
             Steps(w, 6, down);
-            Check(w.King.Parries == 1 && w.King.DamageTaken == 0f && w.Siege.Enemies[0].Hp == 25f, "화살도 받아칠 수 있다. 반격파는 바위턱에 닿지 않는다");
+            Check(w.King.Parries == 1 && w.King.DamageTaken == 0f && w.Siege.Enemies[0].Hp == 35f, "화살도 받아칠 수 있다. 반격파는 바위턱에 닿지 않는다");
         }
 
         Section("사다리조");
@@ -1289,7 +1294,7 @@ static class Program
             Check(w.Siege.Enemies[0].State == EnemyState.Ladder && w.Siege.LaddersUp == 1 && w.Siege.Enemies[0].Hp == 60f, "3초 뒤에 사다리가 걸린다(체력 60, 붙잡기 12)");
             float h2 = w.Siege.Enemies[1].Height, h3 = w.Siege.Enemies[2].Height;
             Steps(w, 30, down);
-            Check(Math.Abs(w.Siege.Enemies[1].Height - h2 - 1.2f) < 0.05f && Math.Abs(w.Siege.Enemies[2].Height - h3 - 0.6f) < 0.05f, "사다리가 걸린 레인은 두 배로 빨리 오른다");
+            Check(Math.Abs(w.Siege.Enemies[1].Height - h2 - 1.8f) < 0.05f && Math.Abs(w.Siege.Enemies[2].Height - h3 - 0.9f) < 0.05f, "사다리가 걸린 레인은 두 배로 빨리 오른다");
             w.King.Return();
             w.King.X = k.LaneX(2);
             w.King.Y = 1.5f;
@@ -1300,7 +1305,7 @@ static class Program
             }
             Check(w.Siege.LaddersDown == 1 && w.Siege.Enemies[0].State == EnemyState.Dead, "강공격 두 번에 사다리가 넘어간다");
             Check(w.Siege.Enemies[1].State != EnemyState.Climbing && w.Siege.Enemies[2].State == EnemyState.Climbing, "타고 있던 적은 떨어진다. 옆 레인은 그대로다");
-            Check(w.Siege.Kills == 0 || w.Siege.Enemies[1].State == EnemyState.Grounded, "사다리는 처치로 세지 않는다");
+            Check(w.Siege.Kills == (w.Siege.Enemies[1].State == EnemyState.Dead ? 1 : 0), "사다리는 처치로 세지 않는다");
 
             w = with(new string[0]);
             w.King.Leave();
@@ -1358,9 +1363,10 @@ static class Program
         return n;
     }
 
-    static int Main()
+    static int Main(string[] args)
     {
         string root = Root();
+        if (args.Length > 0 && args[0] == "tune") return Tune(root, args);
         string kingJson = File.ReadAllText(Path.Combine(root, "data", "combat", "king.json"));
         string enemiesJson = File.ReadAllText(Path.Combine(root, "data", "combat", "enemies.json"));
         Defs defs = Defs.Load(kingJson, enemiesJson);

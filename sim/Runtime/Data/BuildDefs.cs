@@ -143,6 +143,7 @@ namespace LostRegalia.Sim
         public string Id, Name;
         public int[] Costs;
         public float AlarmBonus, Interval, Damage, Dps, Slow;
+        public bool ZoneOnly;           // 참이면 그 칸이 있는 구역의 레인에만 닿는다. 거짓이면 성벽 전체
     }
 
     /// <summary>성과 왕 강화의 값. data/castle/castle.json.</summary>
@@ -218,7 +219,8 @@ namespace LostRegalia.Sim
                 {
                     Id = J.Str(f["id"]), Name = J.Str(f["name"]), Costs = Ints(f["cost"]),
                     AlarmBonus = Opt(f, "alarm_bonus"), Interval = Opt(f, "interval"), Damage = Opt(f, "damage"),
-                    Dps = Opt(f, "dps"), Slow = Opt(f, "slow")
+                    Dps = Opt(f, "dps"), Slow = Opt(f, "slow"),
+                    ZoneOnly = f.ContainsKey("cover") && J.Str(f["cover"]) == "zone"
                 };
             }
             return c;

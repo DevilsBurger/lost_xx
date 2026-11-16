@@ -73,3 +73,9 @@ dotnet run --project sim/Tests~/Tests -c Release
 ```
 
 규칙 데이터를 고쳤다면 `python3 tools/combat_doc.py`를 먼저 돌려 기대값(`data/expect/`)을 갱신한다.
+
+수치를 바꿔 가며 견줄 때는 조정 도구를 쓴다. 데이터 파일은 건드리지 않고 표만 낸다.
+
+```bash
+dotnet run --project sim/Tests~/Tests -c Release -- tune late     # late, carry, bolt, fort, empty. 생략하면 전부
+```

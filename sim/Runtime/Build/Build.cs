@@ -265,17 +265,31 @@ namespace LostRegalia.Sim
             if (!restoring) siege.WallHp = Math.Max(1f, Math.Min(wall, siege.WallHp + wall - siege.WallMax));   // 성벽도 같다
             siege.WallMax = wall;
             siege.FallMul = 1f + Sum(Stat.FallDamage);
-            siege.ThornDps = siege.ThornSlow = 0f;
+            for (int l = 0; l < k.Lanes; l++) siege.ThornDps[l] = siege.ThornSlow[l] = 0f;
             float alarm = 0f;
             for (int s = 0; s < SlotKind.Length; s++)
             {
                 if (SlotKind[s] < 0) continue;
                 FacilityDef f = Castle.Facilities[SlotKind[s]];
-                siege.ThornDps += f.Dps;                                // 피해는 겹치고
-                siege.ThornSlow = Math.Max(siege.ThornSlow, f.Slow);    // 늦추는 것은 겹치지 않는다
+                for (int l = 0; l < k.Lanes; l++)
+                {
+                    if (!Covers(s, l, k.Lanes)) continue;
+                    siege.ThornDps[l] += f.Dps;                                 // 피해는 겹치고
+                    siege.ThornSlow[l] = Math.Max(siege.ThornSlow[l], f.Slow);  // 늦추는 것은 겹치지 않는다
+                }
                 alarm = Math.Max(alarm, f.AlarmBonus);
             }
             w.Cycle.AlarmBonus = alarm;
+        }
+
+        public const int Zones = 3;
+
+        /// <summary>칸 s의 시설이 레인 l에 닿는가. 구역은 셋이고 레인을 고르게 나눈다. 칸은 왼쪽 구역부터 돌아가며 놓인다.</summary>
+        public bool Covers(int slot, int lane, int lanes)
+        {
+            if (SlotKind[slot] < 0) return false;
+            if (!Castle.Facilities[SlotKind[slot]].ZoneOnly) return true;
+            return lane * Zones / lanes == slot % Zones;
         }
 
         /// <summary>시설의 틱. 가시 난간이 턱밑 띠의 적을 깎고, 발리스타가 가장 높은 적을 쏜다.</summary>
@@ -283,13 +297,13 @@ namespace LostRegalia.Sim
         {
             Siege siege = w.Siege;
             KingDef k = w.Defs.King;
-            if (siege.ThornDps > 0f)
             {
                 for (int i = 0; i < siege.Enemies.Count; i++)
                 {
                     Enemy e = siege.Enemies[i];
+                    if (siege.ThornDps[e.Lane] <= 0f) continue;
                     bool inBand = e.State == EnemyState.Mounting || e.State == EnemyState.Raising || (e.State == EnemyState.Climbing && e.Height >= k.CliffHeight - k.ReachBelow);
-                    if (inBand) siege.Damage(i, siege.ThornDps * dt);
+                    if (inBand) siege.Damage(i, siege.ThornDps[e.Lane] * dt);
                 }
             }
             for (int s = 0; s < SlotKind.Length; s++)
@@ -305,6 +319,7 @@ namespace LostRegalia.Sim
                 {
                     Enemy e = siege.Enemies[i];
                     if (e.State == EnemyState.Dead || e.State == EnemyState.Grounded || e.State == EnemyState.Ladder) continue;
+                    if (!Covers(s, e.Lane, k.Lanes)) continue;
                     float h = e.State == EnemyState.OnWall ? k.CliffHeight + 1f : e.Height;
                     if (h > top) { top = h; best = i; }
                 }

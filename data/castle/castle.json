@@ -97,7 +97,7 @@
       "cost": [
         10
       ],
-      "interval": 4,
+      "interval": 8,
       "damage": 40
     },
     {
@@ -107,7 +107,8 @@
         10
       ],
       "dps": 6,
-      "slow": 0.3
+      "slow": 0.3,
+      "cover": "zone"
     }
   ],
   "skill_slots": 2
