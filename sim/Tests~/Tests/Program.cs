@@ -409,6 +409,429 @@ static class Program
         }
     }
 
+    static string Ascii(Land L)
+    {
+        var sb = new System.Text.StringBuilder();
+        for (int y = L.H - 1; y >= 0; y--)
+        {
+            for (int x = 0; x < L.W; x++)
+            {
+                int i = L.Index(x, y);
+                char c;
+                if (L.Feat[i] == Feature.Crater) c = 'O';
+                else if (L.Feat[i] == Feature.Vault) c = 'V';
+                else if (L.Feat[i] == Feature.Entrance) c = 'E';
+                else if (L.OreKind[i] == Ore.Star) c = '*';
+                else if (L.OreKind[i] == Ore.Iron) c = 'i';
+                else if (L.OreKind[i] == Ore.Rune) c = 'r';
+                else c = "?~# .:xX"[(int)L.Rocks[i]];
+                sb.Append(c);
+            }
+            sb.Append('\n');
+        }
+        return sb.ToString();
+    }
+
+    static void LandTests(CapeDef cape)
+    {
+        Section("곶: 땅 만들기");
+        Check(cape.Lands.Length == 5 && cape.Width == 24 && cape.Length == 36, "땅 다섯, 24 × 36타일");
+        Check(cape.Lands[0].Ores[(int)Ore.Star].Total == 170 && cape.Lands[0].Ores[(int)Ore.Iron].Total == 60, "첫 땅의 매장량 170 / 60");
+        const int Seeds = 200;
+        int bad = 0, retries = 0, worst = 0;
+        string first = null;
+        var mix = new long[5, 3, 4];
+        var rocks = new long[5, 3];
+        long ridge = 0, land = 0, passes = 0;
+        for (int li = 0; li < cape.Lands.Length; li++)
+            for (ulong seed = 1; seed <= Seeds; seed++)
+            {
+                Land L = LandGen.GenerateValid(cape, cape.Lands[li], seed);
+                var errors = LandGen.Validate(L);
+                if (errors.Count > 0) { bad++; if (first == null) first = "땅 " + (li + 1) + " 시드 " + seed + ": " + errors[0]; }
+                retries += L.Attempt;
+                worst = Math.Max(worst, L.Attempt);
+                passes += L.Passes;
+                for (int i = 0; i < L.Rocks.Length; i++)
+                {
+                    if (L.Rocks[i] != Rock.Sea) land++;
+                    if (L.Rocks[i] == Rock.Ridge) ridge++;
+                    if (Land.IsRock(L.Rocks[i]) && !L.Reserved[i])
+                    {
+                        mix[li, L.BandOf(i / L.W), (int)L.Rocks[i] - 4]++;
+                        rocks[li, L.BandOf(i / L.W)]++;
+                    }
+                    if (L.Rocks[i] == Rock.Raw) bad++;
+                }
+            }
+        Check(bad == 0, "시드 200개 × 다섯 땅이 모두 검증을 통과한다" + (first != null ? " (" + first + ")" : ""));
+        Console.WriteLine("  다시 만든 횟수: 1,000개 가운데 합계 " + retries + ", 가장 많이 " + worst + "번. 바위산 " + (100.0 * ridge / land).ToString("0.0")
+                          + "%, 뚫은 고개 평균 " + (passes / 1000.0).ToString("0.0") + "타일");
+        bool close = true;
+        for (int li = 0; li < 5; li++)
+            for (int b = 0; b < 3; b++)
+                for (int k = 0; k < 4; k++)
+                    if (Math.Abs(1000.0 * mix[li, b, k] / rocks[li, b] - cape.Lands[li].Mix[b][k]) > 40.0) close = false;
+        Check(close, "암반의 비율이 규칙에서 4%p 안에 있다");
+        Console.WriteLine("  첫 땅의 암반(흙/연암/경암): 구간 1 " + Pct(mix, rocks, 0, 0) + ", 구간 2 " + Pct(mix, rocks, 0, 1) + ", 구간 3 " + Pct(mix, rocks, 0, 2));
+
+        Land a = LandGen.GenerateValid(cape, cape.Lands[0], 7), b2 = LandGen.GenerateValid(cape, cape.Lands[0], 7), c2 = LandGen.GenerateValid(cape, cape.Lands[0], 8);
+        Check(Ascii(a) == Ascii(b2), "같은 시드는 같은 땅");
+        Check(Ascii(a) != Ascii(c2), "다른 시드는 다른 땅");
+        Check(a.At(a.EntranceX, 0) == Rock.Open && a.BandOf(a.CraterY) == 2, "어귀는 빈터, 낙성지는 셋째 구간");
+        if (Environment.GetEnvironmentVariable("SHOW_LAND") != null) Console.WriteLine(Ascii(a));
+    }
+
+    static string Pct(long[,,] mix, long[,] rocks, int land, int band)
+    {
+        return (100.0 * mix[land, band, 0] / rocks[land, band]).ToString("0") + "/" + (100.0 * mix[land, band, 1] / rocks[land, band]).ToString("0")
+               + "/" + (100.0 * mix[land, band, 2] / rocks[land, band]).ToString("0");
+    }
+
+    /// <summary>시험용 땅. 전부 한 가지 암반이고 어귀의 빈터만 열려 있다.</summary>
+    static World FlatWorld(Defs defs, CapeDef cape, Rock rock)
+    {
+        var w = new World(defs, 1);
+        var L = new Land(cape, cape.Lands[0]);
+        for (int i = 0; i < L.Rocks.Length; i++) L.Rocks[i] = rock;
+        for (int y = 0; y < cape.EntranceRows; y++)
+            for (int x = cape.EntranceCol0; x <= cape.EntranceCol1; x++) L.Rocks[L.Index(x, y)] = Rock.Open;
+        L.EntranceX = L.W / 2 - 1;
+        for (int i = 0; i < L.Rocks.Length; i++) L.Hp[i] = (ushort)L.HardnessOf(i);
+        w.Cape = new Cape(cape, L);
+        return w;
+    }
+
+    /// <summary>왕을 곶의 한 자리에 세운다.</summary>
+    static void OnCape(World w, float x, float y)
+    {
+        w.King.Leave();
+        w.King.CX = x;
+        w.King.CY = y;
+    }
+
+    static void CapeTests(Defs defs, CapeDef cape)
+    {
+        KingDef k = defs.King;
+        var up = new InputFrame { MoveY = 1f, AimY = 1f };
+
+        Section("곶: 오가는 길");
+        {
+            var w = FlatWorld(defs, cape, Rock.Soil);
+            w.King.X = 8f;
+            Steps(w, 10, new InputFrame { MoveY = 1f });
+            Check(w.King.OnWall && w.King.Y == k.WallWidth, "뒷문이 아닌 곳에서는 성벽 안쪽으로 나갈 수 없다");
+            w = FlatWorld(defs, cape, Rock.Soil);
+            int ticks = 0;
+            while (ticks < 600 && (w.King.OnWall || w.King.CY < 0f)) { w.Step(up); ticks++; }
+            Check(!w.King.OnWall && Math.Abs(ticks / 30f - 5f) < 0.3f, "성벽 가운데에서 땅의 어귀까지 5초");
+            Steps(w, 60, up);
+            Check(w.King.CY < 2 * cape.TileM && w.King.CY > 2 * cape.TileM - 0.6f, "암반은 지나갈 수 없다");
+            Steps(w, 30 * 20, new InputFrame { MoveX = -1f });
+            Check(w.King.CX >= cape.EntranceCol0 * cape.TileM + cape.KingRadius - 0.01f, "빈터 밖으로 나가지 못한다");
+            ticks = 0;
+            w.King.CX = w.Cape.GateX;
+            while (ticks < 600 && !w.King.OnWall) { w.Step(new InputFrame { MoveY = -1f }); ticks++; }
+            Check(w.King.OnWall && w.King.Y == k.WallWidth && w.King.ReturnBonus > 0f, "길 끝에서 뒷문으로 돌아온다. 10초 넘게 비웠으므로 왕의 귀환이 켜진다");
+        }
+
+        Section("곶: 채굴");
+        {
+            Func<Rock, int, float> dig = (rock, power) =>
+            {
+                var w = FlatWorld(defs, cape, rock);
+                w.Cape.DigPower = power;
+                OnCape(w, 23f, 3.6f);
+                int n = 0;
+                while (n < 3000 && w.Cape.TilesDug < 3) { w.Step(new InputFrame { AimY = 1f, Held = Buttons.Attack }); n++; }
+                Land L = w.Cape.Land;
+                bool row = L.At(10, 2) == Rock.Open && L.At(11, 2) == Rock.Open && L.At(12, 2) == Rock.Open;
+                if (Environment.GetEnvironmentVariable("SHOW_DIG") != null) Console.WriteLine("  " + rock + " " + power + ": " + n + "틱, 줄 " + row + ", 타격 " + w.Cape.Swings);
+                return row ? (n - 1) / 30f : -1f;
+            };
+            Check(Math.Abs(dig(Rock.Soil, 1) - 3.6f) < 0.35f, "흙 세 타일을 3.6초에 판다");
+            Check(Math.Abs(dig(Rock.Soft, 1) - 9f) < 0.5f, "연암 세 타일을 9초에");
+            Check(Math.Abs(dig(Rock.Hard, 1) - 24f) < 1.0f, "경암 세 타일을 24초에");
+            Check(Math.Abs(dig(Rock.Soil, 2) - 1.8f) < 0.35f, "채굴 위력 Ⅰ이면 절반");
+
+            var w2 = FlatWorld(defs, cape, Rock.Soil);
+            OnCape(w2, 23f, 3.6f);
+            Steps(w2, 30, new InputFrame { AimY = -1f, Held = Buttons.Attack });
+            Check(w2.Cape.Land.Hp[w2.Cape.Land.Index(11, 2)] == 12, "등 뒤의 암반은 깎이지 않는다");
+            w2.Cape.Land.Rocks[w2.Cape.Land.Index(11, 2)] = Rock.Ridge;
+            Steps(w2, 30 * 30, new InputFrame { AimY = 1f, Held = Buttons.Attack });
+            Check(w2.Cape.Land.At(11, 2) == Rock.Ridge && w2.Cape.Land.At(10, 2) == Rock.Open, "바위산은 부서지지 않는다");
+        }
+
+        Section("곶: 운반과 입고");
+        {
+            var w = FlatWorld(defs, cape, Rock.Soil);
+            Land L = w.Cape.Land;
+            foreach (int x in new[] { 10, 11, 12 })
+            {
+                L.OreKind[L.Index(x, 2)] = x == 12 ? Ore.Iron : Ore.Star;
+                L.OreAmount[L.Index(x, 2)] = 7;
+            }
+            OnCape(w, 23f, 3.6f);
+            Steps(w, 30 * 4, new InputFrame { AimY = 1f, Held = Buttons.Attack });
+            Check(w.Cape.CarryCount(w.King) == 16 && w.Cape.MinedStar == 14 && w.Cape.MinedIron == 7, "캔 것은 왕을 따라온다. 한도는 16");
+            Check(w.Cape.Piles.Count == 1 && w.Cape.Piles[0].Count == 5, "들지 못한 다섯은 그 자리에 남는다");
+            float x0 = w.King.CX;
+            Steps(w, 30, new InputFrame { MoveX = 1f });
+            Check(Math.Abs(w.King.CX - x0 - k.Speed * 0.7f) < 0.02f, "16개를 끌면 30% 느리다");
+            w.Step(new InputFrame { Held = Buttons.Drop });
+            w.Step(new InputFrame());
+            Check(w.Cape.CarryCount(w.King) == 0 && w.Cape.Piles.Count == 2, "내려놓으면 더미가 된다");
+            x0 = w.King.CX;
+            Steps(w, 30, new InputFrame { MoveX = -1f });
+            Check(Math.Abs(x0 - w.King.CX - k.Speed) < 0.02f, "빈손은 제 속도");
+            w.King.CX = w.Cape.Piles[1].X;
+            w.King.CY = w.Cape.Piles[1].Y;
+            w.Step(new InputFrame { Held = Buttons.Interact });
+            w.Step(new InputFrame());
+            Check(w.Cape.CarryCount(w.King) == 16 && w.Cape.Piles.Count == 1, "다가가서 주우면 다시 따라온다");
+            int star = w.King.Star, iron = w.King.Iron;
+            w.King.CX = w.Cape.GateX;
+            w.King.CY = 1f;
+            int n = 0;
+            bool deposit = false;
+            while (n++ < 600 && !w.King.OnWall)
+            {
+                w.Step(new InputFrame { MoveY = -1f });
+                for (int e = 0; e < w.Events.Count; e++) deposit |= w.Events[e].Kind == EventKind.Deposit && w.Events[e].A == star;
+            }
+            Check(w.King.OnWall && w.Economy.Star == star && w.Economy.Iron == iron && w.Cape.CarryCount(w.King) == 0 && deposit, "뒷문을 지나면 성의 자원이 된다");
+            Check(Math.Abs(n / 30f - (cape.ApproachM + 1f) / (k.Speed * 0.7f)) < 0.5f, "무거우면 돌아오는 길도 길다(29m에 6.9초)");
+        }
+
+        Section("곶: 대파편과 되감기");
+        {
+            var w = new World(defs, 9);
+            w.OpenLand(cape, 0, 7);
+            w.Cycle.Begin(w, ChapterDef.Load(File.ReadAllText(Path.Combine(Root(), "data", "waves", "ch1.json"))));
+            Land L = w.Cape.Land;
+            OnCape(w, L.CraterX * 2f + 1f, L.CraterY * 2f + 1f);
+            w.Step(new InputFrame { Held = Buttons.Interact });
+            Check(w.King.HasFragment && L.FragmentTaken, "낙성지에서 대파편을 든다");
+            byte[] snap = w.Snapshot();
+            w.King.CX = w.Cape.GateX;
+            w.King.CY = -20f;
+            Steps(w, 150, new InputFrame { MoveY = -1f });
+            Check(w.King.OnWall && w.Cycle.FragmentHome && w.Cycle.Next.Final, "성에 가져오면 다음 습격이 총공세다");
+            w.Restore(snap);
+            Check(!w.King.OnWall && w.King.HasFragment && !w.Cycle.FragmentHome, "되감으면 대파편은 다시 왕의 손에 있다");
+
+            w = new World(defs, 9);
+            w.OpenLand(cape, 0, 7);
+            var bot = new Miner();
+            for (int i = 0; i < 30 * 60; i++) w.Step(bot.Think(w, false));
+            snap = w.Snapshot();
+            int dug = w.Cape.TilesDug;
+            var bot2 = new Miner();
+            for (int i = 0; i < 30 * 30; i++) w.Step(bot2.Think(w, false));
+            ulong after = w.StateHash();
+            w.Restore(snap);
+            Check(w.Cape.TilesDug == dug && dug > 0, "되감으면 판 자리도 돌아간다");
+            bot2 = new Miner();
+            for (int i = 0; i < 30 * 30; i++) w.Step(bot2.Think(w, false));
+            Check(w.StateHash() == after, "되감은 뒤 다시 캐면 같은 상태에 닿는다");
+            Console.WriteLine("  스냅숏 크기: " + snap.Length + "바이트 (땅 하나 포함)");
+        }
+    }
+
+    /// <summary>
+    /// 테스트용 광부. 본 게임의 코드가 아니다. 가장 싸게 닿는 광맥으로 파 들어가고, 가득 차거나 부르면 돌아온다.
+    /// 땅 전체를 안다(안개가 없다). tools/cape_gen.py의 광부와 같은 셈법이다.
+    /// </summary>
+    sealed class Miner
+    {
+        readonly List<int> path = new List<int>();
+        int plannedAt = -1;
+        bool plannedHome;
+        public bool Exhausted;
+
+        void Plan(World w, int start, bool home)
+        {
+            Land L = w.Cape.Land;
+            CapeDef c = w.Cape.Def;
+            path.Clear();
+            plannedAt = w.Cape.TilesDug;
+            plannedHome = home;
+            int n = L.W * L.H;
+            var dist = new int[n];
+            var prev = new int[n];
+            for (int i = 0; i < n; i++) { dist[i] = int.MaxValue; prev[i] = -1; }
+            var pq = new PriorityQueue<int, int>();
+            dist[start] = 0;
+            pq.Enqueue(start, 0);
+            int goal = -1, entrance = L.Index(L.EntranceX, L.EntranceY);
+            while (pq.Count > 0)
+            {
+                int p, d;
+                pq.TryDequeue(out p, out d);
+                if (d > dist[p]) continue;
+                if (p != start && (home ? p == entrance : L.OreKind[p] != Ore.None)) { goal = p; break; }
+                for (int k = 0; k < 4; k++)
+                {
+                    int qx = p % L.W + LandGen.DX[k], qy = p / L.W + LandGen.DY[k];
+                    if (!L.Inside(qx, qy) || !L.Passable(qx, qy)) continue;
+                    int q = L.Index(qx, qy);
+                    int cost = 330 + (L.Rocks[q] == Rock.Open ? 0 : (L.Hp[q] + w.Cape.DigPower - 1) / w.Cape.DigPower * (int)(c.Swing * 1000));
+                    if (d + cost >= dist[q]) continue;
+                    dist[q] = d + cost;
+                    prev[q] = p;
+                    pq.Enqueue(q, d + cost);
+                }
+            }
+            if (goal < 0) { if (!home) Exhausted = true; return; }
+            for (int p = goal; p != start; p = prev[p]) path.Insert(0, p);
+        }
+
+        public InputFrame Think(World w, bool home)
+        {
+            King king = w.King;
+            Cape cape = w.Cape;
+            Land L = cape.Land;
+            var f = new InputFrame();
+            if (cape.CarryCount(king) >= cape.Def.CarryLimit || Exhausted) home = true;
+            float gx = cape.GateX - king.CX;
+            if (king.CY < 0.6f && (home || king.CY < -0.5f))
+            {
+                // 길 위. 가운데로 붙어서 오르내린다
+                if (Math.Abs(gx) > 0.3f) f.MoveX = Math.Sign(gx);
+                if (Math.Abs(gx) < 1.2f) f.MoveY = home ? -1f : 1f;
+                return f;
+            }
+            int m = cape.Def.TileM;
+            int tx = (int)Math.Floor(king.CX / m), ty = Math.Max(0, (int)Math.Floor(king.CY / m));
+            int here = L.Index(tx, ty);
+            if (home && here == L.Index(L.EntranceX, L.EntranceY))
+            {
+                if (Math.Abs(gx) > 0.3f) f.MoveX = Math.Sign(gx);
+                if (Math.Abs(gx) < 1.2f) f.MoveY = -1f;
+                return f;
+            }
+            if (path.Count > 0 && path[0] == here) path.RemoveAt(0);
+            if (path.Count == 0 || plannedAt != cape.TilesDug || plannedHome != home) Plan(w, here, home);
+            if (path.Count == 0) return f;
+            int next = path[0];
+            float dx = next % L.W * m + m * 0.5f - king.CX, dy = next / L.W * m + m * 0.5f - king.CY;
+            float d = (float)Math.Sqrt(dx * dx + dy * dy);
+            if (d > 0.05f) { f.MoveX = dx / d; f.MoveY = dy / d; f.AimX = dx / d; f.AimY = dy / d; }
+            if (L.Rocks[next] != Rock.Open) f.Held = Buttons.Attack;
+            return f;
+        }
+    }
+
+    sealed class Trip
+    {
+        public int Wave, Star, Iron;
+        public float Away;
+    }
+
+    /// <summary>
+    /// 캐고, 종이 울리면 돌아와 싸우는 한 장. 종이 울리고 linger초 뒤에 돌아서기 시작한다.
+    /// </summary>
+    static World Campaign(Defs defs, CapeDef cape, ChapterDef ch, ulong seed, int power, float linger, List<Trip> trips, out float away, out int flawless)
+    {
+        var w = new World(defs, seed);
+        w.OpenLand(cape, 0, seed);
+        w.Cape.DigPower = power;
+        w.Cycle.Begin(w, ch);
+        var miner = new Miner();
+        away = 0f;
+        flawless = 0;
+        float leftAt = 0f;
+        int guard = 30 * 60 * 90;
+        while (guard-- > 0 && w.Cycle.Phase != Phase.Victory && w.Cycle.Phase != Phase.Fallen)
+        {
+            Phase ph = w.Cycle.Phase;
+            bool fighting = ph == Phase.Assault || ph == Phase.Onslaught;
+            float alarm = defs.King.Alarm[0];
+            bool call = (ph == Phase.Alarm && w.Cycle.TimeLeft <= alarm - linger) || (fighting && w.Cycle.AssaultTicks >= (linger - alarm) * World.TickRate);
+            if (w.Cycle.Wave >= ch.Waves.Length) w.Cycle.DeliverFragment();
+            InputFrame f;
+            bool wasOut = !w.King.OnWall;
+            if (wasOut)
+            {
+                f = miner.Think(w, call);
+                away += World.Dt;
+            }
+            else if (fighting || w.Siege.Threat) f = Bot(w);
+            else if (!miner.Exhausted && ph == Phase.Calm && w.Cycle.TimeLeft > 30f)
+            {
+                // 고요다. 뒷문으로 간다
+                float dx = defs.King.WallLength * 0.5f - w.King.X;
+                f = new InputFrame { MoveX = Math.Abs(dx) > 0.5f ? Math.Sign(dx) : 0f, MoveY = 1f };
+                leftAt = w.Tick / 30f;
+            }
+            else f = Bot(w);
+            w.Step(f);
+            for (int i = 0; i < w.Events.Count; i++)
+            {
+                SimEvent e = w.Events[i];
+                if (e.Kind == EventKind.AssaultEnd) flawless += e.C;
+                if (e.Kind == EventKind.Deposit && trips != null)
+                    trips.Add(new Trip { Wave = w.Cycle.Wave, Star = e.A, Iron = e.B, Away = w.Tick / 30f - leftAt });
+            }
+        }
+        return w;
+    }
+
+    static void CampaignTests(Defs defs, CapeDef cape, ChapterDef ch)
+    {
+        KingDef k = defs.King;
+        Section("캐고 돌아와 싸우는 1장");
+        var trips = new List<Trip>();
+        float away;
+        int flawless;
+        World w = Campaign(defs, cape, ch, 7, 2, 0f, trips, out away, out flawless);
+        Check(w.Cycle.Phase == Phase.Victory, "종이 울리면 돌아오는 왕은 1장을 이긴다");
+        Check(w.Economy.Star + w.Cape.Land.OreLeft(Ore.Star) + w.King.Star + PileStar(w) == 170, "성광석은 생기지도 사라지지도 않는다(170)");
+        ulong h = w.StateHash();
+        Check(Campaign(defs, cape, ch, 7, 2, 0f, null, out away, out flawless).StateHash() == h, "같은 시드의 한 장은 같은 결과로 끝난다");
+        var sb = new System.Text.StringBuilder();
+        for (int i = 0; i < trips.Count && i < 14; i++) sb.Append(trips[i].Star + "+" + trips[i].Iron + " ");
+        Console.WriteLine("  시드 7, 채굴 위력 2: 나갔다 올 때마다 가져온 것(성광석+흑철): " + sb + (trips.Count > 14 ? "…" : ""));
+
+        Console.WriteLine("  시드 열 개의 평균 (종이 울리면 바로 돌아선다)");
+        foreach (int power in new[] { 1, 2 })
+        {
+            double star = 0, iron = 0, sec = 0, wall = 0, mins = 0, fl = 0, wins = 0, calms = 0;
+            for (ulong seed = 1; seed <= 10; seed++)
+            {
+                w = Campaign(defs, cape, ch, seed, power, 0f, null, out away, out flawless);
+                star += w.Economy.Star; iron += w.Economy.Iron; sec += away; wall += k.WallHp - w.Siege.WallHp;
+                mins += w.Tick / 30.0 / 60.0; fl += flawless; calms += w.Cycle.Wave + 1;
+                if (w.Cycle.Phase == Phase.Victory) wins++;
+            }
+            Console.WriteLine("    채굴 위력 " + power + ": 성광석 " + (star / 10).ToString("0") + "/170, 흑철 " + (iron / 10).ToString("0") + "/60, 성벽을 비운 시간 "
+                              + (sec / 10 / 60).ToString("0.0") + "분, 비운 1초당 성광석 " + (star / sec).ToString("0.000") + " · 흑철 " + (iron / sec).ToString("0.000")
+                              + ", 고요 한 번에 성광석 " + (star / calms).ToString("0.0") + ", 한 장 " + (mins / 10).ToString("0.0") + "분, 성벽 -" + (wall / 10).ToString("0")
+                              + ", 흠 없는 방어 " + (fl / 10).ToString("0.0") + "/13, 승리 " + wins + "/10");
+        }
+        Console.WriteLine("  종이 울린 뒤에도 더 캐는 왕 (채굴 위력 2, 시드 열 개)");
+        foreach (float linger in new[] { 15f, 30f, 45f, 60f })
+        {
+            double star = 0, wall = 0, wins = 0, fl = 0;
+            for (ulong seed = 1; seed <= 10; seed++)
+            {
+                w = Campaign(defs, cape, ch, seed, 2, linger, null, out away, out flawless);
+                star += w.Economy.Star; wall += k.WallHp - w.Siege.WallHp; fl += flawless;
+                if (w.Cycle.Phase == Phase.Victory) wins++;
+            }
+            Console.WriteLine("    종이 울리고 " + linger.ToString("0") + "초 더: 성광석 " + (star / 10).ToString("0") + ", 성벽 -" + (wall / 10).ToString("0")
+                              + ", 흠 없는 방어 " + (fl / 10).ToString("0.0") + "/13, 승리 " + wins + "/10");
+        }
+    }
+
+    static int PileStar(World w)
+    {
+        int n = 0;
+        for (int i = 0; i < w.Cape.Piles.Count; i++) n += w.Cape.Piles[i].Star;
+        return n;
+    }
+
     static int Main()
     {
         string root = Root();
@@ -477,8 +900,13 @@ static class Program
             Check(w.Siege.Enemies[0].State == EnemyState.Dead, "올라서는 방패병은 강공격 한 번에 떨어진다");
         }
 
+        CapeDef cape = CapeDef.Load(File.ReadAllText(Path.Combine(root, "data", "cape", "lands.json")));
+        LandTests(cape);
         KingTests(defs);
-        CycleTests(defs, ChapterDef.Load(File.ReadAllText(Path.Combine(root, "data", "waves", "ch1.json"))));
+        ChapterDef ch1 = ChapterDef.Load(File.ReadAllText(Path.Combine(root, "data", "waves", "ch1.json")));
+        CycleTests(defs, ch1);
+        CapeTests(defs, cape);
+        CampaignTests(defs, cape, ch1);
 
         Section("결정성과 되감기");
         var wave1 = Wave(J.Obj(waves[0]));

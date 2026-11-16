@@ -3,7 +3,9 @@
   "width": 24,
   "length": 36,
   "bands": 3,
-  "tile_m": 2
+  "tile_m": 2,
+  "approach_m": 28,
+  "gate_half_m": 2
  },
  "hardness": {
   "흙": 12,
@@ -19,7 +21,17 @@
    3,
    5
   ],
-  "walk_per_tile": 0.33
+  "walk_per_tile": 0.33,
+  "reach_m": 2.6,
+  "arc": 120,
+  "king_radius_m": 0.4,
+  "pickup_reach_m": 1.5
+ },
+ "carry": {
+  "limit": 16,
+  "free": 8,
+  "slow_per_piece": 0.04,
+  "slow_max": 0.3
  },
  "light": {
   "base_m": 14,

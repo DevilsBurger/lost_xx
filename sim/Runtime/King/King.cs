@@ -34,6 +34,9 @@ namespace LostRegalia.Sim
         public float ParryWindow, ParryCd;
         public float DownTimer;
         public Buttons Prev;
+        public float CX, CY;                // 곶에서의 자리(미터). 성벽 위에 있을 때는 쓰지 않는다
+        public int Star, Iron, Rune;        // 끌고 있는 자원
+        public bool HasFragment;            // 대파편을 들고 있는가
         public float Away;                  // 성벽을 비운 시간
         public float ReturnBonus;           // 왕의 귀환: 피해와 밀어냄에 더해지는 비율
         public float ReturnTime;            // 왕의 귀환이 남은 시간
@@ -84,17 +87,13 @@ namespace LostRegalia.Sim
             Y = defs.King.WallWidth * 0.5f;
         }
 
-        public void Step(InputFrame input, Siege siege, float dt)
+        public void Step(InputFrame input, World w, float dt)
         {
             KingDef k = defs.King;
+            Siege siege = w.Siege;
             Buttons pressed = input.Held & ~Prev;
             Buttons released = Prev & ~input.Held;
             Prev = input.Held;
-            if (!OnWall)
-            {
-                if (Mode != KingMode.Downed) Away += dt;        // 쓰러져 있던 시간은 세지 않는다
-                return;
-            }
 
             if (Mode == KingMode.Downed)
             {
@@ -108,7 +107,28 @@ namespace LostRegalia.Sim
                 return;
             }
 
-            Busy = Math.Max(0f, Busy - dt);
+            Busy -= dt;
+            if (Busy < 0.0005f) Busy = 0f;      // 0.3초는 정확히 아홉 틱이어야 한다. 실수 오차로 한 틱 늘어지지 않게
+            DashCd = Math.Max(0f, DashCd - dt);
+            float aim = (float)Math.Sqrt(input.AimX * input.AimX + input.AimY * input.AimY);
+            if (aim > 0.01f)
+            {
+                AimX = input.AimX / aim;
+                AimY = input.AimY / aim;
+            }
+
+            if (!OnWall)
+            {
+                Away += dt;
+                if (w.Cape != null && w.Cape.StepKing(this, input, pressed, dt, w)) ComeHome(w);
+                return;
+            }
+
+            ComboTimer = Math.Max(0f, ComboTimer - dt);
+            IFrame = Math.Max(0f, IFrame - dt);
+            ParryWindow = Math.Max(0f, ParryWindow - dt);
+            ParryCd = Math.Max(0f, ParryCd - dt);
+            Hp = Math.Min(k.Hp, Hp + k.RegenOnWall * dt);
             if (ReturnTime > 0f)
             {
                 ReturnTime -= dt;
@@ -118,65 +138,18 @@ namespace LostRegalia.Sim
                     ShockReady = false;
                 }
             }
-            ComboTimer = Math.Max(0f, ComboTimer - dt);
-            DashCd = Math.Max(0f, DashCd - dt);
-            IFrame = Math.Max(0f, IFrame - dt);
-            ParryWindow = Math.Max(0f, ParryWindow - dt);
-            ParryCd = Math.Max(0f, ParryCd - dt);
-            Hp = Math.Min(k.Hp, Hp + k.RegenOnWall * dt);
 
-            float aim = (float)Math.Sqrt(input.AimX * input.AimX + input.AimY * input.AimY);
-            if (aim > 0.01f)
+            float dx, dy;
+            bool dashing = Displace(input, pressed, dt, 1f, out dx, out dy);
+            X = Math.Min(k.WallLength, Math.Max(0f, X + dx));
+            Y = Y + dy;
+            if (Y >= k.WallWidth && w.Cape != null && input.MoveY > 0.5f && Math.Abs(X - k.WallLength * 0.5f) <= w.Cape.Def.GateHalfM)
             {
-                AimX = input.AimX / aim;
-                AimY = input.AimY / aim;
+                // 성벽 안쪽 가운데가 뒷문으로 가는 길이다
+                Leave();
+                w.Cape.Enter(this);
+                return;
             }
-
-            float mx = input.MoveX, my = input.MoveY;
-            float ml = (float)Math.Sqrt(mx * mx + my * my);
-            if (ml > 1f)
-            {
-                mx /= ml;
-                my /= ml;
-                ml = 1f;
-            }
-
-            if (Mode != KingMode.Dashing && (pressed & Buttons.Dash) != 0 && DashCd <= 0f)
-            {
-                // 움직이는 쪽으로. 서 있으면 조준한 쪽으로
-                if (ml > 0.01f)
-                {
-                    DashDX = mx / ml;
-                    DashDY = my / ml;
-                }
-                else
-                {
-                    DashDX = AimX;
-                    DashDY = AimY;
-                }
-                Mode = KingMode.Dashing;
-                DashTime = k.DashTime;
-                DashCd = k.DashCooldown;
-                IFrame = Math.Max(IFrame, k.DashIFrame);
-                Charge = 0f;
-                Queued = false;
-            }
-            bool dashing = Mode == KingMode.Dashing;
-            if (dashing)
-            {
-                float t = Math.Min(dt, DashTime);
-                float v = k.DashDistance / k.DashTime;
-                X += DashDX * v * t;
-                Y += DashDY * v * t;
-                DashTime -= dt;
-                if (DashTime <= 0f) Mode = KingMode.Normal;
-            }
-            else
-            {
-                X += mx * k.Speed * dt;
-                Y += my * k.Speed * dt;
-            }
-            X = Math.Min(k.WallLength, Math.Max(0f, X));
             Y = Math.Min(k.WallWidth, Math.Max(0f, Y));
             if (dashing) return;
 
@@ -202,6 +175,78 @@ namespace LostRegalia.Sim
                 Queued = false;
                 Basic(siege);
             }
+        }
+
+        /// <summary>뒷문으로 들어온다. 끌고 온 것을 내려놓고 성벽 위로 돌아간다.</summary>
+        void ComeHome(World w)
+        {
+            if (Star + Iron + Rune > 0)
+            {
+                w.Economy.Star += Star;
+                w.Economy.Iron += Iron;
+                w.Economy.Rune += Rune;
+                w.Emit(EventKind.Deposit, Star, Iron, Rune);
+                Star = Iron = Rune = 0;
+            }
+            if (HasFragment)
+            {
+                HasFragment = false;
+                w.Cycle.DeliverFragment();
+                w.Emit(EventKind.FragmentHome, 0, 0, 0);
+            }
+            X = defs.King.WallLength * 0.5f;
+            Y = defs.King.WallWidth;
+            Return();
+        }
+
+        /// <summary>
+        /// 이번 틱에 움직일 거리. 대시의 시작과 진행을 함께 맡는다. 대시 중이면 참을 돌려준다.
+        /// 막힘은 부르는 쪽(성벽 또는 곶)이 판정한다.
+        /// </summary>
+        public bool Displace(InputFrame input, Buttons pressed, float dt, float speedFactor, out float dx, out float dy)
+        {
+            KingDef k = defs.King;
+            float mx = input.MoveX, my = input.MoveY;
+            float ml = (float)Math.Sqrt(mx * mx + my * my);
+            if (ml > 1f)
+            {
+                mx /= ml;
+                my /= ml;
+                ml = 1f;
+            }
+            if (Mode != KingMode.Dashing && (pressed & Buttons.Dash) != 0 && DashCd <= 0f)
+            {
+                // 움직이는 쪽으로. 서 있으면 조준한 쪽으로
+                if (ml > 0.01f)
+                {
+                    DashDX = mx / ml;
+                    DashDY = my / ml;
+                }
+                else
+                {
+                    DashDX = AimX;
+                    DashDY = AimY;
+                }
+                Mode = KingMode.Dashing;
+                DashTime = k.DashTime;
+                DashCd = k.DashCooldown;
+                IFrame = Math.Max(IFrame, k.DashIFrame);
+                Charge = 0f;
+                Queued = false;
+            }
+            if (Mode == KingMode.Dashing)
+            {
+                float t = Math.Min(dt, DashTime);
+                float v = k.DashDistance / k.DashTime;
+                dx = DashDX * v * t;
+                dy = DashDY * v * t;
+                DashTime -= dt;
+                if (DashTime <= 0f) Mode = KingMode.Normal;
+                return true;
+            }
+            dx = mx * k.Speed * speedFactor * dt;
+            dy = my * k.Speed * speedFactor * dt;
+            return false;
         }
 
         void Basic(Siege siege)
@@ -304,6 +349,7 @@ namespace LostRegalia.Sim
             w.Write(DashTime); w.Write(DashCd); w.Write(DashDX); w.Write(DashDY);
             w.Write(IFrame); w.Write(ParryWindow); w.Write(ParryCd); w.Write(DownTimer);
             w.Write((ushort)Prev);
+            w.Write(CX); w.Write(CY); w.Write(Star); w.Write(Iron); w.Write(Rune); w.Write(HasFragment);
             w.Write(Away); w.Write(ReturnBonus); w.Write(ReturnTime); w.Write(ShockReady);
             w.Write(Swings); w.Write(Parries); w.Write(Downs); w.Write(DamageTaken);
         }
@@ -316,6 +362,7 @@ namespace LostRegalia.Sim
             DashTime = r.ReadSingle(); DashCd = r.ReadSingle(); DashDX = r.ReadSingle(); DashDY = r.ReadSingle();
             IFrame = r.ReadSingle(); ParryWindow = r.ReadSingle(); ParryCd = r.ReadSingle(); DownTimer = r.ReadSingle();
             Prev = (Buttons)r.ReadUInt16();
+            CX = r.ReadSingle(); CY = r.ReadSingle(); Star = r.ReadInt32(); Iron = r.ReadInt32(); Rune = r.ReadInt32(); HasFragment = r.ReadBoolean();
             Away = r.ReadSingle(); ReturnBonus = r.ReadSingle(); ReturnTime = r.ReadSingle(); ShockReady = r.ReadBoolean();
             Swings = r.ReadInt32(); Parries = r.ReadInt32(); Downs = r.ReadInt32(); DamageTaken = r.ReadSingle();
         }

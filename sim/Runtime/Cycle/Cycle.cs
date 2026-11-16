@@ -20,7 +20,10 @@ namespace LostRegalia.Sim
         AssaultStart,   // A = 습격의 번호, 총공세면 0
         AssaultEnd,     // A = 습격의 번호, B = 성벽이 깎인 양, C = 흠 없는 방어였으면 1
         Victory,
-        Fallen
+        Fallen,
+        Deposit,        // 뒷문에 내려놓았다. A = 성광석, B = 흑철, C = 룬 수정
+        FragmentTaken,  // 대파편을 들었다
+        FragmentHome    // 대파편이 성에 닿았다. 다음 습격이 총공세다
     }
 
     /// <summary>시뮬레이션이 화면에 알리는 일. 소리와 효과는 이것으로 튼다. 상태가 아니므로 스냅숏에 들어가지 않는다.</summary>
