@@ -152,7 +152,7 @@ def render(data, by_id, branches, reports):
           f"> 데이터 버전 {data['version']} · 원본: [`data/trees/sword.json`](../data/trees/sword.json)",
           "> 이 문서는 `python3 tools/tree_doc.py sword`로 생성한다. **직접 고치지 않는다.** 데이터를 고치고 다시 생성한다.",
           "> 짝 문서: [GDD 8장](./02_gdd.md#8-각성-시스템--스킬-트리와-조합) · [경제·밸런스 시트](./04_balance.md)",
-          "> 수치는 모두 출발값이다. 인장과 상태이상의 수치는 전투 규칙 문서에서 함께 맞춘다.", "",
+          "> 수치는 모두 출발값이다. 인장과 상태이상, 추락의 규칙은 [전투 규칙](./06_combat_rules.md)에 있다.", "",
           f"**{data['pitch']}**", "", "---", ""]
 
     # 1

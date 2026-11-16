@@ -1,0 +1,106 @@
+{
+  "hp": 100,
+  "regen_on_wall": 2,
+  "speed": 6.0,
+  "hit_iframe": 0.5,
+  "dash": {
+    "distance": 7,
+    "time": 0.18,
+    "iframe": 0.15,
+    "cooldown": 2.0
+  },
+  "basic": {
+    "times": [
+      0.3,
+      0.3,
+      0.45
+    ],
+    "damage": [
+      12,
+      12,
+      20
+    ],
+    "knock": [
+      0,
+      0,
+      4
+    ],
+    "radius": 2.6,
+    "arc": 120
+  },
+  "charged": {
+    "charge": 0.6,
+    "recover": 0.3,
+    "damage": 35,
+    "radius": 3.0,
+    "knock": 10
+  },
+  "parry": {
+    "window": 0.2,
+    "damage": 30,
+    "radius": 4.0,
+    "knock": 6,
+    "cooldown": 1.0
+  },
+  "slam": {
+    "damage": 45,
+    "knock": 14,
+    "cooldown": 8
+  },
+  "reach_below": 3.0,
+  "downed": {
+    "revive": 6
+  },
+  "return": {
+    "min_away": 10,
+    "max_away": 60,
+    "max_bonus": 0.6,
+    "duration": 5,
+    "shock_radius": 5,
+    "shock_knock": 8
+  },
+  "caps": {
+    "cooldown_reduction": 0.4,
+    "attack_speed": 1.0
+  },
+  "cliff": {
+    "height": 18,
+    "tiers": 3,
+    "lanes": 6,
+    "lane_gap": 4.0,
+    "ledge_height": 12
+  },
+  "fall": {
+    "coef": 0.45,
+    "grip_regen": 2.0,
+    "grip_regen_delay": 1.5,
+    "reclimb_delay": 2.0,
+    "collide_damage": {
+      "소": 10,
+      "중": 20,
+      "대": 60
+    },
+    "collide_knock": {
+      "소": 4,
+      "중": 6,
+      "대": 12
+    },
+    "frozen_grip": 0.5,
+    "frozen_knock_taken": 1.5
+  },
+  "wall": {
+    "hp": 1000,
+    "repair_per_iron": 50
+  },
+  "assault": {
+    "spawn_window": 35,
+    "move_between_kills": 1.3,
+    "spawn_window_by_chapter": [
+      35,
+      40,
+      45,
+      50,
+      55
+    ]
+  }
+}
