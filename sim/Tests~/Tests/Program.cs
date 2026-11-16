@@ -263,10 +263,11 @@ static class Program
     }
 
     /// <summary>장 하나를 처음부터 끝까지. late초만큼 습격마다 늦게 돌아온다(0이면 성벽을 떠나지 않는다).</summary>
-    static World Chapter(Defs defs, ChapterDef ch, ulong seed, float late, out int flawless, out float worst)
+    static World Chapter(Defs defs, ChapterDef ch, ulong seed, float late, out int flawless, out float worst, Action<World> setup = null)
     {
         var w = new World(defs, seed);
         w.Cycle.Begin(w, ch);
+        if (setup != null) setup(w);
         flawless = 0;
         worst = 0f;
         int guard = 30 * 60 * 60;
@@ -732,10 +733,12 @@ static class Program
     /// <summary>
     /// 캐고, 종이 울리면 돌아와 싸우는 한 장. 종이 울리고 linger초 뒤에 돌아서기 시작한다.
     /// </summary>
-    static World Campaign(Defs defs, CapeDef cape, ChapterDef ch, ulong seed, int power, float linger, List<Trip> trips, out float away, out int flawless)
+    static World Campaign(Defs defs, CapeDef cape, ChapterDef ch, ulong seed, int power, float linger, List<Trip> trips, out float away, out int flawless,
+                          Action<World> shop = null, TreeDef tree = null, CastleDef castle = null)
     {
         var w = new World(defs, seed);
         w.OpenLand(cape, 0, seed);
+        if (tree != null) w.OpenShop(tree, castle);
         w.Cape.DigPower = power;
         w.Cycle.Begin(w, ch);
         var miner = new Miner();
@@ -752,6 +755,7 @@ static class Program
             if (w.Cycle.Wave >= ch.Waves.Length) w.Cycle.DeliverFragment();
             InputFrame f;
             bool wasOut = !w.King.OnWall;
+            if (shop != null && !wasOut && ph == Phase.Calm) shop(w);
             if (wasOut)
             {
                 f = miner.Think(w, call);
@@ -822,6 +826,259 @@ static class Program
             }
             Console.WriteLine("    종이 울리고 " + linger.ToString("0") + "초 더: 성광석 " + (star / 10).ToString("0") + ", 성벽 -" + (wall / 10).ToString("0")
                               + ", 흠 없는 방어 " + (fl / 10).ToString("0.0") + "/13, 승리 " + wins + "/10");
+        }
+    }
+
+    static World ShopWorld(Defs defs, CapeDef cape, TreeDef tree, CastleDef castle, int star, int iron)
+    {
+        var w = new World(defs, 1);
+        w.OpenLand(cape, 0, 7);
+        w.OpenShop(tree, castle);
+        w.Economy.Star = star;
+        w.Economy.Iron = iron;
+        return w;
+    }
+
+    static void ShopTests(Defs defs, CapeDef cape, ChapterDef ch, TreeDef tree, CastleDef castle)
+    {
+        KingDef k = defs.King;
+        Section("사기와 되돌리기");
+        {
+            Check(tree.Nodes.Length == 69 && castle.Facilities.Length == 3 && castle.King[0].Length == 2, "노드 69, 시설 3종, 왕 강화 2단계까지");
+            var w = ShopWorld(defs, cape, tree, castle, 20, 0);
+            Check(w.Build.Awaken(w, "S1") == Buy.Ok && w.Economy.Star == 12 && w.Cape.DigPower == 2, "채굴 위력 Ⅰ: 성광석 8, 타격당 강도 2");
+            Check(w.Build.Awaken(w, "S1") == Buy.Taken, "이미 깨운 노드는 다시 못 산다");
+            Check(w.Build.Awaken(w, "P3") == Buy.Locked, "2단계 노드는 1장에서 잠겨 있다");
+            Check(w.Build.Awaken(w, "P2") == Buy.Ok && w.Build.Awaken(w, "F2") == Buy.NoFunds, "모자라면 못 산다");
+            Check(w.Build.Unawaken(w, "S1") == Buy.Ok && w.Economy.Star == 12 && w.Cape.DigPower == 1, "재배치는 값 없이 전액을 돌려받는다");
+            w.Build.Chapter = 2;
+            w.Economy.Star = 100;
+            w.Build.Awaken(w, "P1");
+            Check(w.Build.Awaken(w, "P3") == Buy.Ok, "2장: 1단계 둘을 깨웠으면 2단계가 열린다");
+            Check(w.Build.Unawaken(w, "P2") == Buy.Needed, "다른 노드가 기대고 있으면 되돌릴 수 없다");
+
+            w = ShopWorld(defs, cape, tree, castle, 100, 0);
+            Check(w.Build.UpgradeKing(w, Axis.Back) == Buy.Ok && w.Cape.CarryLimit == 23 && w.Economy.Star == 88, "등 1: 운반 23");
+            Check(w.Build.UpgradeKing(w, Axis.Back) == Buy.Ok && w.Cape.CarryLimit == 30 && w.Economy.Star == 66, "등 2: 운반 30");
+            Check(w.Build.UpgradeKing(w, Axis.Back) == Buy.Maxed, "프로토타입은 2단계까지");
+            Check(w.Build.UpgradeKing(w, Axis.Heart) == Buy.Ok && w.King.MaxHp == 120f && w.King.Hp == 120f, "심장 1: 체력 120");
+            Check(w.Build.UpgradeKing(w, Axis.Heart) == Buy.Ok && w.King.MaxHp == 140f && w.King.ReviveTime == 5f, "심장 2: 체력 140, 재기 5초");
+            Check(w.Build.UpgradeKing(w, Axis.Legs) == Buy.Ok, "다리 1");
+            float x = w.King.X;
+            Steps(w, 30, new InputFrame { MoveX = 1f });
+            Check(Math.Abs(w.King.X - x - k.Speed * 1.1f) < 0.01f, "다리 1: 10% 빠르다");
+            Check(w.Build.DowngradeKing(w, Axis.Legs) == Buy.Ok && w.Economy.Star == 32 && w.Build.RefundsLeft == 2, "왕 강화 되돌리기: 전액 환급, 남은 횟수 2");
+
+            w = ShopWorld(defs, cape, tree, castle, 0, 40);
+            Check(w.Build.BuildFacility(w, 3, "ballista") == Buy.Locked, "1장의 칸은 셋");
+            Check(w.Build.BuildFacility(w, 0, "ballista") == Buy.Ok && w.Build.BuildFacility(w, 0, "thorns") == Buy.Taken && w.Economy.Iron == 30, "시설: 흑철 10, 칸 하나에 하나");
+            Check(w.Build.UpgradeWall(w) == Buy.Ok && w.Siege.WallMax == 1150f && w.Siege.WallHp == 1150f && w.Economy.Iron == 18, "성벽 강화 Ⅰ: 흑철 12, 1,150");
+            w.Siege.WallHp = 1000f;
+            Check(w.Build.Repair(w) == Buy.Ok && w.Siege.WallHp == 1050f && w.Economy.Iron == 17, "수리: 흑철 1에 50");
+            w.Siege.WallHp = 1140f;
+            w.Build.Repair(w);
+            Check(w.Siege.WallHp == 1150f && w.Build.Repair(w) == Buy.Maxed && w.Economy.Iron == 16, "가득 찬 성벽에는 쓰지 않는다");
+            Check(w.Build.Demolish(w, 0) == Buy.Ok && w.Economy.Iron == 26 && w.Build.Count("ballista") == 0, "철거하면 전액을 돌려받는다");
+            w.Build.Demolish(w, 0);
+            w.Build.BuildFacility(w, 0, "thorns"); w.Build.Demolish(w, 0);
+            w.Build.BuildFacility(w, 0, "thorns"); w.Build.Demolish(w, 0);
+            w.Build.BuildFacility(w, 0, "thorns");
+            Check(w.Build.Demolish(w, 0) == Buy.NoRefunds, "되돌리기는 장마다 세 번");
+
+            w = ShopWorld(defs, cape, tree, castle, 100, 100);
+            w.Cycle.Begin(w, ch);
+            Steps(w, 30 * 90, new InputFrame());
+            Check(w.Cycle.Phase == Phase.Alarm && w.Build.Awaken(w, "S1") == Buy.NotNow && w.Build.Repair(w) == Buy.NotNow, "종이 울린 뒤에는 살 수 없다");
+            w = ShopWorld(defs, cape, tree, castle, 100, 100);
+            w.King.Leave();
+            Check(w.Build.BuildFacility(w, 0, "ballista") == Buy.NotNow, "성벽을 비운 동안에는 살 수 없다");
+        }
+
+        Section("노드와 시설의 효과");
+        {
+            var w = ShopWorld(defs, cape, tree, castle, 100, 100);
+            w.Build.Awaken(w, "P2");
+            Put(w, "shield", 2, EnemyState.Climbing, 6f);
+            w.Siege.Knock(0, 99f);
+            Check(Math.Abs(w.Siege.Enemies[0].Hp - (45f - 16f * 1.3f)) < 0.01f, "무게: 낙하 피해 +30% (6m에서 16 → 20.8)");
+
+            w = ShopWorld(defs, cape, tree, castle, 100, 100);
+            w.Build.Awaken(w, "F2");
+            w.King.X = k.LaneX(2); w.King.Y = 2f;
+            Put(w, "crawler", 2, EnemyState.OnWall, k.CliffHeight);
+            Tap(w, Buttons.Attack);
+            float x = w.King.X;
+            Steps(w, 30, new InputFrame { MoveX = 1f });
+            Check(w.Siege.Kills == 1 && Math.Abs(w.King.X - x - k.Speed * 1.2f) < 0.25f, "여세: 처치한 뒤 20% 빠르다");
+            Steps(w, 45, new InputFrame());
+            x = w.King.X;
+            Steps(w, 30, new InputFrame { MoveX = 1f });
+            Check(Math.Abs(w.King.X - x - k.Speed) < 0.01f, "여세는 2초 뒤에 꺼진다");
+
+            w = ShopWorld(defs, cape, tree, castle, 100, 100);
+            w.Build.Awaken(w, "I2");
+            w.King.X = k.LaneX(2); w.King.Y = 2f;
+            w.Siege.WallHp = 900f;
+            Put(w, "climber", 2, EnemyState.OnWall, k.CliffHeight);
+            Steps(w, 33, new InputFrame());
+            w.Step(new InputFrame { Held = Buttons.Guard });
+            Steps(w, 4, new InputFrame());
+            Check(w.King.Parries == 1 && w.Siege.WallHp == 905f, "굳건함: 받아치면 성벽 +5");
+
+            w = ShopWorld(defs, cape, tree, castle, 0, 100);
+            w.Build.BuildFacility(w, 0, "ballista");
+            w.King.Leave();
+            Put(w, "climber", 1, EnemyState.Climbing, 3f);
+            Put(w, "climber", 4, EnemyState.Climbing, 9f);
+            Steps(w, 30 * 4 + 2, new InputFrame());
+            Check(w.Siege.Enemies[1].State == EnemyState.Dead && w.Siege.Enemies[0].Hp == 30f && w.Build.Shots == 1, "발리스타: 4초마다 가장 높은 적에게 40");
+            Steps(w, 30 * 4, new InputFrame());
+            Check(w.Siege.Enemies[0].State == EnemyState.Dead && w.Build.Shots == 2, "다음 발은 그다음으로 높은 적에게");
+            Steps(w, 30 * 20, new InputFrame());
+            Put(w, "climber", 1, EnemyState.Climbing, 3f);
+            Steps(w, 3, new InputFrame());
+            Check(w.Build.Shots == 3, "쏠 것이 없으면 장전한 채로 기다렸다가 바로 쏜다");
+
+            Func<bool, float[]> thorn = on =>
+            {
+                var v = ShopWorld(defs, cape, tree, castle, 0, 100);
+                if (on) v.Build.BuildFacility(v, 1, "thorns");
+                v.King.Leave();
+                Put(v, "porter", 2, EnemyState.Climbing, 14.9f);
+                int n = 0;
+                while (n < 3000 && v.Siege.Enemies[0].State == EnemyState.Climbing) { v.Step(); n++; }
+                return new[] { n / 30f, v.Siege.Enemies[0].Hp };
+            };
+            float[] plain = thorn(false), thorny = thorn(true);
+            Check(Math.Abs(plain[0] - 7.75f) < 0.2f && plain[1] == 220f, "난간이 없으면 짐꾼 거인은 턱밑 띠 3m를 7.5초에 오른다");
+            Check(Math.Abs(thorny[0] - (0.25f + 3f / 0.28f)) < 0.3f, "가시 난간: 턱밑 띠에서 30% 느리다(10.7초)");
+            Check(Math.Abs(thorny[1] - (220f - 6f * 3f / 0.28f)) < 2f, "가시 난간: 그동안 초당 6을 깎는다(-64)");
+
+            w = ShopWorld(defs, cape, tree, castle, 0, 100);
+            w.Build.BuildFacility(w, 2, "watchtower");
+            w.Cycle.Begin(w, ch);
+            int bell = -1;
+            for (int i = 0; i < 30 * 90 && bell < 0; i++)
+            {
+                w.Step();
+                for (int e = 0; e < w.Events.Count; e++) if (w.Events[e].Kind == EventKind.Bell) bell = w.Tick;
+            }
+            Check(Math.Abs(bell - 30 * 80) <= 2, "망루: 종이 20초 전에 울린다");
+
+            w = ShopWorld(defs, cape, tree, castle, 100, 100);
+            byte[] snap = w.Snapshot();
+            w.Build.UpgradeKing(w, Axis.Heart);
+            w.Build.UpgradeWall(w);
+            w.Build.Awaken(w, "S1");
+            w.Restore(snap);
+            Check(w.King.MaxHp == 100f && w.King.Hp == 100f && w.Siege.WallMax == 1000f && w.Siege.WallHp == 1000f && w.Cape.DigPower == 1 && w.Economy.Star == 100,
+                  "되감으면 산 것과 쓴 자원이 함께 돌아간다");
+        }
+    }
+
+    /// <summary>테스트용 살림. 순서대로 살 수 있는 만큼 산다. 흑철은 수리가 먼저다.</summary>
+    static Action<World> Policy(params string[] order)
+    {
+        return w =>
+        {
+            Build b = w.Build;
+            while (w.Siege.WallHp <= w.Siege.WallMax - w.Defs.King.RepairPerIron && b.Repair(w) == Buy.Ok) { }
+            foreach (string item in order)
+            {
+                Buy r;
+                if (item == "legs") r = b.UpgradeKing(w, Axis.Legs);
+                else if (item == "back") r = b.UpgradeKing(w, Axis.Back);
+                else if (item == "heart") r = b.UpgradeKing(w, Axis.Heart);
+                else if (item == "wall") r = b.WallLevel > 0 ? Buy.Maxed : b.UpgradeWall(w);
+                else if (item == "ballista" || item == "thorns" || item == "watchtower")
+                {
+                    if (b.Count(item) > 0) continue;
+                    int slot = Array.IndexOf(b.SlotKind, -1);
+                    r = b.BuildFacility(w, slot, item);
+                }
+                else r = b.Awake[b.Tree.Index(item)] ? Buy.Taken : b.Awaken(w, item);
+                if (r == Buy.NoFunds) break;            // 순서를 지킨다. 다음 것을 먼저 사지 않는다
+            }
+        };
+    }
+
+    static void EconomyTests(Defs defs, CapeDef cape, ChapterDef ch, TreeDef tree, CastleDef castle)
+    {
+        KingDef k = defs.King;
+        Section("사면서 치르는 1장");
+        string[] iron = { "ballista", "thorns", "watchtower", "wall" };
+        var plans = new List<KeyValuePair<string, string[]>>
+        {
+            new KeyValuePair<string, string[]>("아무것도 사지 않음", new string[0]),
+            new KeyValuePair<string, string[]>("채굴 위력 먼저", new[] { "S1", "back", "back", "legs", "legs", "P2", "F2", "I2", "heart" }),
+            new KeyValuePair<string, string[]>("등 먼저", new[] { "back", "back", "S1", "legs", "legs", "P2", "F2", "I2", "heart" }),
+            new KeyValuePair<string, string[]>("다리 먼저", new[] { "legs", "legs", "S1", "back", "back", "P2", "F2", "I2", "heart" }),
+        };
+        float away;
+        int flawless;
+        foreach (var plan in plans)
+        {
+            var order = new List<string>(plan.Value);
+            if (plan.Value.Length > 0) order.AddRange(iron);
+            double star = 0, ironGot = 0, sec = 0, wall = 0, wins = 0, left = 0, calms = 0;
+            int bought = 0;
+            for (ulong seed = 1; seed <= 10; seed++)
+            {
+                var trips = new List<Trip>();
+                World w = Campaign(defs, cape, ch, seed, 1, 0f, trips, out away, out flawless, Policy(order.ToArray()), tree, castle);
+                foreach (Trip t in trips) { star += t.Star; ironGot += t.Iron; }
+                sec += away; wall += w.Siege.WallMax - w.Siege.WallHp; left += w.Economy.Star; calms += w.Cycle.Wave + 1;
+                if (w.Cycle.Phase == Phase.Victory) wins++;
+                else if (Environment.GetEnvironmentVariable("SHOW_LOSS") != null)
+                    Console.WriteLine("      시드 " + seed + ": " + w.Cycle.Phase + " 습격 " + w.Cycle.Wave + " 틱 " + w.Tick + " 성벽 " + w.Siege.WallHp + " 왕 " + (w.King.OnWall ? "성벽 " + w.King.X + "," + w.King.Y : "곶 " + w.King.CX + "," + w.King.CY) + " 끎 " + w.Cape.CarryCount(w.King) + " 남은 적 " + w.Siege.Enemies.Count + " 위협 " + w.Siege.Threat + " 모드 " + w.King.Mode);
+                if (seed == 1)
+                {
+                    for (int i = 0; i < w.Build.Awake.Length; i++) if (w.Build.Awake[i]) bought++;
+                    for (int a = 0; a < 4; a++) bought += w.Build.KingLevel[a];
+                }
+            }
+            Console.WriteLine("    " + plan.Key + ": 성광석 " + (star / 10).ToString("0") + "/170 (고요 한 번에 " + (star / calms).ToString("0.0") + "), 흑철 " + (ironGot / 10).ToString("0")
+                              + "/60, 비운 시간 " + (sec / 600).ToString("0.0") + "분, 남긴 성광석 " + (left / 10).ToString("0") + ", 성광석으로 산 것 " + bought
+                              + "개(시드 1), 승리 " + wins + "/10");
+        }
+        {
+            var trips = new List<Trip>();
+            var order = new List<string>(plans[2].Value);
+            order.AddRange(iron);
+            World w = Campaign(defs, cape, ch, 3, 1, 0f, trips, out away, out flawless, Policy(order.ToArray()), tree, castle);
+            int got = 0;
+            foreach (Trip t in trips) got += t.Star;
+            Check(w.Cycle.Phase == Phase.Victory && w.Build.KingLevel[(int)Axis.Back] == 2 && w.Cape.CarryLimit == 30, "사면서 치러도 이긴다. 등을 끝까지 올린다");
+            int spent = 0;
+            for (int i = 0; i < w.Build.Awake.Length; i++) if (w.Build.Awake[i]) spent += tree.Nodes[i].Cost;
+            for (int a = 0; a < 4; a++) for (int l = 0; l < w.Build.KingLevel[a]; l++) spent += castle.King[a][l].Cost;
+            Check(got == spent + w.Economy.Star, "가져온 성광석 = 쓴 것 + 남은 것");
+            Check(got < 200, "성광석으로 살 수 있는 것 전부(200)는 살 수 없다");
+        }
+
+        Console.WriteLine("  시설이 늦는 값을 얼마나 덜어 주는가 (습격마다 늦게 돌아오는 왕, 수리 없음)");
+        var kits = new List<KeyValuePair<string, string[]>>
+        {
+            new KeyValuePair<string, string[]>("시설 없음", new string[0]),
+            new KeyValuePair<string, string[]>("발리스타", new[] { "ballista" }),
+            new KeyValuePair<string, string[]>("가시 난간", new[] { "thorns" }),
+            new KeyValuePair<string, string[]>("발리스타 + 가시 난간", new[] { "ballista", "thorns" }),
+        };
+        foreach (var kit in kits)
+        {
+            var sb = new System.Text.StringBuilder("    " + kit.Key + ":");
+            foreach (float late in new[] { 40f, 50f, 60f, 75f, 9999f })
+            {
+                float worst;
+                World w = Chapter(defs, ch, 11, late, out flawless, out worst, v =>
+                {
+                    v.OpenShop(tree, castle);
+                    v.Economy.Iron = 100;
+                    for (int i = 0; i < kit.Value.Length; i++) v.Build.BuildFacility(v, i, kit.Value[i]);
+                });
+                sb.Append("  " + (late > 1000f ? "돌아오지 않음 " : late.ToString("0") + "초 ") + (w.Cycle.Phase == Phase.Victory ? "-" + (k.WallHp - w.Siege.WallHp).ToString("0") : "함락(" + (w.Cycle.Wave + 1) + ")"));
+            }
+            Console.WriteLine(sb.ToString());
         }
     }
 
@@ -907,6 +1164,10 @@ static class Program
         CycleTests(defs, ch1);
         CapeTests(defs, cape);
         CampaignTests(defs, cape, ch1);
+        TreeDef tree = TreeDef.Load(File.ReadAllText(Path.Combine(root, "data", "trees", "sword.json")));
+        CastleDef castle = CastleDef.Load(File.ReadAllText(Path.Combine(root, "data", "castle", "castle.json")));
+        ShopTests(defs, cape, ch1, tree, castle);
+        EconomyTests(defs, cape, ch1, tree, castle);
 
         Section("결정성과 되감기");
         var wave1 = Wave(J.Obj(waves[0]));

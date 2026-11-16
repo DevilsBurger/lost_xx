@@ -11,13 +11,14 @@ namespace LostRegalia.Sim
     {
         public const int TickRate = 30;
         public const float Dt = 1f / TickRate;
-        const int SnapshotVersion = 4;
+        const int SnapshotVersion = 5;
 
         public readonly Defs Defs;
         public readonly Siege Siege;
         public readonly King King;
         public readonly Cycle Cycle = new Cycle();
         public readonly Economy Economy = new Economy();
+        public Build Build;                 // 없으면 사고 고르는 것이 없는 판이다
         public Cape Cape;                   // 없으면 곶이 없는 판이다(성벽만 시험할 때)
         /// <summary>이번 틱에 일어난 일. 틱이 시작될 때 비운다.</summary>
         public readonly List<SimEvent> Events = new List<SimEvent>();
@@ -38,6 +39,13 @@ namespace LostRegalia.Sim
             Cape = new Cape(cape, LandGen.GenerateValid(cape, cape.Lands[landIndex], seed));
         }
 
+        /// <summary>각성 트리와 성의 규칙을 붙인다. 살 수 있게 된다.</summary>
+        public void OpenShop(TreeDef tree, CastleDef castle)
+        {
+            Build = new Build(tree, castle);
+            Build.Apply(this);
+        }
+
         /// <summary>입력 없이 틱 하나.</summary>
         public void Step()
         {
@@ -51,6 +59,7 @@ namespace LostRegalia.Sim
             if (Cycle.Phase == Phase.Victory || Cycle.Phase == Phase.Fallen) return;    // 판이 끝났다
             King.Step(input, this, Dt);
             Siege.Step(Tick, Dt, King);
+            if (Build != null) Build.Step(this, Dt);
             Cycle.Step(this, Dt);
             Tick++;
         }
@@ -105,6 +114,8 @@ namespace LostRegalia.Sim
                 Economy.Write(w);
                 w.Write(Cape != null);
                 if (Cape != null) Cape.Write(w);
+                w.Write(Build != null);
+                if (Build != null) Build.Write(w);
                 King.Write(w);
                 Siege.Write(w);
                 w.Flush();
@@ -126,8 +137,12 @@ namespace LostRegalia.Sim
                 bool cape = r.ReadBoolean();
                 if (cape != (Cape != null)) throw new InvalidDataException("스냅숏과 판의 곶이 맞지 않는다");
                 if (cape) Cape.Read(r);
+                bool build = r.ReadBoolean();
+                if (build != (Build != null)) throw new InvalidDataException("스냅숏과 판의 구성이 맞지 않는다");
+                if (build) Build.Read(r);
                 King.Read(r);
                 Siege.Read(r);
+                if (build) Build.Apply(this, true);
             }
         }
 

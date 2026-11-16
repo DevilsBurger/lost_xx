@@ -42,6 +42,8 @@ namespace LostRegalia.Sim
     {
         readonly Defs defs;
         public float WallHp;
+        // 고른 것(Build)에서 나오는 값. 상태가 아니다
+        public float WallMax, FallMul = 1f, ThornDps, ThornSlow;
         public float CollideKnockMul = 1f;      // 검 파멸 가지의 '굴러떨어지는 것들'을 깨우면 1.5
         public readonly List<Enemy> Enemies = new List<Enemy>();
         public readonly List<Spawn> Queue = new List<Spawn>();
@@ -50,7 +52,7 @@ namespace LostRegalia.Sim
         public Siege(Defs defs)
         {
             this.defs = defs;
-            WallHp = defs.King.WallHp;
+            WallHp = WallMax = defs.King.WallHp;
         }
 
         public bool Active
@@ -114,7 +116,7 @@ namespace LostRegalia.Sim
                 {
                     case EnemyState.Climbing:
                         RegenGrip(ref e, d, k, dt);
-                        e.Height += d.Climb * dt;
+                        e.Height += d.Climb * dt * (ThornSlow > 0f && e.Height >= k.CliffHeight - k.ReachBelow ? 1f - ThornSlow : 1f);
                         if (d.Perches && e.Height >= k.LedgeHeight)
                         {
                             e.Height = k.LedgeHeight;
@@ -229,7 +231,7 @@ namespace LostRegalia.Sim
             Enemy e = Enemies[i];
             float h = e.Height;
             Drops++;
-            e.Hp -= FallRules.FallDamage(k, h);
+            e.Hp -= FallRules.FallDamage(k, h) * FallMul;
             if (e.Hp <= 0f)
             {
                 e.State = EnemyState.Dead;

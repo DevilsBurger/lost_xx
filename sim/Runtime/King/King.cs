@@ -34,6 +34,11 @@ namespace LostRegalia.Sim
         public float ParryWindow, ParryCd;
         public float DownTimer;
         public Buttons Prev;
+        public float MomentumTime;          // 여세가 남은 시간
+
+        // 고른 것(Build)에서 나오는 값. 상태가 아니다. Build.Apply가 적는다
+        public float MaxHp, SpeedMul = 1f, ReviveTime, MomentumSpeed, MomentumMax, ParryWallHeal;
+
         public float CX, CY;                // 곶에서의 자리(미터). 성벽 위에 있을 때는 쓰지 않는다
         public int Star, Iron, Rune;        // 끌고 있는 자원
         public bool HasFragment;            // 대파편을 들고 있는가
@@ -48,7 +53,8 @@ namespace LostRegalia.Sim
         public King(Defs defs)
         {
             this.defs = defs;
-            Hp = defs.King.Hp;
+            Hp = MaxHp = defs.King.Hp;
+            ReviveTime = defs.King.Revive;
             Respawn();
         }
 
@@ -101,7 +107,7 @@ namespace LostRegalia.Sim
                 if (DownTimer <= 0f)
                 {
                     Mode = KingMode.Normal;
-                    Hp = k.Hp;
+                    Hp = MaxHp;
                     Respawn();
                 }
                 return;
@@ -110,6 +116,7 @@ namespace LostRegalia.Sim
             Busy -= dt;
             if (Busy < 0.0005f) Busy = 0f;      // 0.3초는 정확히 아홉 틱이어야 한다. 실수 오차로 한 틱 늘어지지 않게
             DashCd = Math.Max(0f, DashCd - dt);
+            MomentumTime = Math.Max(0f, MomentumTime - dt);
             float aim = (float)Math.Sqrt(input.AimX * input.AimX + input.AimY * input.AimY);
             if (aim > 0.01f)
             {
@@ -128,7 +135,7 @@ namespace LostRegalia.Sim
             IFrame = Math.Max(0f, IFrame - dt);
             ParryWindow = Math.Max(0f, ParryWindow - dt);
             ParryCd = Math.Max(0f, ParryCd - dt);
-            Hp = Math.Min(k.Hp, Hp + k.RegenOnWall * dt);
+            Hp = Math.Min(MaxHp, Hp + k.RegenOnWall * dt);
             if (ReturnTime > 0f)
             {
                 ReturnTime -= dt;
@@ -140,7 +147,7 @@ namespace LostRegalia.Sim
             }
 
             float dx, dy;
-            bool dashing = Displace(input, pressed, dt, 1f, out dx, out dy);
+            bool dashing = Displace(input, pressed, dt, MoveFactor, out dx, out dy);
             X = Math.Min(k.WallLength, Math.Max(0f, X + dx));
             Y = Y + dy;
             if (Y >= k.WallWidth && w.Cape != null && input.MoveY > 0.5f && Math.Abs(X - k.WallLength * 0.5f) <= w.Cape.Def.GateHalfM)
@@ -176,6 +183,9 @@ namespace LostRegalia.Sim
                 Basic(siege);
             }
         }
+
+        /// <summary>왕 강화와 여세가 더한 이동 속도. 1이 제 속도.</summary>
+        public float MoveFactor { get { return SpeedMul * (MomentumTime > 0f ? 1f + MomentumSpeed : 1f); } }
 
         /// <summary>뒷문으로 들어온다. 끌고 온 것을 내려놓고 성벽 위로 돌아간다.</summary>
         void ComeHome(World w)
@@ -291,6 +301,7 @@ namespace LostRegalia.Sim
             damage *= 1f + ReturnBonus;                         // 피해 증가는 서로 더한다. 지금은 왕의 귀환 하나다
             knock *= 1f + ReturnBonus;
             var es = siege.Enemies;
+            int kills = siege.Kills;
             for (int i = 0; i < es.Count; i++)
             {
                 EnemyState s = es[i].State;
@@ -306,6 +317,7 @@ namespace LostRegalia.Sim
                 s = es[i].State;
                 if (damage > 0f && s != EnemyState.Dead && s != EnemyState.Grounded) siege.Damage(i, damage);
             }
+            if (siege.Kills > kills && MomentumMax > 0f) MomentumTime = MomentumMax;
         }
 
         /// <summary>적의 일격. 받아쳤으면 참을 돌려준다. 그때 피해는 없고 반격파가 나간다.</summary>
@@ -326,7 +338,7 @@ namespace LostRegalia.Sim
             {
                 Hp = 0f;
                 Mode = KingMode.Downed;
-                DownTimer = defs.King.Revive;
+                DownTimer = ReviveTime;
                 Downs++;
                 Busy = Charge = ComboTimer = ParryWindow = DashTime = 0f;
                 Queued = false;
@@ -339,6 +351,7 @@ namespace LostRegalia.Sim
         {
             KingDef k = defs.King;
             Strike(siege, k.ParryRadius, 360f, k.ParryDamage, k.ParryKnock);
+            if (ParryWallHeal > 0f) siege.WallHp = Math.Min(siege.WallMax, siege.WallHp + ParryWallHeal);
         }
 
         public void Write(BinaryWriter w)
@@ -350,7 +363,7 @@ namespace LostRegalia.Sim
             w.Write(IFrame); w.Write(ParryWindow); w.Write(ParryCd); w.Write(DownTimer);
             w.Write((ushort)Prev);
             w.Write(CX); w.Write(CY); w.Write(Star); w.Write(Iron); w.Write(Rune); w.Write(HasFragment);
-            w.Write(Away); w.Write(ReturnBonus); w.Write(ReturnTime); w.Write(ShockReady);
+            w.Write(MomentumTime); w.Write(Away); w.Write(ReturnBonus); w.Write(ReturnTime); w.Write(ShockReady);
             w.Write(Swings); w.Write(Parries); w.Write(Downs); w.Write(DamageTaken);
         }
 
@@ -363,7 +376,7 @@ namespace LostRegalia.Sim
             IFrame = r.ReadSingle(); ParryWindow = r.ReadSingle(); ParryCd = r.ReadSingle(); DownTimer = r.ReadSingle();
             Prev = (Buttons)r.ReadUInt16();
             CX = r.ReadSingle(); CY = r.ReadSingle(); Star = r.ReadInt32(); Iron = r.ReadInt32(); Rune = r.ReadInt32(); HasFragment = r.ReadBoolean();
-            Away = r.ReadSingle(); ReturnBonus = r.ReadSingle(); ReturnTime = r.ReadSingle(); ShockReady = r.ReadBoolean();
+            MomentumTime = r.ReadSingle(); Away = r.ReadSingle(); ReturnBonus = r.ReadSingle(); ReturnTime = r.ReadSingle(); ShockReady = r.ReadBoolean();
             Swings = r.ReadInt32(); Parries = r.ReadInt32(); Downs = r.ReadInt32(); DamageTaken = r.ReadSingle();
         }
     }

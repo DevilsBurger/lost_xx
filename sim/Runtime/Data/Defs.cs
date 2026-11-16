@@ -95,7 +95,7 @@ namespace LostRegalia.Sim
         public float[] CollideDamage = new float[3];
         public float[] CollideKnock = new float[3];
 
-        public float WallHp;
+        public float WallHp, RepairPerIron;
     }
 
     /// <summary>
@@ -190,6 +190,7 @@ namespace LostRegalia.Sim
             }
             var wall = J.Obj(o["wall"]);
             k.WallHp = J.Num(wall["hp"]);
+            k.RepairPerIron = J.Num(wall["repair_per_iron"]);
             k.WallLength = J.Num(wall["length"]);
             k.WallWidth = J.Num(wall["width"]);
 

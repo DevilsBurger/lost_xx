@@ -46,6 +46,7 @@ namespace LostRegalia.Sim
         public bool Flawless;           // 이번 습격에서 성벽이 아직 깎이지 않았는가
         public int AssaultTicks;        // 이번 습격이 이어진 틱
         public int FlawlessCount, Retreated;
+        public float AlarmBonus;        // 망루가 앞당긴 경보. 상태가 아니다. Build.Apply가 적는다
         public float LastCalm;          // 마지막으로 시작한 고요의 길이
 
         ChapterDef chapter;
@@ -111,7 +112,7 @@ namespace LostRegalia.Sim
             if (Phase == Phase.Calm || Phase == Phase.Alarm)
             {
                 TimeLeft -= dt;
-                if (Phase == Phase.Calm && TimeLeft <= Of(k.Alarm))
+                if (Phase == Phase.Calm && TimeLeft <= Of(k.Alarm) + AlarmBonus)
                 {
                     Phase = Phase.Alarm;
                     w.Emit(EventKind.Bell, FragmentHome ? 0 : Wave + 1, 0, 0);

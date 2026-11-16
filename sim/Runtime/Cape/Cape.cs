@@ -30,6 +30,7 @@ namespace LostRegalia.Sim
     {
         public readonly CapeDef Def;
         public readonly Land Land;
+        public int CarryLimit;                      // 운반 한도. 등 강화가 올린다. 상태가 아니다
         public int DigPower;                        // 타격 한 번이 깎는 강도. 줄기의 채굴 위력이 올린다
         public readonly List<Pile> Piles = new List<Pile>();
         public int Swings, TilesDug, MinedStar, MinedIron, MinedRune;      // 계측용
@@ -39,6 +40,7 @@ namespace LostRegalia.Sim
             Def = def;
             Land = land;
             DigPower = def.PowerByNodes[0];
+            CarryLimit = def.CarryLimit;
         }
 
         /// <summary>길의 가운데. 어귀 타일과 그 오른쪽 타일의 사이다.</summary>
@@ -84,10 +86,14 @@ namespace LostRegalia.Sim
         public bool StepKing(King king, InputFrame input, Buttons pressed, float dt, World w)
         {
             float r = Def.KingRadius, dx, dy;
-            bool dashing = king.Displace(input, pressed, dt, SpeedFactor(king), out dx, out dy);
-            if (dx != 0f && !Blocked(king.CX + dx, king.CY, r)) king.CX += dx;
-            if (dy != 0f && !Blocked(king.CX, king.CY + dy, r)) king.CY += dy;
-            if (king.CY <= -Def.ApproachM + r + 0.2f && input.MoveY < -0.5f) return true;
+            bool dashing = king.Displace(input, pressed, dt, SpeedFactor(king) * king.MoveFactor, out dx, out dy);
+            // 뒷문: 길의 끝에 닿았고 성 쪽으로 밀고 있으면 돌아간다
+            if (input.MoveY < -0.5f && king.CY + Math.Min(dy, 0f) - r <= -Def.ApproachM + 0.1f) return true;
+            // 가로와 세로를 따로 움직인다. 막히면 걸음을 반씩 줄여 벽에 붙는다
+            for (int half = 0; half < 4 && dx != 0f; half++, dx *= 0.5f)
+                if (!Blocked(king.CX + dx, king.CY, r)) { king.CX += dx; break; }
+            for (int half = 0; half < 4 && dy != 0f; half++, dy *= 0.5f)
+                if (!Blocked(king.CX, king.CY + dy, r)) { king.CY += dy; break; }
             if (dashing) return false;
 
             if ((pressed & Buttons.Drop) != 0 && CarryCount(king) > 0)
@@ -125,7 +131,7 @@ namespace LostRegalia.Sim
             }
             if (best < 0) return;
             Pile p = Piles[best];
-            int room = Def.CarryLimit - CarryCount(king);
+            int room = CarryLimit - CarryCount(king);
             int n = Math.Min(room, p.Star); king.Star += n; p.Star -= n; room -= n;
             n = Math.Min(room, p.Iron); king.Iron += n; p.Iron -= n; room -= n;
             n = Math.Min(room, p.Rune); king.Rune += n; p.Rune -= n;
@@ -189,7 +195,7 @@ namespace LostRegalia.Sim
             int amount = Land.OreAmount[i];
             Land.OreKind[i] = Ore.None;
             Land.OreAmount[i] = 0;
-            int take = Math.Min(amount, Def.CarryLimit - CarryCount(king));
+            int take = Math.Min(amount, CarryLimit - CarryCount(king));
             int star = kind == Ore.Star ? 1 : 0, iron = kind == Ore.Iron ? 1 : 0, rune = kind == Ore.Rune ? 1 : 0;
             king.Star += take * star; king.Iron += take * iron; king.Rune += take * rune;
             MinedStar += amount * star; MinedIron += amount * iron; MinedRune += amount * rune;

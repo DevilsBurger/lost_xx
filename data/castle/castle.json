@@ -1,0 +1,113 @@
+{
+  "note": "성과 왕 강화의 값. 프로토타입 범위(1장)만 채웠다. 뒤의 단계는 비용만 밸런스 시트에 있다.",
+  "caps_by_chapter": {
+    "slots": [
+      3,
+      4,
+      6,
+      7,
+      8
+    ],
+    "facility_tier": [
+      1,
+      2,
+      3,
+      4,
+      4
+    ],
+    "king_level": [
+      2,
+      3,
+      4,
+      5,
+      5
+    ],
+    "tree_tier": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ]
+  },
+  "refunds_per_chapter": 3,
+  "wall": {
+    "upgrades": [
+      {
+        "cost": 12,
+        "hp": 1150
+      }
+    ]
+  },
+  "king": {
+    "legs": [
+      {
+        "cost": 12,
+        "speed": 0.1
+      },
+      {
+        "cost": 22,
+        "speed": 0.2
+      }
+    ],
+    "back": [
+      {
+        "cost": 12,
+        "carry": 23
+      },
+      {
+        "cost": 22,
+        "carry": 30
+      }
+    ],
+    "eyes": [
+      {
+        "cost": 12,
+        "light_m": 2
+      },
+      {
+        "cost": 22,
+        "light_m": 4
+      }
+    ],
+    "heart": [
+      {
+        "cost": 12,
+        "hp": 120
+      },
+      {
+        "cost": 22,
+        "hp": 140,
+        "revive": 5
+      }
+    ]
+  },
+  "facilities": [
+    {
+      "id": "watchtower",
+      "name": "망루",
+      "cost": [
+        10
+      ],
+      "alarm_bonus": 5
+    },
+    {
+      "id": "ballista",
+      "name": "발리스타",
+      "cost": [
+        10
+      ],
+      "interval": 4,
+      "damage": 40
+    },
+    {
+      "id": "thorns",
+      "name": "가시 난간",
+      "cost": [
+        10
+      ],
+      "dps": 6,
+      "slow": 0.3
+    }
+  ]
+}
