@@ -18,6 +18,7 @@
 | [검 각성 트리 상세](docs/05_sword_tree.md) | 검의 노드 69개, 기술과 변형, 진명과 궁극, 빌드 경로 예시 |
 | [전투 규칙](docs/06_combat_rules.md) | 피해와 추락의 규칙, 인장과 반응, 적 15종의 행동, 습격 편성, 보스 5종 |
 | [곶 생성 규칙](docs/07_cape_generation.md) | 땅을 만드는 순서, 타일과 광맥, 자리와 위험, 검증, 만들어 본 땅의 측정값 |
+| [HUD·인터페이스 설계서](docs/09_ui_hud.md) | 화면 배치, 종 게이지와 귀환선, 성벽 띠, 왕좌 메뉴, 글 규칙, 입력과 행동 유도, 단계별 범위 |
 | [기술 설계서](docs/08_technical_design.md) | 시뮬레이션과 화면의 분리, 틱과 결정성, 저장과 되감기, Unity 쪽 구조, 데이터, 테스트 |
 
 ## 도구
@@ -54,6 +55,14 @@ python3 tools/cape_gen.py render 7    # 시드 7의 다섯 땅을 그림으로 (
 ```
 
 `data/cape/lands.json`이 규칙의 원본이다. 이 생성기가 Unity 생성기의 기준 구현이다.
+
+HUD·인터페이스 목업:
+
+```bash
+python3 tools/hud_mock.py
+```
+
+`docs/img/ui_*.svg` 다섯 장을 다시 그린다. `docs/09_ui_hud.md`의 그림 원본이다.
 
 ## 시뮬레이션 코어
 

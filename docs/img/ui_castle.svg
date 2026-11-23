@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="'Noto Sans KR','NanumGothic','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><defs><pattern id="hx_l" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="none"/><rect width="2.5" height="6" fill="#3a4656"/></pattern></defs><rect x="0" y="0" width="1280" height="720" rx="0" fill="#10151c"/>
+<rect x="0" y="0" width="1280" height="56" rx="0" fill="#0b0f14"/>
+<rect x="24" y="19" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="34.0" y="32.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Q</text>
+<text x="100.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">각성</text>
+<rect x="146" y="10" width="58" height="36" rx="8" fill="#202834" stroke="#e2b93b" stroke-width="1.5"/>
+<text x="175.0" y="34" font-size="16" fill="#e2b93b" text-anchor="middle" font-weight="700">성</text>
+<text x="239.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">왕</text>
+<text x="314.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">성물</text>
+<text x="400.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">기록</text>
+<rect x="450" y="19" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="460.0" y="32.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">E</text>
+<text x="490" y="33" font-size="12" fill="#93a1b2" text-anchor="start">왕좌 · 고요 · 정지</text>
+<rect x="1026" y="10" width="238" height="34" rx="8" fill="#0b0f14" opacity="0.55"/>
+<path d="M1044,20 L1051,27 L1044,34 L1037,27 Z" fill="#e2b93b"/>
+<text x="1058" y="32" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">124</text>
+<rect x="1112" y="21" width="12" height="12" rx="2" fill="#8f9bb0"/>
+<text x="1132" y="32" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">18</text>
+<path d="M1192,19 L1198,25 L1192,35 L1186,25 Z" fill="#a98be0"/>
+<text x="1206" y="32" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">3</text>
+<rect x="20" y="72" width="872" height="400" rx="10" fill="#0d1218"/>
+<text x="40" y="100" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">성벽</text>
+<text x="872" y="100" font-size="12" fill="#93a1b2" text-anchor="end">시설 2 / 3 · 1장 상한 Ⅰ단계</text>
+<rect x="60.0" y="210" width="260.0" height="60" rx="3" fill="#3a4656" stroke="#56667c" stroke-width="1"/>
+<text x="72.0" y="288" font-size="11.5" fill="#93a1b2" text-anchor="start">구역 1</text>
+<rect x="60.0" y="300" width="260.0" height="150" rx="3" fill="#1a212b"/>
+<rect x="324.0" y="210" width="260.0" height="60" rx="3" fill="#3a4656" stroke="#56667c" stroke-width="1"/>
+<text x="336.0" y="288" font-size="11.5" fill="#93a1b2" text-anchor="start">구역 2</text>
+<rect x="324.0" y="300" width="260.0" height="150" rx="3" fill="#1a212b"/>
+<rect x="588.0" y="210" width="260.0" height="60" rx="3" fill="#3a4656" stroke="#56667c" stroke-width="1"/>
+<text x="600.0" y="288" font-size="11.5" fill="#93a1b2" text-anchor="start">구역 3</text>
+<rect x="588.0" y="300" width="260.0" height="150" rx="3" fill="#1a212b"/>
+<rect x="160" y="140" width="64" height="64" rx="8" fill="#161d26" stroke="#e2b93b" stroke-width="2"/>
+<text x="192" y="174" font-size="12.5" fill="#e2b93b" text-anchor="middle" font-weight="700">발리스타</text>
+<rect x="174" y="188" width="10" height="5" rx="1" fill="#e2b93b"/>
+<rect x="187" y="188" width="10" height="5" rx="1" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="200" y="188" width="10" height="5" rx="1" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="424.0" y="140" width="64" height="64" rx="8" fill="#161d26" stroke="#ffffff" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="456.0" y="182" font-size="28" fill="#ffffff" text-anchor="middle">+</text>
+<rect x="418.0" y="134" width="76" height="76" rx="11" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+<rect x="688.0" y="140" width="64" height="64" rx="8" fill="#161d26" stroke="#e2b93b" stroke-width="2"/>
+<text x="720.0" y="174" font-size="12.5" fill="#e2b93b" text-anchor="middle" font-weight="700">가시 난간</text>
+<rect x="702.0" y="188" width="10" height="5" rx="1" fill="#e2b93b"/>
+<rect x="715.0" y="188" width="10" height="5" rx="1" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="728.0" y="188" width="10" height="5" rx="1" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="80" y="148" width="48" height="48" rx="6" fill="url(#hx_l)" stroke="#3a4656" stroke-width="1"/>
+<rect x="99" y="168" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M101,168 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="104" y="190" font-size="10" fill="#93a1b2" text-anchor="middle">2장~</text>
+<rect x="504.0" y="148" width="48" height="48" rx="6" fill="url(#hx_l)" stroke="#3a4656" stroke-width="1"/>
+<rect x="523.0" y="168" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M525.0,168 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="528.0" y="190" font-size="10" fill="#93a1b2" text-anchor="middle">2장~</text>
+<rect x="608.0" y="148" width="48" height="48" rx="6" fill="url(#hx_l)" stroke="#3a4656" stroke-width="1"/>
+<rect x="627.0" y="168" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M629.0,168 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="632.0" y="190" font-size="10" fill="#93a1b2" text-anchor="middle">2장~</text>
+<path d="M192.0,415 v-100 m-8,10 l8,-10 l8,10" fill="none" stroke="#3a4656" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="192.0" y="438" font-size="12" fill="#93a1b2" text-anchor="middle">좌 절벽면 · 3장</text>
+<path d="M456.0,415 v-100 m-8,10 l8,-10 l8,10" fill="none" stroke="#d2553f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="456.0" y="438" font-size="12" fill="#e8ecf1" text-anchor="middle">중앙 절벽면</text>
+<path d="M720.0,415 v-100 m-8,10 l8,-10 l8,10" fill="none" stroke="#d2553f" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="720.0" y="438" font-size="12" fill="#e8ecf1" text-anchor="middle">바위턱</text>
+<rect x="904" y="72" width="356" height="592" rx="10" fill="#202834"/>
+<text x="922" y="100" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">구역 2 · 빈 칸</text>
+<text x="1242" y="100" font-size="12" fill="#93a1b2" text-anchor="end">짓기</text>
+<rect x="918" y="116" width="328" height="70" rx="8" fill="#161d26" stroke="#ffffff" stroke-width="2"/>
+<rect x="928" y="127" width="48" height="48" rx="6" fill="#0f141b" stroke="#e2b93b" stroke-width="1"/>
+<text x="988" y="144" font-size="14.5" fill="#e8ecf1" text-anchor="start" font-weight="700">망루</text>
+<text x="988" y="166" font-size="12" fill="#93a1b2" text-anchor="start">경보 +5초 · 편성 예고</text>
+<rect x="1198" y="134" width="12" height="12" rx="2" fill="#8f9bb0"/>
+<text x="1216" y="145" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">10</text>
+<rect x="918" y="194" width="328" height="70" rx="8" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="928" y="205" width="48" height="48" rx="6" fill="#0f141b" stroke="#e2b93b" stroke-width="1"/>
+<text x="988" y="222" font-size="14.5" fill="#e8ecf1" text-anchor="start" font-weight="700">발리스타</text>
+<text x="988" y="244" font-size="12" fill="#93a1b2" text-anchor="start">자동 사격 · 피해 40 · 4초</text>
+<rect x="1060" y="206" width="38" height="20" rx="10" fill="none" stroke="#93a1b2" stroke-width="1"/>
+<text x="1079.0" y="220.5" font-size="11.5" fill="#93a1b2" text-anchor="middle">표식</text>
+<rect x="1198" y="212" width="12" height="12" rx="2" fill="#8f9bb0"/>
+<text x="1216" y="223" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">10</text>
+<rect x="918" y="272" width="328" height="70" rx="8" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="928" y="283" width="48" height="48" rx="6" fill="#0f141b" stroke="#e2b93b" stroke-width="1"/>
+<text x="988" y="300" font-size="14.5" fill="#e8ecf1" text-anchor="start" font-weight="700">가시 난간</text>
+<text x="988" y="322" font-size="12" fill="#93a1b2" text-anchor="start">턱밑 띠 초당 6 · 등반 −30%</text>
+<rect x="1076" y="284" width="38" height="20" rx="10" fill="none" stroke="#93a1b2" stroke-width="1"/>
+<text x="1095.0" y="298.5" font-size="11.5" fill="#93a1b2" text-anchor="middle">수호</text>
+<rect x="1198" y="290" width="12" height="12" rx="2" fill="#8f9bb0"/>
+<text x="1216" y="301" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">10</text>
+<rect x="918" y="350" width="328" height="70" rx="8" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="928" y="361" width="48" height="48" rx="6" fill="#0f141b" stroke="#e2b93b" stroke-width="1"/>
+<text x="988" y="378" font-size="14.5" fill="#e8ecf1" text-anchor="start" font-weight="700">수리 작업대</text>
+<text x="988" y="400" font-size="12" fill="#93a1b2" text-anchor="start">고요 중 자동 수리</text>
+<rect x="1092" y="362" width="38" height="20" rx="10" fill="none" stroke="#93a1b2" stroke-width="1"/>
+<text x="1111.0" y="376.5" font-size="11.5" fill="#93a1b2" text-anchor="middle">수호</text>
+<rect x="1198" y="368" width="12" height="12" rx="2" fill="#8f9bb0"/>
+<text x="1216" y="379" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">10</text>
+<rect x="918" y="428" width="328" height="70" rx="8" fill="#1a212b"/>
+<rect x="928" y="439" width="48" height="48" rx="6" fill="#0f141b" stroke="#3a4656" stroke-width="1"/>
+<rect x="947" y="460" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M949,460 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="988" y="458" font-size="14" fill="#93a1b2" text-anchor="start" font-weight="700">기름 솥</text>
+<text x="988" y="478" font-size="11.5" fill="#93a1b2" text-anchor="start">2장~</text>
+<rect x="918" y="506" width="328" height="70" rx="8" fill="#1a212b"/>
+<rect x="928" y="517" width="48" height="48" rx="6" fill="#0f141b" stroke="#3a4656" stroke-width="1"/>
+<rect x="947" y="538" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M949,538 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="988" y="536" font-size="14" fill="#93a1b2" text-anchor="start" font-weight="700">성문 방책</text>
+<text x="988" y="556" font-size="11.5" fill="#93a1b2" text-anchor="start">2장~</text>
+<rect x="918" y="592" width="328" height="44" rx="8" fill="#161d26" stroke="#e2b93b" stroke-width="1.5"/>
+<rect x="919" y="593" width="90" height="42" rx="7" fill="#e2b93b" opacity="0.28"/>
+<rect x="988" y="605" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="998.0" y="618.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">C</text>
+<text x="1016" y="619" font-size="14" fill="#e2b93b" text-anchor="start" font-weight="700">길게 · 망루 짓기</text>
+<text x="1234" y="619" font-size="12.5" fill="#93a1b2" text-anchor="end">18 → 8</text>
+<rect x="20" y="484" width="872" height="180" rx="10" fill="#202834"/>
+<path d="M40,509 h16 v8 q0,8 -8,12 q-8,-4 -8,-12 Z" fill="none" stroke="#e2b93b" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="66" y="514" font-size="12" fill="#93a1b2" text-anchor="start">내구도</text>
+<text x="66" y="536" font-size="20" fill="#e8ecf1" text-anchor="start" font-weight="700">820 / 1000</text>
+<rect x="200" y="512" width="400" height="16" rx="4" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="200" y="512" width="328" height="16" rx="4" fill="#e2b93b"/>
+<rect x="528" y="512" width="40" height="16" rx="0" fill="#6fd3c7" opacity="0.55"/>
+<text x="548" y="548" font-size="12" fill="#6fd3c7" text-anchor="middle" font-weight="700">+100</text>
+<rect x="40" y="580" width="250" height="62" rx="8" fill="#161d26" stroke="#e2b93b" stroke-width="1"/>
+<rect x="54" y="602" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="64.0" y="615.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">R</text>
+<text x="86" y="606" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">수리 +50</text>
+<text x="86" y="628" font-size="12" fill="#93a1b2" text-anchor="start">흑철 1</text>
+<rect x="306" y="580" width="250" height="62" rx="8" fill="#161d26" stroke="#e2b93b" stroke-width="1"/>
+<rect x="320" y="602" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="330.0" y="615.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">T</text>
+<text x="352" y="606" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">강화 Ⅰ</text>
+<text x="352" y="628" font-size="12" fill="#93a1b2" text-anchor="start">최대 1,150 · 흑철 12</text>
+<rect x="572" y="580" width="300" height="62" rx="8" fill="none" stroke="#4a5a6e" stroke-width="1" stroke-dasharray="6 4"/>
+<rect x="586" y="602" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="596.0" y="615.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">X</text>
+<text x="618" y="606" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">되돌리기</text>
+<text x="618" y="628" font-size="12" fill="#93a1b2" text-anchor="start">전액 환급 · 남은 3 / 3</text>
+<text x="640" y="536" font-size="12" fill="#6fd3c7" text-anchor="start">수리 2회 예정</text>
+<rect x="0" y="686" width="1280" height="38" rx="0" fill="#0b0f14"/>
+<rect x="24" y="694" width="44" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="46.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">WASD</text>
+<text x="74" y="707" font-size="12" fill="#93a1b2" text-anchor="start">칸 이동</text>
+<rect x="144" y="694" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="154.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">C</text>
+<text x="170" y="707" font-size="12" fill="#93a1b2" text-anchor="start">짓기</text>
+<rect x="214" y="694" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="224.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">R</text>
+<text x="240" y="707" font-size="12" fill="#93a1b2" text-anchor="start">수리</text>
+<rect x="284" y="694" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="294.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">X</text>
+<text x="310" y="707" font-size="12" fill="#93a1b2" text-anchor="start">되돌리기</text>
+<rect x="380" y="694" width="35" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="397.5" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Q E</text>
+<text x="421" y="707" font-size="12" fill="#93a1b2" text-anchor="start">탭</text>
+<rect x="452" y="694" width="35" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="469.5" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Esc</text>
+<text x="493" y="707" font-size="12" fill="#93a1b2" text-anchor="start">닫기</text></svg>

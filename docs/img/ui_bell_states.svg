@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 748" width="1000" height="748" font-family="'Noto Sans KR','NanumGothic','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><defs><pattern id="hx_a" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="none"/><rect width="2.5" height="6" fill="#e8963a"/></pattern><pattern id="hx_m" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="none"/><rect width="2.5" height="6" fill="#c0489b"/></pattern></defs><rect x="0" y="0" width="1000" height="748" rx="0" fill="#141a22"/>
+<line x1="20" y1="12" x2="980" y2="12" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="50" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">고요 · 여유 있음</text>
+<text x="30" y="72" font-size="12" fill="#93a1b2" text-anchor="start">채움 = 남은 시간. 빗금 = 경보 구간. 흰 선 = 귀환선</text>
+<rect x="536.0" y="28" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="57" r="17" fill="#202834" stroke="#e2b93b" stroke-width="2"/>
+<path d="M554.0,62 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#e2b93b"/>
+<circle cx="562.0" cy="65" r="2.2" fill="#e2b93b"/>
+<text x="586.0" y="46" font-size="12" fill="#e2b93b" text-anchor="start" font-weight="700">고요</text>
+<rect x="584.0" y="52" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="584.0" y="52" width="36.9" height="12" rx="3" fill="url(#hx_a)"/>
+<rect x="584.0" y="52" width="76.26" height="12" rx="3" fill="#e2b93b" opacity="0.95"/>
+<text x="840.0" y="65" font-size="22" fill="#e8ecf1" text-anchor="start" font-weight="700">0:31</text>
+<line x1="618.44" y1="48" x2="618.44" y2="70" stroke="#e8ecf1" stroke-width="2"/>
+<path d="M613.44,70 h10 v9 h-10 Z" fill="#0b0f14" stroke="#e8ecf1" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M616.44,79 v-5 h4 v5" fill="none" stroke="#e8ecf1" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="628.44" y="80" font-size="12" fill="#e2b93b" text-anchor="start" font-weight="700">귀환 14초 · 여유 +17</text>
+<line x1="20" y1="116" x2="980" y2="116" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="154" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">고요 · 떠날 때</text>
+<text x="30" y="176" font-size="12" fill="#93a1b2" text-anchor="start">채움 끝이 귀환선에 닿음. 여유 0 → 선이 맥동</text>
+<rect x="536.0" y="132" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="161" r="17" fill="#202834" stroke="#e2b93b" stroke-width="2"/>
+<path d="M554.0,166 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#e2b93b"/>
+<circle cx="562.0" cy="169" r="2.2" fill="#e2b93b"/>
+<text x="586.0" y="150" font-size="12" fill="#e2b93b" text-anchor="start" font-weight="700">고요</text>
+<rect x="584.0" y="156" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="584.0" y="156" width="36.9" height="12" rx="3" fill="url(#hx_a)"/>
+<rect x="584.0" y="156" width="54.12" height="12" rx="3" fill="#e2b93b" opacity="0.95"/>
+<text x="840.0" y="169" font-size="22" fill="#e8ecf1" text-anchor="start" font-weight="700">0:22</text>
+<line x1="635.66" y1="152" x2="635.66" y2="174" stroke="#e8ecf1" stroke-width="2"/>
+<path d="M630.66,174 h10 v9 h-10 Z" fill="#0b0f14" stroke="#e8ecf1" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M633.66,183 v-5 h4 v5" fill="none" stroke="#e8ecf1" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="645.66" y="184" font-size="12" fill="#e8963a" text-anchor="start" font-weight="700">귀환 21초 · 여유 0</text>
+<line x1="20" y1="220" x2="980" y2="220" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="258" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">경보 · 지각</text>
+<text x="30" y="280" font-size="12" fill="#93a1b2" text-anchor="start">테두리 붉은 맥동 + 종소리. 지각 초를 붉게</text>
+<rect x="534" y="234" width="374" height="62" rx="11" fill="none" stroke="#d2553f" stroke-width="2.5"/>
+<rect x="536.0" y="236" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="265" r="17" fill="#202834" stroke="#e8963a" stroke-width="2"/>
+<path d="M554.0,270 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#e8963a"/>
+<circle cx="562.0" cy="273" r="2.2" fill="#e8963a"/>
+<text x="586.0" y="254" font-size="12" fill="#e8963a" text-anchor="start" font-weight="700">경보</text>
+<rect x="584.0" y="260" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="584.0" y="260" width="36.9" height="12" rx="3" fill="url(#hx_a)"/>
+<rect x="584.0" y="260" width="22.14" height="12" rx="3" fill="#e8963a" opacity="0.95"/>
+<text x="840.0" y="273" font-size="22" fill="#e8ecf1" text-anchor="start" font-weight="700">0:09</text>
+<line x1="618.44" y1="256" x2="618.44" y2="278" stroke="#e8ecf1" stroke-width="2"/>
+<path d="M613.44,278 h10 v9 h-10 Z" fill="#0b0f14" stroke="#e8ecf1" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M616.44,287 v-5 h4 v5" fill="none" stroke="#e8ecf1" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="628.44" y="288" font-size="12" fill="#d2553f" text-anchor="start" font-weight="700">귀환 14초 · 지각 5</text>
+<line x1="20" y1="324" x2="980" y2="324" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="362" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">습격 · 성벽에서</text>
+<text x="30" y="384" font-size="12" fill="#93a1b2" text-anchor="start">채움 = 남은 적. 숫자 = 남은 수</text>
+<rect x="536.0" y="340" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="369" r="17" fill="#202834" stroke="#d2553f" stroke-width="2"/>
+<path d="M554.0,374 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#d2553f"/>
+<circle cx="562.0" cy="377" r="2.2" fill="#d2553f"/>
+<text x="586.0" y="358" font-size="12" fill="#d2553f" text-anchor="start" font-weight="700">습격 7 / 12</text>
+<text x="830.0" y="358" font-size="11" fill="#93a1b2" text-anchor="end">남은 적</text>
+<rect x="584.0" y="364" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="584.0" y="364" width="110.7" height="12" rx="3" fill="#d2553f" opacity="0.95"/>
+<text x="840.0" y="377" font-size="22" fill="#ffd9d0" text-anchor="start" font-weight="700">14</text>
+<line x1="20" y1="428" x2="980" y2="428" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="466" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">습격 · 곶에서</text>
+<text x="30" y="488" font-size="12" fill="#93a1b2" text-anchor="start">같은 자리 + 아래 성벽 띠. 맞는 구역 깜박임</text>
+<rect x="536.0" y="428" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="457" r="17" fill="#202834" stroke="#d2553f" stroke-width="2"/>
+<path d="M554.0,462 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#d2553f"/>
+<circle cx="562.0" cy="465" r="2.2" fill="#d2553f"/>
+<text x="586.0" y="446" font-size="12" fill="#d2553f" text-anchor="start" font-weight="700">습격 7 / 12</text>
+<text x="830.0" y="446" font-size="11" fill="#93a1b2" text-anchor="end">남은 적</text>
+<rect x="584.0" y="452" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="584.0" y="452" width="110.7" height="12" rx="3" fill="#d2553f" opacity="0.95"/>
+<text x="840.0" y="465" font-size="22" fill="#ffd9d0" text-anchor="start" font-weight="700">14</text>
+<rect x="574.0" y="484" width="272" height="48" rx="6" fill="#0b0f14" opacity="0.55"/>
+<rect x="581.0" y="488" width="84.66666666666667" height="7" rx="1.5" fill="#d2553f" stroke="#d2553f" stroke-width="1"/>
+<rect x="581.0" y="497" width="84.66666666666667" height="31" rx="1.5" fill="#1a212b" stroke="#d2553f" stroke-width="1" opacity="0.9"/>
+<rect x="667.6666666666666" y="488" width="84.66666666666667" height="7" rx="1.5" fill="#3a4656" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="667.6666666666666" y="497" width="84.66666666666667" height="31" rx="1.5" fill="#1a212b" opacity="0.9"/>
+<rect x="754.3333333333334" y="488" width="84.66666666666667" height="7" rx="1.5" fill="#3a4656" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="754.3333333333334" y="497" width="84.66666666666667" height="31" rx="1.5" fill="#1a212b" opacity="0.9"/>
+<line x1="601.6666666666666" y1="498" x2="601.6666666666666" y2="527" stroke="#2c3642" stroke-width="1"/>
+<circle cx="601.6666666666666" cy="517.2" r="3.6" fill="#d2553f"/>
+<text x="607.6666666666666" y="521.2" font-size="9.5" fill="#e8ecf1" text-anchor="start">2</text>
+<line x1="645.0" y1="498" x2="645.0" y2="527" stroke="#2c3642" stroke-width="1"/>
+<circle cx="645.0" cy="501.6" r="3.6" fill="#d2553f" stroke="#ffffff" stroke-width="1.4"/>
+<line x1="688.3333333333333" y1="498" x2="688.3333333333333" y2="527" stroke="#2c3642" stroke-width="1"/>
+<circle cx="688.3333333333333" cy="510.7" r="3.6" fill="#d2553f"/>
+<text x="694.3333333333333" y="514.7" font-size="9.5" fill="#e8ecf1" text-anchor="start">3</text>
+<line x1="731.6666666666666" y1="498" x2="731.6666666666666" y2="527" stroke="#2c3642" stroke-width="1"/>
+<circle cx="731.6666666666666" cy="519.8" r="3.6" fill="#d2553f"/>
+<line x1="775.0" y1="498" x2="775.0" y2="527" stroke="#2c3642" stroke-width="1"/>
+<line x1="818.3333333333334" y1="498" x2="818.3333333333334" y2="527" stroke="#2c3642" stroke-width="1"/>
+<circle cx="818.3333333333334" cy="506.8" r="3.6" fill="#d2553f"/>
+<text x="824.3333333333334" y="510.8" font-size="9.5" fill="#e8ecf1" text-anchor="start">2</text>
+<line x1="20" y1="532" x2="980" y2="532" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="570" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">총공세 · 보스</text>
+<text x="30" y="592" font-size="12" fill="#93a1b2" text-anchor="start">채움 = 보스 체력. 눈금 = 단계 경계</text>
+<rect x="536.0" y="548" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="577" r="17" fill="#202834" stroke="#c0489b" stroke-width="2"/>
+<path d="M554.0,582 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#c0489b"/>
+<circle cx="562.0" cy="585" r="2.2" fill="#c0489b"/>
+<text x="586.0" y="566" font-size="12" fill="#c0489b" text-anchor="start" font-weight="700">총공세 · 그룸</text>
+<rect x="584.0" y="572" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="584.0" y="572" width="152.52" height="12" rx="3" fill="#c0489b" opacity="0.95"/>
+<line x1="666.0" y1="572" x2="666.0" y2="584" stroke="#0b0f14" stroke-width="1.5"/>
+<line x1="748.0" y1="572" x2="748.0" y2="584" stroke="#0b0f14" stroke-width="1.5"/>
+<text x="840.0" y="585" font-size="22" fill="#e8ecf1" text-anchor="start" font-weight="700">62%</text>
+<line x1="20" y1="636" x2="980" y2="636" stroke="#232c38" stroke-width="1"/>
+<text x="30" y="674" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">5장 · 종 없음</text>
+<text x="30" y="696" font-size="12" fill="#93a1b2" text-anchor="start">금 간 종. 3칸 어림. 숫자 숨김. 망루 있으면 숫자 유지</text>
+<rect x="536.0" y="652" width="370" height="58" rx="10" fill="#0b0f14" opacity="0.55"/>
+<circle cx="562.0" cy="681" r="17" fill="#202834" stroke="#93a1b2" stroke-width="2"/>
+<path d="M554.0,686 q2,-3 2,-8 a6,6 0 0 1 12,0 q0,5 2,8 Z" fill="#93a1b2"/>
+<circle cx="562.0" cy="689" r="2.2" fill="#93a1b2"/>
+<path d="M561.0,671 l3,6 l-5,4 l4,7" fill="none" stroke="#202834" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="586.0" y="670" font-size="12" fill="#93a1b2" text-anchor="start" font-weight="700">떨림</text>
+<rect x="584.0" y="676" width="246" height="12" rx="3" fill="#0b0f14" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="586.0" y="678" width="78.0" height="8" rx="2" fill="#93a1b2" stroke="#4a5a6e" stroke-width="1" opacity="0.6"/>
+<rect x="668.0" y="678" width="78.0" height="8" rx="2" fill="#93a1b2" stroke="#4a5a6e" stroke-width="1" opacity="0.6"/>
+<rect x="750.0" y="678" width="78.0" height="8" rx="2" fill="none" stroke="#4a5a6e" stroke-width="1" opacity="1"/>
+<text x="840.0" y="689" font-size="22" fill="#e8ecf1" text-anchor="start" font-weight="700">≈</text></svg>

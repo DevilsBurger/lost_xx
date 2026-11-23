@@ -1,0 +1,354 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" font-family="'Noto Sans KR','NanumGothic','Malgun Gothic','Apple SD Gothic Neo',sans-serif"><defs></defs><rect x="0" y="0" width="1280" height="720" rx="0" fill="#10151c"/>
+<rect x="0" y="0" width="1280" height="56" rx="0" fill="#0b0f14"/>
+<rect x="24" y="19" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="34.0" y="32.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Q</text>
+<rect x="60" y="10" width="80" height="36" rx="8" fill="#202834" stroke="#e2b93b" stroke-width="1.5"/>
+<text x="100.0" y="34" font-size="16" fill="#e2b93b" text-anchor="middle" font-weight="700">각성</text>
+<text x="175.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">성</text>
+<text x="239.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">왕</text>
+<text x="314.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">성물</text>
+<text x="400.0" y="34" font-size="16" fill="#93a1b2" text-anchor="middle">기록</text>
+<rect x="450" y="19" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="460.0" y="32.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">E</text>
+<text x="490" y="33" font-size="12" fill="#93a1b2" text-anchor="start">왕좌 · 고요 · 정지</text>
+<rect x="1026" y="10" width="238" height="34" rx="8" fill="#0b0f14" opacity="0.55"/>
+<path d="M1044,20 L1051,27 L1044,34 L1037,27 Z" fill="#e2b93b"/>
+<text x="1058" y="32" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">124</text>
+<rect x="1112" y="21" width="12" height="12" rx="2" fill="#8f9bb0"/>
+<text x="1132" y="32" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">18</text>
+<path d="M1192,19 L1198,25 L1192,35 L1186,25 Z" fill="#a98be0"/>
+<text x="1206" y="32" font-size="15" fill="#e8ecf1" text-anchor="start" font-weight="700">3</text>
+<rect x="20" y="72" width="196" height="520" rx="10" fill="#202834"/>
+<text x="36" y="98" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">공명</text>
+<text x="200" y="98" font-size="11" fill="#93a1b2" text-anchor="end">3 · 6 · 9</text>
+<rect x="28" y="110" width="180" height="48" rx="7" fill="#2a3442" stroke="#e2b93b" stroke-width="1"/>
+<text x="40" y="128" font-size="13" fill="#e2b93b" text-anchor="start" font-weight="700">추락</text>
+<text x="196" y="128" font-size="12" fill="#6fd3c7" text-anchor="end" font-weight="700">4 +1</text>
+<rect x="40" y="138" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="57" y="138" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="74" y="138" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="94" y="138" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="111" y="138" width="13" height="7" rx="1.5" fill="#6fd3c7"/>
+<rect x="128" y="138" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="138" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="138" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="138" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="184" font-size="13" fill="#e2b93b" text-anchor="start" font-weight="700">연쇄</text>
+<text x="196" y="184" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">3</text>
+<rect x="40" y="194" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="57" y="194" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="74" y="194" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="94" y="194" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="194" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="194" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="194" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="194" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="194" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="240" font-size="13" fill="#e8ecf1" text-anchor="start">수호</text>
+<text x="196" y="240" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">2</text>
+<rect x="40" y="250" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="57" y="250" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="74" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="94" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="250" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="296" font-size="13" fill="#e8ecf1" text-anchor="start">처형</text>
+<text x="196" y="296" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">1</text>
+<rect x="40" y="306" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="57" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="74" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="94" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="306" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="352" font-size="13" fill="#e8ecf1" text-anchor="start">표식</text>
+<text x="196" y="352" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">1</text>
+<rect x="40" y="362" width="13" height="7" rx="1.5" fill="#e2b93b"/>
+<rect x="57" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="74" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="94" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="362" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="408" font-size="13" fill="#e8ecf1" text-anchor="start">지대</text>
+<text x="196" y="408" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">0</text>
+<rect x="40" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="57" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="74" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="94" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="418" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="464" font-size="13" fill="#e8ecf1" text-anchor="start">설치</text>
+<text x="196" y="464" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">0</text>
+<rect x="40" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="57" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="74" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="94" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="474" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<text x="40" y="520" font-size="13" fill="#e8ecf1" text-anchor="start">소환</text>
+<text x="196" y="520" font-size="12" fill="#93a1b2" text-anchor="end" font-weight="700">0</text>
+<rect x="40" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="57" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="74" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="94" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="111" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="128" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="148" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="165" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="182" y="530" width="13" height="7" rx="1.5" fill="none" stroke="#4a5a6e" stroke-width="1"/>
+<rect x="228" y="72" width="664" height="520" rx="10" fill="#0d1218"/>
+<text x="246" y="474" font-size="12" fill="#93a1b2" text-anchor="start" opacity="0.8">1</text>
+<line x1="262" y1="470" x2="876" y2="470" stroke="#182029" stroke-width="1"/>
+<text x="246" y="396" font-size="12" fill="#93a1b2" text-anchor="start" opacity="0.8">2</text>
+<line x1="262" y1="392" x2="876" y2="392" stroke="#182029" stroke-width="1"/>
+<text x="246" y="318" font-size="12" fill="#93a1b2" text-anchor="start" opacity="0.8">3</text>
+<line x1="262" y1="314" x2="876" y2="314" stroke="#182029" stroke-width="1"/>
+<text x="246" y="240" font-size="12" fill="#93a1b2" text-anchor="start" opacity="0.8">4</text>
+<line x1="262" y1="236" x2="876" y2="236" stroke="#182029" stroke-width="1"/>
+<text x="246" y="162" font-size="12" fill="#93a1b2" text-anchor="start" opacity="0.8">5</text>
+<line x1="262" y1="158" x2="876" y2="158" stroke="#182029" stroke-width="1"/>
+<rect x="236" y="353" width="648" height="0.1" rx="0" fill="none" stroke="#56667c" stroke-width="1" stroke-dasharray="2 6"/>
+<rect x="861" y="308" width="10" height="8" rx="1.5" fill="#56667c"/>
+<path d="M863,308 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#56667c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="866" y="334" font-size="10" fill="#93a1b2" text-anchor="middle">2장</text>
+<rect x="236" y="275" width="648" height="0.1" rx="0" fill="none" stroke="#56667c" stroke-width="1" stroke-dasharray="2 6"/>
+<rect x="861" y="230" width="10" height="8" rx="1.5" fill="#56667c"/>
+<path d="M863,230 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#56667c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="866" y="256" font-size="10" fill="#93a1b2" text-anchor="middle">3장</text>
+<rect x="236" y="197" width="648" height="0.1" rx="0" fill="none" stroke="#56667c" stroke-width="1" stroke-dasharray="2 6"/>
+<rect x="861" y="152" width="10" height="8" rx="1.5" fill="#56667c"/>
+<path d="M863,152 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#56667c" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="866" y="178" font-size="10" fill="#93a1b2" text-anchor="middle">4장</text>
+<circle cx="485" cy="548" r="7" fill="#e2b93b" stroke="#e2b93b" stroke-width="1.8"/>
+<circle cx="515" cy="548" r="7" fill="#e2b93b" stroke="#e2b93b" stroke-width="1.8"/>
+<circle cx="545" cy="548" r="7" fill="#e2b93b" stroke="#e2b93b" stroke-width="1.8"/>
+<circle cx="575" cy="548" r="7" fill="#10151c" stroke="#e2b93b" stroke-width="1.8"/>
+<circle cx="605" cy="548" r="7" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<circle cx="635" cy="548" r="7" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<text x="560" y="578" font-size="11" fill="#93a1b2" text-anchor="middle">줄기</text>
+<text x="350" y="96" font-size="14" fill="#e8ecf1" text-anchor="middle" font-weight="700">섬광</text>
+<path d="M560,538 Q350,528 350,486" fill="none" stroke="#56667c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="350" y1="470" x2="350" y2="158" stroke="#2c3642" stroke-width="1.5"/>
+<line x1="288" y1="470" x2="412" y2="470" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="288" y1="392" x2="412" y2="392" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="288" y1="314" x2="412" y2="314" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="288" y1="236" x2="412" y2="236" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="288" y1="158" x2="412" y2="158" stroke="#2c3642" stroke-width="1.2"/>
+<text x="560" y="96" font-size="14" fill="#e8ecf1" text-anchor="middle" font-weight="700">철벽</text>
+<path d="M560,538 Q560,528 560,486" fill="none" stroke="#56667c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="560" y1="470" x2="560" y2="158" stroke="#2c3642" stroke-width="1.5"/>
+<line x1="498" y1="470" x2="622" y2="470" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="498" y1="392" x2="622" y2="392" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="498" y1="314" x2="622" y2="314" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="498" y1="236" x2="622" y2="236" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="498" y1="158" x2="622" y2="158" stroke="#2c3642" stroke-width="1.2"/>
+<text x="770" y="96" font-size="14" fill="#e8ecf1" text-anchor="middle" font-weight="700">파멸</text>
+<path d="M560,538 Q770,528 770,486" fill="none" stroke="#56667c" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="770" y1="470" x2="770" y2="158" stroke="#2c3642" stroke-width="1.5"/>
+<line x1="708" y1="470" x2="832" y2="470" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="708" y1="392" x2="832" y2="392" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="708" y1="314" x2="832" y2="314" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="708" y1="236" x2="832" y2="236" stroke="#2c3642" stroke-width="1.2"/>
+<line x1="708" y1="158" x2="832" y2="158" stroke="#2c3642" stroke-width="1.2"/>
+<path d="M350,456 L364,470 L350,484 L336,470 Z" fill="#e2b93b" stroke="#e2b93b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="350" y="506" font-size="11" fill="#e8ecf1" text-anchor="middle">검기</text>
+<circle cx="410" cy="470" r="8" fill="#e2b93b" stroke="#e2b93b" stroke-width="1.8"/>
+<circle cx="350" cy="392" r="19" fill="none" stroke="#e2b93b" stroke-width="1" opacity="0.45"/>
+<path d="M350,378 L364,392 L350,406 L336,392 Z" fill="#10151c" stroke="#e2b93b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="350" y="428" font-size="11" fill="#e8ecf1" text-anchor="middle">질풍베기</text>
+<path d="M290,382 L300,392 L290,402 L280,392 Z" fill="#e2b93b" stroke="#e2b93b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M316,356 L326,366 L316,376 L306,366 Z" fill="#10151c" stroke="#3a4656" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="308" y1="358" x2="324" y2="374" stroke="#56667c" stroke-width="1.6"/>
+<circle cx="390" cy="392" r="8" fill="#10151c" stroke="#6fd3c7" stroke-width="1.8" stroke-dasharray="4 3"/>
+<circle cx="418" cy="392" r="8" fill="#10151c" stroke="#d2553f" stroke-width="1.8"/>
+<rect x="279" y="303" width="22" height="22" rx="3" fill="#10151c" stroke="#56667c" stroke-width="2"/>
+<rect x="285" y="311" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M287,311 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="290" y="350" font-size="11" fill="#93a1b2" text-anchor="middle">진명</text>
+<path d="M350,300 L364,314 L350,328 L336,314 Z" fill="#10151c" stroke="#56667c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="345" y="311" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M347,311 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="410" cy="314" r="8" fill="#10151c" stroke="#56667c" stroke-width="1.8"/>
+<path d="M290,222 L304,236 L290,250 L276,236 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="380" cy="236" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<circle cx="410" cy="236" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<path d="M290,144 L304,158 L290,172 L276,158 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="410" cy="158" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<circle cx="560" cy="470" r="19" fill="none" stroke="#e2b93b" stroke-width="1" opacity="0.45"/>
+<path d="M560,456 L574,470 L560,484 L546,470 Z" fill="#10151c" stroke="#e2b93b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="560" y="506" font-size="11" fill="#e8ecf1" text-anchor="middle">왕의 방패</text>
+<circle cx="620" cy="470" r="13" fill="none" stroke="#e2b93b" stroke-width="1" opacity="0.45"/>
+<circle cx="620" cy="470" r="8" fill="#10151c" stroke="#e2b93b" stroke-width="1.8"/>
+<path d="M560,378 L574,392 L560,406 L546,392 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M500,382 L510,392 L500,402 L490,392 Z" fill="#10151c" stroke="#3a4656" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="620" cy="392" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<rect x="489" y="303" width="22" height="22" rx="3" fill="#10151c" stroke="#56667c" stroke-width="2"/>
+<rect x="495" y="311" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M497,311 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M560,300 L574,314 L560,328 L546,314 Z" fill="#10151c" stroke="#56667c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="555" y="311" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M557,311 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="620" cy="314" r="8" fill="#10151c" stroke="#56667c" stroke-width="1.8"/>
+<path d="M500,222 L514,236 L500,250 L486,236 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="620" cy="236" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<path d="M500,144 L514,158 L500,172 L486,158 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="620" cy="158" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<path d="M770,456 L784,470 L770,484 L756,470 Z" fill="#e2b93b" stroke="#e2b93b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="770" y="506" font-size="11" fill="#e8ecf1" text-anchor="middle">내려찍기</text>
+<circle cx="830" cy="470" r="8" fill="#e2b93b" stroke="#e2b93b" stroke-width="1.8"/>
+<path d="M770,378 L784,392 L770,406 L756,392 Z" fill="#10151c" stroke="#6fd3c7" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="4 3"/>
+<text x="770" y="428" font-size="11" fill="#e8ecf1" text-anchor="middle">대지 가르기</text>
+<circle cx="710" cy="392" r="19" fill="none" stroke="#e2b93b" stroke-width="1" opacity="0.45"/>
+<path d="M710,382 L720,392 L710,402 L700,392 Z" fill="#10151c" stroke="#e2b93b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="736" cy="366" r="19" fill="none" stroke="#e2b93b" stroke-width="1" opacity="0.45"/>
+<path d="M736,356 L746,366 L736,376 L726,366 Z" fill="#10151c" stroke="#e2b93b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="830" cy="392" r="13" fill="none" stroke="#e2b93b" stroke-width="1" opacity="0.45"/>
+<circle cx="830" cy="392" r="8" fill="#10151c" stroke="#e2b93b" stroke-width="1.8"/>
+<rect x="699" y="303" width="22" height="22" rx="3" fill="#10151c" stroke="#56667c" stroke-width="2"/>
+<rect x="705" y="311" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M707,311 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<path d="M770,300 L784,314 L770,328 L756,314 Z" fill="#10151c" stroke="#56667c" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="765" y="311" width="10" height="8" rx="1.5" fill="#7d8da1"/>
+<path d="M767,311 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#7d8da1" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="830" cy="314" r="8" fill="#10151c" stroke="#56667c" stroke-width="1.8"/>
+<path d="M710,222 L724,236 L710,250 L696,236 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="830" cy="236" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<path d="M710,144 L724,158 L710,172 L696,158 Z" fill="#10151c" stroke="#3a4656" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<circle cx="830" cy="158" r="8" fill="#10151c" stroke="#3a4656" stroke-width="1.8"/>
+<line x1="415" y1="392" x2="495" y2="392" stroke="#2c3642" stroke-width="1.2" stroke-dasharray="3 4"/>
+<path d="M455,380 L458.84,388.16 L467,392 L458.84,395.84 L455,404 L451.16,395.84 L443,392 L451.16,388.16 Z" fill="#10151c" stroke="#3a4656" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="625" y1="392" x2="705" y2="392" stroke="#2c3642" stroke-width="1.2" stroke-dasharray="3 4"/>
+<path d="M665,380 L668.84,388.16 L677,392 L668.84,395.84 L665,404 L661.16,395.84 L653,392 L661.16,388.16 Z" fill="#10151c" stroke="#3a4656" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="415" y1="236" x2="495" y2="236" stroke="#2c3642" stroke-width="1.2" stroke-dasharray="3 4"/>
+<path d="M455,224 L458.84,232.16 L467,236 L458.84,239.84 L455,248 L451.16,239.84 L443,236 L451.16,232.16 Z" fill="#10151c" stroke="#3a4656" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<line x1="625" y1="236" x2="705" y2="236" stroke="#2c3642" stroke-width="1.2" stroke-dasharray="3 4"/>
+<path d="M665,224 L668.84,232.16 L677,236 L668.84,239.84 L665,248 L661.16,239.84 L653,236 L661.16,232.16 Z" fill="#10151c" stroke="#3a4656" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="326" y="368" width="48" height="48" rx="6" fill="none" stroke="#ffffff" stroke-width="2"/>
+<rect x="904" y="72" width="356" height="520" rx="10" fill="#202834"/>
+<path d="M934,93 L947,106 L934,119 L921,106 Z" fill="#10151c" stroke="#e2b93b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="958" y="104" font-size="19" fill="#e8ecf1" text-anchor="start" font-weight="700">질풍베기</text>
+<text x="958" y="122" font-size="11.5" fill="#93a1b2" text-anchor="start">기술 · 섬광 · 2단계</text>
+<line x1="920" y1="138" x2="1244" y2="138" stroke="#4a5a6e" stroke-width="1"/>
+<text x="922" y="164" font-size="14" fill="#e8ecf1" text-anchor="start">돌진 베기 · 돌진 중 무적</text>
+<rect x="922" y="178" width="76" height="46" rx="6" fill="#161d26"/>
+<text x="960" y="195" font-size="10.5" fill="#93a1b2" text-anchor="middle">피해</text>
+<text x="960" y="215" font-size="16" fill="#e8ecf1" text-anchor="middle" font-weight="700">28</text>
+<rect x="1004" y="178" width="76" height="46" rx="6" fill="#161d26"/>
+<text x="1042" y="195" font-size="10.5" fill="#93a1b2" text-anchor="middle">밀어냄</text>
+<text x="1042" y="215" font-size="16" fill="#e8ecf1" text-anchor="middle" font-weight="700">3</text>
+<rect x="1086" y="178" width="76" height="46" rx="6" fill="#161d26"/>
+<text x="1124" y="195" font-size="10.5" fill="#93a1b2" text-anchor="middle">거리</text>
+<text x="1124" y="215" font-size="16" fill="#e8ecf1" text-anchor="middle" font-weight="700">8m</text>
+<rect x="1168" y="178" width="76" height="46" rx="6" fill="#161d26"/>
+<text x="1206" y="195" font-size="10.5" fill="#93a1b2" text-anchor="middle">재사용</text>
+<text x="1206" y="215" font-size="16" fill="#e8ecf1" text-anchor="middle" font-weight="700">7초</text>
+<text x="922" y="250" font-size="11.5" fill="#93a1b2" text-anchor="start">곶</text>
+<text x="952" y="250" font-size="13" fill="#e8ecf1" text-anchor="start">지나간 4칸 · 강도 15</text>
+<text x="922" y="280" font-size="11.5" fill="#93a1b2" text-anchor="start">태그</text>
+<text x="952" y="280" font-size="12.5" fill="#93a1b2" text-anchor="start">없음</text>
+<line x1="920" y1="302" x2="1244" y2="302" stroke="#4a5a6e" stroke-width="1"/>
+<text x="922" y="326" font-size="11.5" fill="#93a1b2" text-anchor="start">변형 · 3단계</text>
+<rect x="995" y="319" width="10" height="8" rx="1.5" fill="#93a1b2"/>
+<path d="M997,319 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#93a1b2" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<rect x="922" y="336" width="156" height="54" rx="6" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<text x="934" y="357" font-size="13" fill="#93a1b2" text-anchor="start" font-weight="700">A  긴 돌진</text>
+<text x="934" y="377" font-size="11.5" fill="#93a1b2" text-anchor="start">거리 12m · 재사용 6초</text>
+<rect x="1086" y="336" width="156" height="54" rx="6" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<text x="1098" y="357" font-size="13" fill="#93a1b2" text-anchor="start" font-weight="700">B  올려치기</text>
+<text x="1098" y="377" font-size="11.5" fill="#93a1b2" text-anchor="start">끝에서 올려 벤다 · 밀어냄 8</text>
+<text x="922" y="408" font-size="11" fill="#93a1b2" text-anchor="start">둘 중 하나</text>
+<line x1="920" y1="424" x2="1244" y2="424" stroke="#4a5a6e" stroke-width="1"/>
+<text x="922" y="452" font-size="11.5" fill="#93a1b2" text-anchor="start">비용</text>
+<path d="M964,441 L971,448 L964,455 L957,448 Z" fill="#e2b93b"/>
+<text x="978" y="453" font-size="16" fill="#e8ecf1" text-anchor="start" font-weight="700">14</text>
+<text x="1242" y="453" font-size="13" fill="#93a1b2" text-anchor="end">124 → 110</text>
+<rect x="922" y="474" width="320" height="44" rx="8" fill="#161d26" stroke="#e2b93b" stroke-width="1.5"/>
+<rect x="923" y="475" width="130" height="42" rx="7" fill="#e2b93b" opacity="0.28"/>
+<rect x="1022" y="487" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="1032.0" y="500.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">C</text>
+<text x="1050" y="501" font-size="14" fill="#e2b93b" text-anchor="start" font-weight="700">길게 · 깨우기</text>
+<rect x="922" y="536" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="932.0" y="549.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">F</text>
+<text x="948" y="549" font-size="12" fill="#93a1b2" text-anchor="start">가상 투자</text>
+<rect x="1028" y="536" width="53" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="1054.5" y="549.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Q/E/R</text>
+<text x="1086" y="549" font-size="12" fill="#93a1b2" text-anchor="start">칸에 장착</text>
+<rect x="20" y="604" width="520" height="72" rx="10" fill="#202834"/>
+<text x="36" y="646" font-size="12" fill="#93a1b2" text-anchor="start">장착</text>
+<rect x="84" y="622" width="46" height="46" rx="7" fill="#0f141b" stroke="#4a5a6e" stroke-width="1.4"/>
+<text x="107.0" y="647.0" font-size="11" fill="#e8ecf1" text-anchor="middle">검기</text>
+<path d="M116,622 h7 a7,7 0 0 1 7,7 v7 Z" fill="#7cc4e8"/>
+<circle cx="92" cy="661" r="3" fill="#a98be0"/>
+<rect x="97.0" y="610" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="107.0" y="623.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Q</text>
+<rect x="142" y="622" width="46" height="46" rx="7" fill="#0f141b" stroke="#4a5a6e" stroke-width="1.4"/>
+<text x="165.0" y="647.0" font-size="11" fill="#e8ecf1" text-anchor="middle">내려찍기</text>
+<path d="M174,622 h7 a7,7 0 0 1 7,7 v7 Z" fill="#d2553f"/>
+<rect x="155.0" y="610" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="165.0" y="623.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">E</text>
+<rect x="200" y="622" width="46" height="46" rx="7" fill="#0f141b" stroke="#4a5a6e" stroke-width="1.4"/>
+<rect x="218.0" y="637.0" width="10" height="8" rx="1.5" fill="#93a1b2"/>
+<path d="M220.0,637.0 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#93a1b2" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="223.0" y="661.0" font-size="10.5" fill="#93a1b2" text-anchor="middle">2장</text>
+<rect x="213.0" y="610" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="223.0" y="623.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">R</text>
+<rect x="270" y="622" width="46" height="46" rx="7" fill="#0f141b" stroke="#4a5a6e" stroke-width="1.4"/>
+<rect x="288.0" y="637.0" width="10" height="8" rx="1.5" fill="#93a1b2"/>
+<path d="M290.0,637.0 v-3 a3,3 0 0 1 6,0 v3" fill="none" stroke="#93a1b2" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/>
+<text x="293.0" y="661.0" font-size="10.5" fill="#93a1b2" text-anchor="middle">3장</text>
+<rect x="283.0" y="610" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="293.0" y="623.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">F</text>
+<text x="344" y="640" font-size="12" fill="#93a1b2" text-anchor="start">빌드</text>
+<rect x="384" y="624" width="40" height="34" rx="6" fill="#161d26" stroke="#e2b93b" stroke-width="1"/>
+<text x="404" y="646" font-size="14" fill="#e2b93b" text-anchor="middle" font-weight="700">1</text>
+<rect x="432" y="624" width="40" height="34" rx="6" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<text x="452" y="646" font-size="14" fill="#93a1b2" text-anchor="middle" font-weight="700">2</text>
+<rect x="480" y="624" width="40" height="34" rx="6" fill="#161d26" stroke="#4a5a6e" stroke-width="1"/>
+<text x="500" y="646" font-size="14" fill="#93a1b2" text-anchor="middle" font-weight="700">3</text>
+<rect x="552" y="604" width="708" height="72" rx="10" fill="#12201f" stroke="#6fd3c7" stroke-width="1.5"/>
+<text x="572" y="634" font-size="14" fill="#6fd3c7" text-anchor="start" font-weight="700">가상 투자 2</text>
+<path d="M580,647 L587,654 L580,661 L573,654 Z" fill="#e2b93b"/>
+<text x="594" y="659" font-size="14" fill="#e8ecf1" text-anchor="start" font-weight="700">124 → 102</text>
+<text x="720" y="634" font-size="12.5" fill="#e8ecf1" text-anchor="start">추락 4 → 5</text>
+<text x="720" y="658" font-size="12.5" fill="#e8ecf1" text-anchor="start">새 기술 · 대지 가르기</text>
+<rect x="960" y="620" width="150" height="40" rx="8" fill="#6fd3c7"/>
+<rect x="976" y="631" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="986.0" y="644.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">C</text>
+<text x="1004" y="646" font-size="13.5" fill="#0b0f14" text-anchor="start" font-weight="700">길게 · 확정</text>
+<rect x="1122" y="620" width="120" height="40" rx="8" fill="none" stroke="#93a1b2" stroke-width="1"/>
+<rect x="1136" y="631" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="1146.0" y="644.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">X</text>
+<text x="1164" y="646" font-size="13.5" fill="#93a1b2" text-anchor="start">비우기</text>
+<rect x="0" y="686" width="1280" height="38" rx="0" fill="#0b0f14"/>
+<rect x="24" y="694" width="44" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="46.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">WASD</text>
+<text x="74" y="707" font-size="12" fill="#93a1b2" text-anchor="start">이동</text>
+<rect x="118" y="694" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="128.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">C</text>
+<text x="144" y="707" font-size="12" fill="#93a1b2" text-anchor="start">깨우기</text>
+<rect x="201" y="694" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="211.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">F</text>
+<text x="227" y="707" font-size="12" fill="#93a1b2" text-anchor="start">가상</text>
+<rect x="271" y="694" width="20" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="281.0" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">T</text>
+<text x="297" y="707" font-size="12" fill="#93a1b2" text-anchor="start">태그 강조</text>
+<rect x="380" y="694" width="53" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="406.5" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">1 2 3</text>
+<text x="439" y="707" font-size="12" fill="#93a1b2" text-anchor="start">빌드</text>
+<rect x="483" y="694" width="35" height="18" rx="4" fill="#0f141b" stroke="#e8ecf1" stroke-width="1.2"/>
+<text x="500.5" y="707.5" font-size="11" fill="#e8ecf1" text-anchor="middle" font-weight="700">Esc</text>
+<text x="524" y="707" font-size="12" fill="#93a1b2" text-anchor="start">닫기</text></svg>
